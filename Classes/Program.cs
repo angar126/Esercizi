@@ -110,7 +110,7 @@ class Program
 
 
 
-        public int CalcolaPunteggio()
+        private int CalcolaPunteggio()
         {
             int punteggio = 0;
             if (_militare)
