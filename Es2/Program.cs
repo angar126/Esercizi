@@ -9,7 +9,7 @@ namespace RdcAbstract
             Citizen persona = new StudentUniversity(
                 "Pippo", "Franco", 22, 2, 1, true, false, 91, 29);
             City comune = new("Milano", 100);
-            Console.WriteLine($"Il cittadino {persona.FullName} ha diritto al RDC: {comune.RDCalc(persona)}");
+            comune.printRDC(persona);
 
         }
         
@@ -33,6 +33,7 @@ namespace RdcAbstract
             public string Surname { get { return _surname; } }
             public int Age { get { return _age; } }
             public string FullName { get { return _name + " " + _surname; } }
+            public abstract void getInfo();
         }
         class Citizen : Person
         {
@@ -51,6 +52,10 @@ namespace RdcAbstract
             public decimal PilComune { get { return _pilComune; } }
             public bool Debt { get { return _debt; } }
             public bool Salary { get { return _salary; } }
+            public override void getInfo()
+            {
+                Console.Write($"Cittadino: {Name} {Surname}");
+            }
         }
         class Student : Citizen
         {
@@ -60,6 +65,11 @@ namespace RdcAbstract
                 _votoDiploma = VotoDiploma;
             }
             public decimal VotoDiploma { get { return _votoDiploma; } }
+            public override void getInfo()
+            {
+                base.getInfo();
+                Console.Write($", voto diploma {VotoDiploma}");
+            }
         }
         class StudentUniversity : Student
         {
@@ -69,6 +79,11 @@ namespace RdcAbstract
                 _votoUniversita = VotoUniversita;
             }
             public decimal VotoUniversita { get { return _votoUniversita; } }
+            public override void getInfo()
+            {
+                base.getInfo();
+                Console.Write($", voto universita {VotoUniversita}");
+            }
         }
         class Military : Citizen
         {
@@ -78,6 +93,11 @@ namespace RdcAbstract
                 _serviceAge = ServiceAge;
             }
             public int ServiceAge { get { return _serviceAge; } }
+            public override void getInfo()
+            {
+                base.getInfo();
+                Console.Write($", anni di servizio {ServiceAge}");
+            }
         }
         abstract class PublicAuthority
         {
@@ -137,6 +157,11 @@ namespace RdcAbstract
             {
                 int count = scoreRDC(cittadino);
                 return count >= 25 && count <= 30;
+            }
+            public void printRDC(Citizen cittadino)
+            {
+                Console.WriteLine($"Il cittadino {cittadino.FullName} ha diritto al RDC: {RDCalc(cittadino)}");
+                cittadino.getInfo();
             }
         }
 
