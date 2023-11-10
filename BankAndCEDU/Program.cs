@@ -8,10 +8,12 @@ namespace BankAndCEDU
         static void Main(string[] args)
         {
             StatoEuroZona italia = new StatoEuroZona("Italia", 150);
-            CentralBank centralBank = new CentralBank("Banca",100);
+            CentralBank centralBank = new CentralBank("Banca", 100);
             centralBank.stampaSpread(italia);
             CorteEuropea corteEuropea = new CorteEuropea();
             corteEuropea.stampaMorte(italia);
+            italia.metodoEurozona();
+            italia.getInfo();
         }
     }
     interface Eurozona
@@ -40,25 +42,38 @@ namespace BankAndCEDU
             _name = Name;
             _economy = Economy;
         }
-        public decimal Economy{
-                get { return _economy; } set { _economy = value; }
-            }
+        public decimal Economy
+        {
+            get { return _economy; }
+            set { _economy = value; }
+        }
         public string Name
         {
             get { return _name; }
             set { _name = value; }
         }
+        public abstract void getInfo();
     }
-    class StatoEuroZona : Stato,Eurozona {
-        public StatoEuroZona(string Name, decimal Economy) :base(Name,Economy) { }
-    public void metodoEurozona()
+    class StatoEuroZona : Stato, Eurozona
+    {
+        public StatoEuroZona(string Name, decimal Economy) : base(Name, Economy) { }
+        public void metodoEurozona()
+        {
+            Console.WriteLine("Sono uno metodo Eurozone");
+        }
+        public override void getInfo()
         {
             Console.WriteLine("Sono uno stato Eurozone");
         }
     }
-    class StatoEU : Stato, Eu {
+    class StatoEU : Stato, Eu
+    {
         public StatoEU(string Name, decimal Economy) : base(Name, Economy) { }
         public void metodoEu()
+        {
+            Console.WriteLine("Sono uno metodo EU");
+        }
+        public override void getInfo()
         {
             Console.WriteLine("Sono uno stato EU");
         }
@@ -68,6 +83,10 @@ namespace BankAndCEDU
         public StatoONU(string Name, decimal Economy) : base(Name, Economy) { }
         public void metodoOnu()
         {
+            Console.WriteLine("Sono uno metodo Onu");
+        }
+        public override void getInfo()
+        {
             Console.WriteLine("Sono uno stato Onu");
         }
     }
@@ -75,6 +94,10 @@ namespace BankAndCEDU
     {
         public StatoMorte(string Name, decimal Economy) : base(Name, Economy) { }
         public void metodoPenaMorte()
+        {
+            Console.WriteLine("Sono uno metodo Mortale");
+        }
+        public override void getInfo()
         {
             Console.WriteLine("Sono uno stato Mortale");
         }
@@ -84,11 +107,15 @@ namespace BankAndCEDU
         public StatoOnuEu(string Name, decimal Economy) : base(Name, Economy) { }
         public void metodoOnu()
         {
-            Console.WriteLine("Sono uno stato Onu");
+            Console.WriteLine("Sono uno metodo Onu");
         }
         public void metodoEu()
         {
-            Console.WriteLine("Sono uno stato Eu");
+            Console.WriteLine("Sono uno metodo Eu");
+        }
+        public override void getInfo()
+        {
+            Console.WriteLine("Sono uno stato Onu + Eu");
         }
     }
     class CentralBank
@@ -109,7 +136,7 @@ namespace BankAndCEDU
         }
         public decimal SpreadCalc(Eurozona eurozona)
         {
-            Stato stato= (Stato) eurozona;
+            Stato stato = (Stato)eurozona;
             return stato.Economy - Base;
         }
         public void stampaSpread(Eurozona eurozona)
