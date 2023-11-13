@@ -134,7 +134,7 @@ namespace BankAndCEDU
             get { return _base; }
             set { _base = value; }
         }
-        public decimal SpreadCalc(Eurozona eurozona)
+        private decimal SpreadCalc(Eurozona eurozona)
         {
             Stato stato = (Stato)eurozona;
             return stato.Economy - Base;
