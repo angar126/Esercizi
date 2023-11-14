@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Classes", "Classes\Classes.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RdcAbstract", "Es2\RdcAbstract.csproj", "{EF9FC185-FEE2-4784-975E-40BBA48258F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAndCEDU", "BankAndCEDU\BankAndCEDU.csproj", "{19FE4CF8-9D1B-4C95-A5C1-1F31E379142B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankAndCEDU", "BankAndCEDU\BankAndCEDU.csproj", "{19FE4CF8-9D1B-4C95-A5C1-1F31E379142B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodiceDiagrammaUmlStato", "CodiceDiagrammaUmlStato\CodiceDiagrammaUmlStato.csproj", "{A99F07C9-CC80-4F78-9B51-2FB2D3B5ED51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{19FE4CF8-9D1B-4C95-A5C1-1F31E379142B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19FE4CF8-9D1B-4C95-A5C1-1F31E379142B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19FE4CF8-9D1B-4C95-A5C1-1F31E379142B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99F07C9-CC80-4F78-9B51-2FB2D3B5ED51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99F07C9-CC80-4F78-9B51-2FB2D3B5ED51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99F07C9-CC80-4F78-9B51-2FB2D3B5ED51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99F07C9-CC80-4F78-9B51-2FB2D3B5ED51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
