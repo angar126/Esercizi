@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CodiceDiagrammaUmlStato
 {
@@ -72,14 +73,16 @@ namespace CodiceDiagrammaUmlStato
         private string _name;
         private Cittadino _cittadino;
         private Comune _comune;
+        private List<Cittadino> _cittadinoList;
 
-        public City(string Name, Cittadino cittadino, AreaGeo AreaGeo)
+        public City(string Name, Cittadino Cittadino, AreaGeo AreaGeo)
         {
             _name = Name;
-            _cittadino = cittadino;
+            _cittadino = Cittadino;
             _areaGeo = AreaGeo;
             _cittadino.ChangeCity(this);
         }
+        
         public string Name
         {
             get { return _name; }
@@ -94,6 +97,7 @@ namespace CodiceDiagrammaUmlStato
             _cittadino.ChangeCity(this);
             comune.AddCity(this);
         }
+        
         public void RemoveCittadino()
         {
             _cittadino = null;
@@ -108,7 +112,50 @@ namespace CodiceDiagrammaUmlStato
             _comune = comune;
         }
     }
-    class Comune: IPA
+    /*class City  CON LISTA
+    {
+        private AreaGeo _areaGeo;
+        private string _name;
+        private Comune _comune;
+        private List<Cittadino> _cittadinoList;
+
+        public City(string Name, List<Cittadino> CittadinoList, AreaGeo AreaGeo)
+        {
+            _name = Name;
+            _cittadinoList = CittadinoList;
+            _areaGeo = AreaGeo;
+            _cittadinoList.ForEach(cittadino => cittadino.ChangeCity(this));
+        }
+        public City(string Name, List<Cittadino> CittadinoList, Comune comune, AreaGeo AreaGeo)
+        {
+            _name = Name;
+            _cittadinoList = CittadinoList;
+            _comune = comune;
+            _areaGeo = AreaGeo;
+            _cittadinoList.ForEach(cittadino => cittadino.ChangeCity(this));
+            comune.AddCity(this); //implementerà un add in una lista
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        
+        public void RemoveCittadino(Cittadino Cittadino)
+        {
+            _cittadinoList.Remove(Cittadino);
+        }
+        public void AddCittadino(Cittadino Cittadino)
+        {
+            _cittadinoList.Add(Cittadino);
+        }
+        public void ChangeComune(Comune comune)
+        {
+            _comune.RemoveCity(); //sarà con liste anche li
+            _comune = comune;
+        }
+    }*/
+    class Comune : IPA
     {
         private string _name;
         private City _city;
