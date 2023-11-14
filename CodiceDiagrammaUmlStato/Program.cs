@@ -67,19 +67,17 @@ namespace CodiceDiagrammaUmlStato
             _y = y;
         }
     }
-    class City
+    class City: AreaGeo
     {
-        private AreaGeo _areaGeo;
         private string _name;
         private Cittadino _cittadino;
         private Comune _comune;
         private List<Cittadino> _cittadinoList;
 
-        public City(string Name, Cittadino Cittadino, AreaGeo AreaGeo)
+        public City(int area, int x, int y,string Name, Cittadino Cittadino, AreaGeo AreaGeo): base(area, x, y)
         {
             _name = Name;
             _cittadino = Cittadino;
-            _areaGeo = AreaGeo;
             _cittadino.ChangeCity(this);
         }
         
@@ -88,12 +86,11 @@ namespace CodiceDiagrammaUmlStato
             get { return _name; }
             set { _name = value; }
         }
-        public City(string Name, Cittadino cittadino, Comune comune, AreaGeo AreaGeo)
+        public City(int area, int x, int y,string Name, Cittadino cittadino, Comune comune, AreaGeo AreaGeo) : base(area, x, y)
         {
             _name = Name;
             _cittadino = cittadino;
             _comune = comune;
-            _areaGeo = AreaGeo;
             _cittadino.ChangeCity(this);
             comune.AddCity(this);
         }
@@ -123,7 +120,6 @@ namespace CodiceDiagrammaUmlStato
         {
             _name = Name;
             _cittadinoList = CittadinoList;
-            _areaGeo = AreaGeo;
             _cittadinoList.ForEach(cittadino => cittadino.ChangeCity(this));
         }
         public City(string Name, List<Cittadino> CittadinoList, Comune comune, AreaGeo AreaGeo)
@@ -131,7 +127,6 @@ namespace CodiceDiagrammaUmlStato
             _name = Name;
             _cittadinoList = CittadinoList;
             _comune = comune;
-            _areaGeo = AreaGeo;
             _cittadinoList.ForEach(cittadino => cittadino.ChangeCity(this));
             comune.AddCity(this); //implementerà un add in una lista
         }
@@ -513,8 +508,8 @@ namespace CodiceDiagrammaUmlStato
         }
         public void stampaMorte(Stato stato)
         {
-            string dicitura = dirittiUmani(stato) ? " NON " : "";
-            Console.WriteLine($"Lo stato {stato.Name}{dicitura} rispetta i diritti umani");
+            string dicitura = dirittiUmani(stato) ? " NON " : " ";
+            Console.WriteLine($"Lo stato {stato.Name}{dicitura}rispetta i diritti umani");
         }
     }
 }
