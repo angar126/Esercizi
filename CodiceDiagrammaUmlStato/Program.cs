@@ -75,10 +75,15 @@ namespace CodiceDiagrammaUmlStato
 
         public City(string Name, Cittadino cittadino, AreaGeo AreaGeo)
         {
-            _name=Name;
-            _cittadino=cittadino;
+            _name = Name;
+            _cittadino = cittadino;
             _areaGeo = AreaGeo;
             _cittadino.ChangeCity(this);
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
         }
         public City(string Name, Cittadino cittadino, Comune comune, AreaGeo AreaGeo)
         {
@@ -115,6 +120,11 @@ namespace CodiceDiagrammaUmlStato
             _city.ChangeComune(this);
 
         }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
         public Comune(string Name, City city, Provincia Provincia)
         {
             _name = Name;
@@ -144,7 +154,11 @@ namespace CodiceDiagrammaUmlStato
         private string _name;
         private Comune _comune;
         private Regione _regione;
-
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
         public Provincia(string Name, Comune comune)
         {
             _name = Name;
@@ -192,6 +206,11 @@ namespace CodiceDiagrammaUmlStato
             _stato = stato;
             _stato.AddRegione(this);
             _provincia.ChangeRegione(this);
+        }
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
         }
         public void RemoveProvincia()
         {
