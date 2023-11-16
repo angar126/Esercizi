@@ -26,6 +26,22 @@ namespace Refactoring_EU_Request
             Console.WriteLine(comune.Name);
 
             Italia.ChangeEntity(comune,comune, provincia);
+
+            EUComune comX = new EUComune("Austrik", 1);
+            EUCitizen cittX = new EUCitizen("XXX", comX);
+            Console.WriteLine(comX.Name);
+            
+
+            EUProvincia provX = new EUProvincia("Provincia di Austrik", comX, 2);
+            EURegione regX = new EURegione("Krafen", provX, 3);
+
+            EUState Austria = new EUState("Austria", regX, 90, 2);
+            comX.EUProvincia = provX;
+            provX.EURegione = regX;
+            regX.State = Austria;
+
+            Italia.ChangeEntity(comune, comune, provX);
+            //Console.WriteLine(provX.ToString());
         }
     }
 }
