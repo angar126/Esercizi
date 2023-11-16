@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 
 namespace Refactoring_EU_Request
 {
@@ -120,7 +119,6 @@ class EUID
     public int ID
     {
         get { return _id; }
-        set { _id = value; }
     }
 
 }
@@ -146,6 +144,10 @@ class EUCitizen
     public string Name
     {
         get { return _name; }
+    }
+    public EUID EUID
+    {
+        get { return _euid; }
     }
 }
 class AreaGeografica
