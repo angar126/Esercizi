@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace Refactoring_EU_Request
 {
@@ -23,6 +24,8 @@ namespace Refactoring_EU_Request
             Console.WriteLine(comune.EUProvincia.Name);
             Console.WriteLine(provincia2.Name + " comune "+provincia2.EUComune.Name);  
             Console.WriteLine(comune.Name);
+
+            Italia.ChangeEntity(comune,comune, provincia);
         }
     }
 }
@@ -124,6 +127,10 @@ class EUCitizen
         _comune.RemoveCittadino();
         _comune = Comune;
     }
+    public string Name
+    {
+        get { return _name; }
+    }
 }
 class AreaGeografica
 {
@@ -139,6 +146,9 @@ class AreaGeografica
     public string Name {
         get { return _name; }
         set { _name = value; }
+    }
+    public virtual string ToString() {
+        return "["+_name +", "+_superficie+ "]";
     }
 }
 class City : AreaGeografica
@@ -216,6 +226,10 @@ class EUComune : City, UECitizenPublicService, IChangeUp
     public void HNS() { }
     public void LawSystem() { }
     public void EducationalSystem() { }
+    public override string ToString()
+    {  
+        return "[" + Name + ", " + _provincia.Name + "]";
+}
 }
 class EUProvincia : AreaGeografica, UEPublicAdministration, IChangeUp
 {
@@ -269,6 +283,11 @@ class EUProvincia : AreaGeografica, UEPublicAdministration, IChangeUp
     public void LawSystem() { }
     public void EducationalSystem() { }
     public void BorderReDefinition(EUParlament parlament) { }
+    public override string ToString()
+    {
+        return "[" + Name + " " + _regione.Name + " " + _comune.Name + "]";
+    }
+    
 }
 class Regione : AreaGeografica
 {
@@ -329,6 +348,10 @@ class EURegione : AreaGeografica, UEPublicAdministration, IChangeUp
     public void LawSystem() { }
     public void EducationalSystem() { }
     public void BorderReDefinition(EUParlament parlament) { }
+    public override string ToString()
+    {
+        return "[" + Name + " " + _provincia.Name + " " + _stato.Name + "]";
+    }
 }
 class State : AreaGeografica, EntitaAmministrativa
 {
@@ -369,16 +392,18 @@ class State : AreaGeografica, EntitaAmministrativa
     //ora l'ho implementato così anche se non ha molto senso
     public bool isEntityInState(IChangeUp EntityGeo)
     {
-        return EntityGeo.Equals(_regione) || EntityGeo.Equals(_regione.Provincia) || EntityGeo.Equals(_regione.Provincia.Comune);
+        //return EntityGeo.Equals(_regione) || EntityGeo.Equals(_regione.Provincia) || EntityGeo.Equals(_regione.Provincia.Comune);
+        return true;
     }
     public void ChangeInState(IChangeUp Down, AreaGeografica Up)
         {
         Down.ChangeUp(Up);
 
         }
-    public void ChangeEntity(AreaGeografica Down, AreaGeografica Up)
+    public void ChangeEntity(AreaGeografica perString, AreaGeografica Down, AreaGeografica Up)
     {
-        AreaGeografica downPrima = Down;
+        //non è una soluzione molto elegante, dovrei fare una copia
+        string downPrima = perString.ToString();
         if (isEntityInState((IChangeUp)Down))
         {
             ChangeInState((IChangeUp)Down, Up);
@@ -388,18 +413,21 @@ class State : AreaGeografica, EntitaAmministrativa
             Console.WriteLine("Attenzione Guerra!!");
         }
     }
-    protected void printChanges(AreaGeografica downPrima, AreaGeografica Down)
+    protected void printChanges(string downPrima, AreaGeografica Down)
     {
-        Console.WriteLine(downPrima.ToString());
+        Console.WriteLine(downPrima);
         Console.WriteLine("----diventa---");
         Console.WriteLine(Down.ToString());
+    }
+    public override string ToString()
+    {
+        return "[" + Name + " " + _regione.Name + "]";
     }
 
 }
 class EUState : State, IEu, UEEntitaAmministrativa
 {
     private EU _eu;
-    private EUParlament parlament;
     public EUState(string Name, EURegione Regione, decimal Economy, decimal Superficie) : base(Name, Regione, Economy, Superficie)
     { }
     public EUState(string Name, decimal Economy, EU EU, decimal Superficie) : base(Name, Economy, Superficie)
@@ -431,17 +459,16 @@ class EUState : State, IEu, UEEntitaAmministrativa
         Console.WriteLine("Sono uno stato EU");
     }
     public void BorderReDefinition(EUParlament parlament) { 
-        
     }
     public void WelfareServices() { }
    
-    public new void ChangeEntity(AreaGeografica Down, AreaGeografica Up)
+    public new void ChangeEntity(AreaGeografica perString, AreaGeografica Down, AreaGeografica Up, EUParlament parlament)
     {
-        AreaGeografica downPrima = Down;
+        
         if (isEntityInState((IChangeUp)Down))
         {
             ChangeInState((IChangeUp)Down, Up);
-            printChanges(downPrima, Down);
+            printChanges(perString.ToString(), Down);
         }
         else
         {
