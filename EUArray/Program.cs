@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace EUArray
@@ -12,7 +13,7 @@ namespace EUArray
             EUComune comune = new EUComune("Comune", 1, 2);
             EUProvincia prov = new("Provincia", 1, 2);
             EURegione regione = new("Regione", 1, 2);
-            State stato = new State("Stato", 2, 1, 2);
+            State stato = new State("Stato", 2, 2, 2);
 
 
 
@@ -20,12 +21,49 @@ namespace EUArray
             prov.AddComune(comune);
             regione.AddProvincia(prov);
             stato.AddRegione(regione);
+            //stato.stampaAnagrafica();
+
+            EUCitizen citizen8 = new EUCitizen("Cittadino8");
+            EUCitizen citizen7 = new EUCitizen("Cittadino7");
+            EUCitizen citizen6 = new EUCitizen("Cittadino6");
+            EUCitizen citizen5 = new EUCitizen("Cittadino5");
+            EUCitizen citizen2 = new EUCitizen("Cittadino2");
+            EUComune comune2 = new EUComune("Comune2", 5, 2);
+            EUProvincia prov2 = new("Provincia2", 1, 2);
+            EUCitizen citizen3 = new EUCitizen("Cittadino3");
+            EUComune comune3 = new EUComune("Comune3", 1, 2);
+            EUCitizen citizen4 = new EUCitizen("Cittadino4");
+            EUComune comune4 = new EUComune("Comune4", 1, 2);
+            EUProvincia prov3 = new("Provincia3", 2, 2);
+            EURegione regione2 = new("Regione2", 2, 2);
+
+
+            comune2.AddCittadino(citizen2);
+            comune2.AddCittadino(citizen5);
+            comune2.AddCittadino(citizen6);
+            comune2.AddCittadino(citizen7);
+            comune2.AddCittadino(citizen8);
+            prov2.AddComune(comune2);
+
+            comune3.AddCittadino(citizen3);
+            comune4.AddCittadino(citizen4);
+            prov3.AddComune(comune4);
+            prov3.AddComune(comune3);
+
+            regione2.AddProvincia(prov3);
+            regione2.AddProvincia(prov2);
+            stato.AddRegione(regione2);
+
             stato.stampaAnagrafica();
 
+            stato.SuddividiCittadini();
 
+            stato.stampaAnagrafica();
+            /*
             State Italia = new State("Italia", 6, 6);
             Italia.CreaComponentiStato();
             Italia.stampaAnagrafica();
+            */
         }
     }
     interface IEuroZona
@@ -717,6 +755,138 @@ namespace EUArray
             }
             return null;
         }
+        internal void SuddividiPopolazione()
+        {
+            int countProv = _provincia.Length;
+            EUCitizen[] citizTot = CittadiniTotali();
+
+            if (citizTot.Length == 0)
+            {
+                Console.WriteLine("Errore: Numero di cittadini totali zero.");
+                return;
+            }
+
+            if (citizTot.Length < countProv)
+            {
+                Console.WriteLine("Errore: Il numero di cittadini è minore del numero di province.");
+                return;
+            }
+
+            int cittadiniPerProv = citizTot.Length / countProv;
+            int residuo = citizTot.Length % countProv;
+
+            foreach (EUProvincia Provincia in _provincia)
+            {
+                int cittadiniInQuestaProv = cittadiniPerProv;
+
+                if (residuo > 0)
+                {
+                    cittadiniInQuestaProv++;
+                    residuo--;
+                }
+
+                int countCom = Provincia.Comune.Length;
+                int cittadiniPerCom = cittadiniInQuestaProv / countCom;
+                int residuoCom = cittadiniInQuestaProv % countCom;
+
+                foreach (EUComune comune in Provincia.Comune)
+                {
+                    int cittadiniInQuestoCom = cittadiniPerCom;
+
+                    if (residuoCom > 0)
+                    {
+                        cittadiniInQuestoCom++;
+                        residuoCom--;
+                    }
+
+                    // Definire la dimensione degli array di destinazione
+                    int lunghezzaArray1 = cittadiniInQuestoCom;
+                    int lunghezzaArray2 = citizTot.Length - lunghezzaArray1;
+
+                    if (lunghezzaArray1 > 0 && lunghezzaArray2 > 0)
+                    {
+                        // Creare gli array di destinazione
+                        EUCitizen[] array1 = new EUCitizen[lunghezzaArray1];
+                        EUCitizen[] array2 = new EUCitizen[lunghezzaArray2];
+
+                        // Copiare i primi elementi in array1
+                        Array.Copy(citizTot, array1, lunghezzaArray1);
+
+                        // Copiare i restanti elementi in array2
+                        Array.Copy(citizTot, lunghezzaArray1, array2, 0, lunghezzaArray2);
+
+                        comune.EUCitizen = array1;
+                        citizTot = array2;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Errore: Dimensioni degli array non valide." + lunghezzaArray1 + lunghezzaArray2);
+                        break;
+                    }
+                }
+            }
+        }
+
+
+
+        /*internal void SuddividiPopolazione()
+        {
+            int countProv = _provincia.Length;
+            EUCitizen[] citizTot = CittadiniTotali();
+
+            if (citizTot.Length == 0)
+            {
+                Console.WriteLine("Errore: Numero di cittadini totali zero.");
+                return;
+            }
+            int cittadiniPerProv = citizTot.Length / countProv;
+
+            foreach (EUProvincia Provincia in _provincia)
+            {
+                foreach (EUComune comune in Provincia.Comune)
+                {
+                    if (citizTot.Length < 2) continue;
+                    // Definire la dimensione degli array di destinazione
+                    int lunghezzaArray1 = cittadiniPerProv;
+                    int lunghezzaArray2 = citizTot.Length - lunghezzaArray1;
+
+
+                    if (lunghezzaArray1 > 0 && lunghezzaArray2 > 0)
+                    {
+                        // Creare gli array di destinazione
+                        EUCitizen[] array1 = new EUCitizen[lunghezzaArray1];
+                        EUCitizen[] array2 = new EUCitizen[lunghezzaArray2];
+
+                        // Copiare i primi elementi in array1
+                        Array.Copy(citizTot, array1, lunghezzaArray1);
+
+                        // Copiare i restanti elementi in array2
+                        Array.Copy(citizTot, lunghezzaArray1, array2, 0, lunghezzaArray2);
+
+                        comune.EUCitizen = array1;
+                        citizTot = array2;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Errore: Dimensioni degli array non valide." + lunghezzaArray1 + lunghezzaArray2);
+                        break;
+                    }
+                }
+            }
+        }*/
+        public EUCitizen[] CittadiniTotali()
+        {
+            EUCitizen[] citizTot = new EUCitizen[0];
+            foreach (EUProvincia Provincia in _provincia)
+            {
+                foreach (EUComune comune in Provincia.Comune)
+                {
+                    EUCitizen[] citiz = Array.FindAll(comune.EUCitizen, i => !i.Equals(null));
+                    Array.Resize(ref citizTot, citizTot.Length + citiz.Length);
+                }
+            }
+            return citizTot;
+        }
     }
     class EUState : State, IEu, UEEntitaAmministrativa
     {
@@ -891,20 +1061,10 @@ namespace EUArray
                 Console.WriteLine("Inserisci il numero massimo di Province: ");
                 int nProvince = int.Parse(Console.ReadLine());
                 EURegione regione = CreaRegione(Name, nProvince, Superficie);
-                /* for (int j = 0; i < nProvince; j++)
-                 {
-                     Console.WriteLine("Inserisci il Nome: ");
-                     string NameComune = Console.ReadLine();
-                     Console.WriteLine("Inserisci la Superficie: ");
-                     decimal SuperficieComune = decimal.Parse(Console.ReadLine());
-                     Console.WriteLine("Inserisci il numero massimo di Comuni: ");
-                     int nComuni = int.Parse(Console.ReadLine());
-                     EUComune comune =CreaComune(Name, nProvince, Superficie);
-
-                 }*/
 
             }
         }
+
         public void stampaAnagrafica()
         {
             foreach (var regione in _regione) // 3 gruppi 
@@ -920,11 +1080,19 @@ namespace EUArray
 
                         foreach (var citizen in comune.EUCitizen)
                         {
-                            Console.WriteLine($"                Cittadino {citizen.Name}");
+                            if (citizen != null)
+                                Console.WriteLine($"                Cittadino {citizen.Name}");
                         }
                     }
                 }
                 Console.WriteLine("\n\n");
+            }
+        }
+        public void SuddividiCittadini()
+        {
+            foreach (var regione in _regione)
+            {
+                regione.SuddividiPopolazione();
             }
         }
     }
