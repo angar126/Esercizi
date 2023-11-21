@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodiceDiagrammaUmlStato", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refactoring_EU_Request", "Refactoring_EU_Request\Refactoring_EU_Request.csproj", "{4757EC19-A878-4E69-8049-798635ADF81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EUArray", "EUArray\EUArray.csproj", "{664389D8-DD89-45E8-A97B-2B97C94A7FCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EUArray", "EUArray\EUArray.csproj", "{664389D8-DD89-45E8-A97B-2B97C94A7FCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyV0", "SpotifyV0\SpotifyV0.csproj", "{EA4D536B-457F-45BF-917B-55C070F7A049}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{664389D8-DD89-45E8-A97B-2B97C94A7FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{664389D8-DD89-45E8-A97B-2B97C94A7FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{664389D8-DD89-45E8-A97B-2B97C94A7FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA4D536B-457F-45BF-917B-55C070F7A049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA4D536B-457F-45BF-917B-55C070F7A049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA4D536B-457F-45BF-917B-55C070F7A049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA4D536B-457F-45BF-917B-55C070F7A049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
