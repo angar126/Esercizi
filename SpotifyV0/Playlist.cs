@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SpotifyV0
 {
-    internal class Playlist
+    internal class Playlist: IPlaylist
     {
         string _name;
         Song[] _songs;
 
-        public string Name {  get { return _name; } }
-        public Song[] Songs { get { return _songs; } }
+        public string Name {  get { return _name; } set { _name = value; } }
+        public Song[] Songs { get { return _songs; } set { _songs = value; } }
         public Playlist() { }
         public Playlist(string Name)
         {

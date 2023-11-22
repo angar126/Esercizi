@@ -9,13 +9,25 @@ namespace SpotifyV0
     class MenuPlayer
     {
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R','E' };
-        Song _song = new Song();
+        Song _song;
+        Song[] _songs;
+        IPlaylist _playlist;
+        MediaPlayer _mediaPlayer;
         public MenuPlayer()
         {
+            CreateMenuSong();
         }
         public MenuPlayer(Song song)
         {
             _song = song;
+            _songs =new Song[] { song };
+            _mediaPlayer = new MediaPlayer(_songs);
+        }
+        public MenuPlayer(IPlaylist IPlaylist)
+        {
+            _songs = IPlaylist.Songs;
+            _mediaPlayer = new MediaPlayer(_songs);
+            _song = _songs[_mediaPlayer.CurrentIndex];
         }
         public Song Song {  get { return _song; } set { _song = value; } }
         public void CreateMenuSong()
@@ -24,13 +36,16 @@ namespace SpotifyV0
             while (!userInput.Equals('E'))
             {
                 // Mostra il menu
-                ShowMenuSong(_song);
+                if (_song != null)
+                {
+                    ShowMenuSong(_song);
+                }else ShowMenuSong();
 
                 // Ottieni l'input dell'utente
-                userInput = GetValidInputSong(_song);
+                userInput = GetValidInputSong();
 
                 // Gestisci l'input dell'utente
-                HandleInputSong(userInput);
+                HandleInputSong(userInput, _mediaPlayer);
             }
         }
 
@@ -83,7 +98,7 @@ namespace SpotifyV0
             Console.WriteLine("--------------------------------------------");
         }
 
-        char GetValidInputSong(Song song)
+        char GetValidInputSong()
         {
             char userInput;
                 bool validInput = false;
@@ -95,13 +110,14 @@ namespace SpotifyV0
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("Wrong character, try again");
                     Console.ResetColor();
-                    ShowMenuSong(song);
+                    CreateMenuSong();
                 }
                 Console.Write("Enter your choice: ");
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
                 Console.WriteLine();
 
-            } while (validInput = !(_botton.Contains(userInput)));//userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
+            } while (validInput = !(_botton.Contains(userInput)));
+            //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
 
             return userInput;
         }
@@ -113,53 +129,55 @@ namespace SpotifyV0
         void ShowMenuItem()
         {
             Console.BackgroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Ci va il menu");
+            Console.WriteLine($"Seleziona cosa ascoltare");
             Console.ResetColor();
         }
-        void HandleInputSong(char userInput)
+
+        void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
             
             switch (userInput)
             {
                 case 'F':
                     Console.WriteLine("Next pressed.");
-                    // Aggiungi il codice per gestire l'azione "Next"
+                    _song = Mediaplayer.Next();
+
                     break;
                 case 'B':
                     Console.WriteLine("Previous pressed.");
-                    // Aggiungi il codice per gestire l'azione "Previous"
+                    _song = Mediaplayer.Previous();
                     break;
                 case 'P':
                     Console.WriteLine("Pause pressed.");
-                    // Aggiungi il codice per gestire l'azione "Pause"
+                    // Aggiungi il codice
                     break;
                 case 'S':
                     Console.WriteLine("Stop pressed.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'M':
                     Console.WriteLine("Music.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'C':
                     Console.WriteLine("Profile.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'A':
                     Console.WriteLine("Artist.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'D':
                     Console.WriteLine("Albums.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'L':
                     Console.WriteLine("Playists.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'R':
                     Console.WriteLine("Radio.");
-                    // Aggiungi il codice per gestire l'azione "Stop"
+                    // Aggiungi il codice
                     break;
                 case 'E':
                     Console.WriteLine("Exiting the program.");

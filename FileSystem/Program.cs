@@ -23,10 +23,20 @@ namespace FileSystem
             users.Add(new Customer());
             users.Add(new Customer());
             users.Add(new Customer());
+            List<Account> users2 = new List<Account>();
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
+            users2.Add(new Account());
 
 
-            WriteAsTabular(@"D:\logs\", "TabularFile", users);
 
+            WriteAsTabular(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TabularFile.csv", users);
+            WriteAsTabular(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "TabularTxt.txt", users2);
             #endregion
 
         }

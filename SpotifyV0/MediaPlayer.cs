@@ -12,7 +12,10 @@ namespace SpotifyV0
         Song[] _songs;
 
         DateTime _timeNextSong;
-
+        public MediaPlayer() { }
+        public MediaPlayer(Song[] Songs) {
+            _songs = Songs;
+            _currentIndex = 0; }
         public int CurrentIndex { get { return _currentIndex;} }
 
         public Song Start(Song song)
@@ -22,27 +25,30 @@ namespace SpotifyV0
             _timeNextSong = now.AddMilliseconds(song.TimeMillis);
             return song;
         }
-        public void Start(Playlist playlist) {
+        public Song Start(IPlaylist playlist) {
             _songs = playlist.Songs;
-            _currentIndex = 0;
-            Start(_songs[_currentIndex]);
+            return Start(_songs[_currentIndex]);
         }
         public void PlayPause() { }
         public void Stop() { }
         public void Pause() { }
-        public void Next() {
+        public Song Next() {
             if (_currentIndex < _songs.Length)
             {
                 _currentIndex++;
-                Start(_songs[_currentIndex]);
+                return Start(_songs[_currentIndex]);
             }
+            _currentIndex = 0;
+            return Start(_songs[_currentIndex]);
         }
-        public void Previous() {
+        public Song Previous() {
             if (_currentIndex > 0)
             {
                 _currentIndex--;
-                Start(_songs[_currentIndex]);
+                return Start(_songs[_currentIndex]);
             }
+            _currentIndex = 0;
+            return Start(_songs[_currentIndex]);
         }
     }
 }
