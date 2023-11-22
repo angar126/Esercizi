@@ -10,10 +10,10 @@ namespace SpotifyV0
     {
         int _id;
         string _name;
-        Playlist[] _playlists;
+
         public int Id { get { return _id; } }
         public string Name { get { return _name;} }
-        public Playlist[] Playlist { get {  return _playlists; } }
+
         public User(string Name) {
          _name = Name;
         //id sarà autogenerato

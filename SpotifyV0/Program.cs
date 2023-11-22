@@ -6,7 +6,12 @@ namespace SpotifyV0
     {
         static void Main(string[] args)
         {
-            MenuMediaSource.CreateMenu();
+            //MenuMediaSource.CreateMenu();
+            Song song = new Song("TITOLO!");
+            MenuPlayer m = new MenuPlayer();
+            m.CreateMenuSong();
+            //string[] a = new string[] { "a", "b", "c" };
+            //MenuItems.CreateMenu(a);
         }
     }
 }

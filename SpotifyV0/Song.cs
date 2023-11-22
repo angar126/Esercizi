@@ -28,5 +28,6 @@ namespace SpotifyV0
             _timeMillis = TimeMillis;
         }
         public Song(string Title) { _title = Title; }
+        public Song() { }
     }
 }

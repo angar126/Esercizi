@@ -14,7 +14,7 @@ namespace SpotifyV0
             while (!userInput.Equals('E'))
             {
 
-                Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un file premi 'V' :");
+                Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
 
                 userInput = GetValidInput();
 
@@ -31,7 +31,7 @@ namespace SpotifyV0
                 if (validInput)
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Scelta sbagliata, ritenta");
+                    Console.WriteLine("Wrong character, try again");
                     Console.ResetColor();
                     CreateMenu();
                 }
@@ -53,13 +53,16 @@ namespace SpotifyV0
 
                     //prova
                     Song song = new Song("TITOLO!");
-                    MenuSong classUI = new MenuSong(song);
+                    MenuPlayer classUI = new MenuPlayer(song);
                     classUI.CreateMenuSong();
 
                     break;
                 case 'V':
                     Console.WriteLine("V pressed.");
-                    
+
+                    //al momento ripropone il menu
+                    CreateMenu();
+
                     break;
                 case 'E':
                     Console.WriteLine("Exiting the program.");
