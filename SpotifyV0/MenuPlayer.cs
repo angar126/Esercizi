@@ -57,6 +57,7 @@ namespace SpotifyV0
 
                 // Gestisci l'input dell'utente
                 HandleInputSong(userInput, _mediaPlayer);
+                Console.Clear();
             }
         }
 
@@ -140,7 +141,7 @@ namespace SpotifyV0
                 n = (int)Char.GetNumericValue(userInput);
                 Console.WriteLine();
 
-            } while (validInput = !(_botton.Contains(userInput)|| _songs != null && _songs.Length != 0 && n > 0 && n < _songs.Length));
+            } while (validInput = !(_botton.Contains(userInput)|| _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
             
 
                 //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
