@@ -6,38 +6,38 @@ using System.Threading.Tasks;
 
 namespace SpotifyV0
 {
-    class MenuPlayer
+    class ConsoleUI
     {
         Song[] _songDB;
         Radio[] _radioDB;
         Playlist[] _playlistDB;
-        char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R','E' };
+        char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E' };
         char[] _numb = new char[0];
         Song _song;
         Song[] _songs;
         int n;
 
-        IPlaylist _playlist;
+        //IPlaylist _playlist;
         MediaPlayer _mediaPlayer;
-        public MenuPlayer(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB)
+        public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
-            _playlistDB=PlaylistDB;
-            CreateMenuSong();   
+            _playlistDB = PlaylistDB;
+            CreateMenuSong();
         }
-        public MenuPlayer(Song song)
+        public ConsoleUI(Song song)
         {
             _song = song;
-            Song[]  _songs =new Song[] { song };
+            Song[] _songs = new Song[] { song };
             _mediaPlayer = new MediaPlayer(_songs);
         }
-        public MenuPlayer(IPlaylist IPlaylist)
-        {
-            Song[]  _songs = IPlaylist.Songs;
-            _mediaPlayer = new MediaPlayer(_songs);
-            _song = _songs[_mediaPlayer.CurrentIndex];
-        }
+        //public MenuPlayer(IPlaylist IPlaylist)
+        //{
+        //    Song[]  _songs = IPlaylist.Songs;
+        //    _mediaPlayer = new MediaPlayer(_songs);
+        //    _song = _songs[_mediaPlayer.CurrentIndex];
+        //}
         //public Song Song {  get { return _song; } set { _song = value; } }
         public void CreateMenuSong()
         {
@@ -50,7 +50,8 @@ namespace SpotifyV0
                     ShowMenu();
                     ShowList();
                     ShowMenuSong(_song);
-                }else ShowMenu();
+                }
+                else ShowMenu();
 
                 // Ottieni l'input dell'utente
                 userInput = GetValidInputSong();
@@ -63,7 +64,7 @@ namespace SpotifyV0
 
         void ShowMenuSong(Song song)
         {
-            ShowSong(_song);           
+            ShowSong(_song);
             Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
         }
         void ShowMenuOnlySong()
@@ -118,14 +119,14 @@ namespace SpotifyV0
             Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("--------------------------------------------");
-          
+
         }
 
         char GetValidInputSong()
         {
             char userInput;
             bool validInput = false;
-            
+
             do
             {
                 if (validInput)
@@ -141,14 +142,15 @@ namespace SpotifyV0
                 n = (int)Char.GetNumericValue(userInput);
                 Console.WriteLine();
 
-            } while (validInput = !(_botton.Contains(userInput)|| _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
-            
+            } while (validInput = !(_botton.Contains(userInput) || _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
 
-                //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
 
-                return userInput;
+            //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
+
+            return userInput;
         }
-        void ShowSong(Song song) {
+        void ShowSong(Song song)
+        {
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Playing now : {song.Title}");
             Console.ResetColor();
@@ -157,15 +159,15 @@ namespace SpotifyV0
         {
             Console.BackgroundColor = BackgroundColor;
             Console.ForegroundColor = ForeGround;
-            
+
 
 
             Console.ResetColor();
         }
-       
+
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
-            
+
             switch (userInput)
             {
                 case 'F':
@@ -188,7 +190,7 @@ namespace SpotifyV0
                 case 'M':
                     Console.WriteLine("Music.");
                     goto case 'A';
-                    //break;
+                //break;
                 case 'C':
                     Console.WriteLine("Profile.");
                     // Aggiungi il codice
@@ -203,11 +205,11 @@ namespace SpotifyV0
                     ShowMenu();
                     int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
                     Console.ResetColor();
-                    _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();               
+                    _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
                     ShowMenuOnlySong();
-                    
+
 
                     break;
                 case 'D':
@@ -224,7 +226,7 @@ namespace SpotifyV0
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
                     ShowMenuOnlySong();
-                    
+
                     break;
                 case 'L':
                     Console.WriteLine("Playists.");
@@ -240,7 +242,7 @@ namespace SpotifyV0
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
                     ShowMenuOnlySong();
-                    
+
                     break;
                 case 'R':
                     Console.WriteLine("Radio.");
@@ -256,12 +258,12 @@ namespace SpotifyV0
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
                     ShowMenuOnlySong();
-                    
+
                     break;
                 case var _ when char.IsDigit(userInput):
 
-                    _song = _songs[n-1];
-                    
+                    _song = _songs[n - 1];
+
                     break;
                 case 'E':
                     Console.WriteLine("Exiting the program.");
@@ -269,6 +271,6 @@ namespace SpotifyV0
                     break;
             }
         }
-        
+
     }
 }

@@ -53,7 +53,7 @@ namespace SpotifyV0
 
                     //prova
                     Song song = new Song("TITOLO!");
-                    MenuPlayer classUI = new MenuPlayer(song);
+                    ConsoleUI classUI = new ConsoleUI(song);
                     classUI.CreateMenuSong();
 
                     break;

@@ -42,7 +42,7 @@ namespace SpotifyV0
             Radio[] radioDB = new Radio[] { radio1 , radio2 , radio3};
 
 
-            MenuPlayer m = new MenuPlayer(songDB,radioDB,playlistDB);
+            ConsoleUI m = new ConsoleUI(songDB,radioDB,playlistDB);
 
             m.CreateMenuSong();
 
