@@ -55,7 +55,7 @@ namespace SpotifyV0
 
                 // Ottieni l'input dell'utente
                 userInput = GetValidInputSong();
-
+                Console.Clear();
                 // Gestisci l'input dell'utente
                 HandleInputSong(userInput, _mediaPlayer);
                 Console.Clear();
@@ -176,32 +176,31 @@ namespace SpotifyV0
 
                     break;
                 case 'B':
-                    Console.WriteLine("Previous pressed.");
+                    //Console.WriteLine("Previous pressed.");
                     _song = Mediaplayer.Previous();
                     break;
                 case 'P':
-                    Console.WriteLine("Pause pressed.");
+                    //Console.WriteLine("Pause pressed.");
                     Mediaplayer.Pause();
                     break;
                 case 'S':
-                    Console.WriteLine("Stop pressed.");
+                    //Console.WriteLine("Stop pressed.");
                     Mediaplayer.Stop();
                     break;
                 case 'M':
-                    Console.WriteLine("Music.");
+                    //Console.WriteLine("Music.");
                     goto case 'A';
                 //break;
                 case 'C':
-                    Console.WriteLine("Profile.");
+                    //Console.WriteLine("Profile.");
                     // Aggiungi il codice
                     break;
                 case 'A':
-                    Console.WriteLine("Artist.");
+                    //Console.WriteLine("Artist.");
                     string[] artistList = _songDB.Select(song => song.Artist.Alias)
                                .Distinct()
                                .ToArray();
-                    Console.WriteLine();
-                    Console.WriteLine();
+                    
                     ShowMenu();
                     int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
                     Console.ResetColor();
@@ -213,12 +212,11 @@ namespace SpotifyV0
 
                     break;
                 case 'D':
-                    Console.WriteLine("Albums.");
+                    //Console.WriteLine("Albums.");
                     string[] albumList = _songDB.Select(song => song.Album.Name)
                                .Distinct()
                                .ToArray();
-                    Console.WriteLine();
-                    Console.WriteLine();
+                    
                     ShowMenu();
                     int chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
                     Console.ResetColor();
@@ -229,12 +227,11 @@ namespace SpotifyV0
 
                     break;
                 case 'L':
-                    Console.WriteLine("Playists.");
+                    //Console.WriteLine("Playists.");
                     string[] playList = _playlistDB.Select(playlist => playlist.Name)
                                .Distinct()
                                .ToArray();
-                    Console.WriteLine();
-                    Console.WriteLine();
+                    
                     ShowMenu();
                     int choosePlaylist = MenuItems.CreateMenu(playList, ConsoleColor.Green, ConsoleColor.Black);
                     Console.ResetColor();
@@ -245,12 +242,11 @@ namespace SpotifyV0
 
                     break;
                 case 'R':
-                    Console.WriteLine("Radio.");
+                    //Console.WriteLine("Radio.");
                     string[] playRadio = _radioDB.Select(radio => radio.Name)
                                .Distinct()
                                .ToArray();
-                    Console.WriteLine();
-                    Console.WriteLine();
+                    
                     ShowMenu();
                     int chooseRadio = MenuItems.CreateMenu(playRadio, ConsoleColor.Yellow, ConsoleColor.Black);
                     Console.ResetColor();
