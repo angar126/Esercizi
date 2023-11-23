@@ -16,6 +16,11 @@ namespace SpotifyV0
         {
             _name = Name;
         }
+        public Radio(string Name, Playlist Playlist)
+        {
+            _name = Name;
+            _onAirPlaylist = Playlist;
+        }
         public Playlist OnAirPlaylist { get { return _onAirPlaylist; } set { _onAirPlaylist = value; } }
     }
 }

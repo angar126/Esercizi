@@ -8,28 +8,37 @@ namespace SpotifyV0
 {
     class MenuPlayer
     {
+        Song[] _songDB;
+        Radio[] _radioDB;
+        Playlist[] _playlistDB;
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R','E' };
+        char[] _numb = new char[0];
         Song _song;
         Song[] _songs;
+        int n;
+
         IPlaylist _playlist;
         MediaPlayer _mediaPlayer;
-        public MenuPlayer()
+        public MenuPlayer(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB)
         {
-            CreateMenuSong();
+            _songDB = songDB;
+            _radioDB = RadioDB;
+            _playlistDB=PlaylistDB;
+            CreateMenuSong();   
         }
         public MenuPlayer(Song song)
         {
             _song = song;
-            _songs =new Song[] { song };
+            Song[]  _songs =new Song[] { song };
             _mediaPlayer = new MediaPlayer(_songs);
         }
         public MenuPlayer(IPlaylist IPlaylist)
         {
-            _songs = IPlaylist.Songs;
+            Song[]  _songs = IPlaylist.Songs;
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
         }
-        public Song Song {  get { return _song; } set { _song = value; } }
+        //public Song Song {  get { return _song; } set { _song = value; } }
         public void CreateMenuSong()
         {
             char userInput = new char();
@@ -38,8 +47,10 @@ namespace SpotifyV0
                 // Mostra il menu
                 if (_song != null)
                 {
+                    ShowMenu();
+                    ShowList();
                     ShowMenuSong(_song);
-                }else ShowMenuSong();
+                }else ShowMenu();
 
                 // Ottieni l'input dell'utente
                 userInput = GetValidInputSong();
@@ -51,11 +62,23 @@ namespace SpotifyV0
 
         void ShowMenuSong(Song song)
         {
-            ShowMenuSong();
+            ShowSong(_song);           
+            Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
+        }
+        void ShowMenuOnlySong()
+        {
+            Console.WriteLine("--------------------------------------------");
             ShowSong(_song);
             Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
         }
-        void ShowMenuSong()
+        void ShowList()
+        {
+            for (int i = 0; i < _songs.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {_songs[i].Title}");
+            }
+        }
+        void ShowMenu()
         {
             Console.Write("            ");
             Console.ForegroundColor = ConsoleColor.Black;
@@ -94,15 +117,14 @@ namespace SpotifyV0
             Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("--------------------------------------------");
-            ShowMenuItem();
-            Console.WriteLine("--------------------------------------------");
+          
         }
 
         char GetValidInputSong()
         {
             char userInput;
-                bool validInput = false;
-
+            bool validInput = false;
+            
             do
             {
                 if (validInput)
@@ -111,28 +133,35 @@ namespace SpotifyV0
                     Console.WriteLine("Wrong character, try again");
                     Console.ResetColor();
                     CreateMenuSong();
+                    //continue;
                 }
                 Console.Write("Enter your choice: ");
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
+                n = (int)Char.GetNumericValue(userInput);
                 Console.WriteLine();
 
-            } while (validInput = !(_botton.Contains(userInput)));
-            //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
+            } while (validInput = !(_botton.Contains(userInput)|| _songs != null && _songs.Length != 0 && n > 0 && n < _songs.Length));
+            
 
-            return userInput;
+                //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
+
+                return userInput;
         }
         void ShowSong(Song song) {
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Playing now : {song.Title}");
             Console.ResetColor();
         }
-        void ShowMenuItem()
+        void ShowMenuItem(ConsoleColor BackgroundColor, ConsoleColor ForeGround)
         {
-            Console.BackgroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Seleziona cosa ascoltare");
+            Console.BackgroundColor = BackgroundColor;
+            Console.ForegroundColor = ForeGround;
+            
+
+
             Console.ResetColor();
         }
-
+       
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
             
@@ -149,35 +178,89 @@ namespace SpotifyV0
                     break;
                 case 'P':
                     Console.WriteLine("Pause pressed.");
-                    // Aggiungi il codice
+                    Mediaplayer.Pause();
                     break;
                 case 'S':
                     Console.WriteLine("Stop pressed.");
-                    // Aggiungi il codice
+                    Mediaplayer.Stop();
                     break;
                 case 'M':
                     Console.WriteLine("Music.");
-                    // Aggiungi il codice
-                    break;
+                    goto case 'A';
+                    //break;
                 case 'C':
                     Console.WriteLine("Profile.");
                     // Aggiungi il codice
                     break;
                 case 'A':
                     Console.WriteLine("Artist.");
-                    // Aggiungi il codice
+                    string[] artistList = _songDB.Select(song => song.Artist.Alias)
+                               .Distinct()
+                               .ToArray();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    ShowMenu();
+                    int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
+                    Console.ResetColor();
+                    _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();               
+                    _mediaPlayer = new MediaPlayer(_songs);
+                    _song = _songs[_mediaPlayer.CurrentIndex];
+                    ShowMenuOnlySong();
+                    
+
                     break;
                 case 'D':
                     Console.WriteLine("Albums.");
-                    // Aggiungi il codice
+                    string[] albumList = _songDB.Select(song => song.Album.Name)
+                               .Distinct()
+                               .ToArray();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    ShowMenu();
+                    int chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
+                    Console.ResetColor();
+                    _songs = _songDB.Where(song => song.Album.Name == albumList[chooseAlbums]).ToArray();
+                    _mediaPlayer = new MediaPlayer(_songs);
+                    _song = _songs[_mediaPlayer.CurrentIndex];
+                    ShowMenuOnlySong();
+                    
                     break;
                 case 'L':
                     Console.WriteLine("Playists.");
-                    // Aggiungi il codice
+                    string[] playList = _playlistDB.Select(playlist => playlist.Name)
+                               .Distinct()
+                               .ToArray();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    ShowMenu();
+                    int choosePlaylist = MenuItems.CreateMenu(playList, ConsoleColor.Green, ConsoleColor.Black);
+                    Console.ResetColor();
+                    _songs = _playlistDB[choosePlaylist].Songs;
+                    _mediaPlayer = new MediaPlayer(_songs);
+                    _song = _songs[_mediaPlayer.CurrentIndex];
+                    ShowMenuOnlySong();
+                    
                     break;
                 case 'R':
                     Console.WriteLine("Radio.");
-                    // Aggiungi il codice
+                    string[] playRadio = _radioDB.Select(radio => radio.Name)
+                               .Distinct()
+                               .ToArray();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    ShowMenu();
+                    int chooseRadio = MenuItems.CreateMenu(playRadio, ConsoleColor.Yellow, ConsoleColor.Black);
+                    Console.ResetColor();
+                    _songs = _radioDB[chooseRadio].OnAirPlaylist.Songs;
+                    _mediaPlayer = new MediaPlayer(_songs);
+                    _song = _songs[_mediaPlayer.CurrentIndex];
+                    ShowMenuOnlySong();
+                    
+                    break;
+                case var _ when char.IsDigit(userInput):
+
+                    _song = _songs[n-1];
+                    
                     break;
                 case 'E':
                     Console.WriteLine("Exiting the program.");
@@ -185,5 +268,6 @@ namespace SpotifyV0
                     break;
             }
         }
+        
     }
 }

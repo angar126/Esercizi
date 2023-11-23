@@ -18,6 +18,11 @@ namespace SpotifyV0
         {
             _name = Name;
         }
+        public Playlist(string Name, Song[] Songs)
+        {
+            _name = Name;
+            _songs = Songs;
+        }
         public void AddSong( Song song)
         {
             _songs = _songs.Append(song).ToArray();
