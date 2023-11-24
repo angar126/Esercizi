@@ -13,10 +13,12 @@ namespace SpotifyV0.Model
         //Album[] _albums;
         string _genre;
         int _count;
-        public int Count { get { return _count; } set { _count = value; } }
+
+        
         public string Alias { get { return _alias; } }
         //public Album[] Albums { get { return _albums; } }
         public string Genre { get { return _genre; } set { _genre = value; } }
+        public int Count { get { return _count; } set { _count = value; } }
         public Artist() { }
         public Artist(string Alias)
         {

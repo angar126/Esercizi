@@ -10,41 +10,95 @@ namespace SpotifyV0
     
         public class DataStreamL<T> where T : class, new()
         {
-            public static void WriteonFile(string path, List<T> data)
+        /*public static void WriteonFile(string path, List<T> data)
+        {
+            List<string> list = new List<string>();
+
+            StringBuilder sb = new StringBuilder();
+
+            var cols = data[0].GetType().GetProperties();
+
+            if (File.Exists(path))
             {
-                List<string> list = new List<string>();
+                File.Delete(path);
+            }
+            foreach (var col in cols)// cicla tutte i menbri  della classe.( Diventeranno le colonne del File CSV ).
+            {
+                sb.Append(col.Name); // "Name" non è il nome di una proprietà di una class.  Property Name --> REFLECTION
+                sb.Append(',');
+            }
 
-                StringBuilder sb = new StringBuilder();
+            list.Add(sb.ToString().Substring(0, sb.Length - 1)); // Rimuovi l'ultima virgola 
 
-                var cols = data[0].GetType().GetProperties();
+            foreach (var row in data) // Le nuove righe del file csv
+            {
 
-                if (File.Exists(path))
+                sb = new StringBuilder();
+                foreach (var col in cols) // cicla tutte Entity della classe in oggetto
                 {
-                    File.Delete(path);
-                }
-                foreach (var col in cols)// cicla tutte i menbri  della classe.( Diventeranno le colonne del File CSV ).
-                {
-                    sb.Append(col.Name); // "Name" non è il nome di una proprietà di una class.  Property Name --> REFLECTION
+                    sb.Append(col.GetValue(row)); // Prendi il valore della property. 
                     sb.Append(',');
                 }
 
                 list.Add(sb.ToString().Substring(0, sb.Length - 1)); // Rimuovi l'ultima virgola 
+            }
+            File.AppendAllLines(path, list);
+        }*/
+        public static void WriteonFile(string path, List<T> data)
+        {
+            List<string> list = new List<string>();
 
-                foreach (var row in data) // Le nuove righe del file csv
+            StringBuilder sb = new StringBuilder();
+
+            var cols = data[0].GetType().GetProperties();
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            foreach (var col in cols)
+            {
+                sb.Append(col.Name);
+                sb.Append(',');
+            }
+
+            list.Add(sb.ToString().Substring(0, sb.Length - 1));
+
+            foreach (var row in data)
+            {
+                sb = new StringBuilder();
+                foreach (var col in cols)
                 {
+                    object value = col.GetValue(row);
 
-                    sb = new StringBuilder();
-                    foreach (var col in cols) // cicla tutte Entity della classe in oggetto
+                    if (value is null)
                     {
-                        sb.Append(col.GetValue(row)); // Prendi il valore della property. 
                         sb.Append(',');
                     }
-
-                    list.Add(sb.ToString().Substring(0, sb.Length - 1)); // Rimuovi l'ultima virgola 
+                    else if (value.GetType().IsClass && value.GetType() != typeof(string))
+                    {
+                        // Se la proprietà è un oggetto complesso, accedi solo alla prima proprietà
+                        var subCol = value.GetType().GetProperties().FirstOrDefault();
+                        if (subCol != null)
+                        {
+                            sb.Append(subCol.GetValue(value));
+                        }
+                        sb.Append(',');
+                    }
+                    else
+                    {
+                        sb.Append(value);
+                        sb.Append(',');
+                    }
                 }
-                File.AppendAllLines(path, list);
+
+                list.Add(sb.ToString().Substring(0, sb.Length - 1));
             }
-            public static List<T> CreateObject(List<string> csv)
+            File.AppendAllLines(path, list);
+        }
+
+
+        public static List<T> CreateObject(List<string> csv)
             {
                 List<T> list = new List<T>();
                 string[] headers = csv.ElementAt(0).Split(',');// Header
