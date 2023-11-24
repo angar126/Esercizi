@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EUArray", "EUArray\EUArray.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyV0", "SpotifyV0\SpotifyV0.csproj", "{EA4D536B-457F-45BF-917B-55C070F7A049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystem", "FileSystem\FileSystem.csproj", "{3C54B2DA-7427-4CF7-BFB5-137F2738D0C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystem", "FileSystem\FileSystem.csproj", "{3C54B2DA-7427-4CF7-BFB5-137F2738D0C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotiLibrary", "SpotiLibrary\SpotiLibrary.csproj", "{82952076-26CA-4E2A-A8CC-E7C4AE1FDAC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{3C54B2DA-7427-4CF7-BFB5-137F2738D0C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C54B2DA-7427-4CF7-BFB5-137F2738D0C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C54B2DA-7427-4CF7-BFB5-137F2738D0C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82952076-26CA-4E2A-A8CC-E7C4AE1FDAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82952076-26CA-4E2A-A8CC-E7C4AE1FDAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82952076-26CA-4E2A-A8CC-E7C4AE1FDAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82952076-26CA-4E2A-A8CC-E7C4AE1FDAC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
