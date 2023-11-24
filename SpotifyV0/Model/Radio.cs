@@ -12,8 +12,9 @@ namespace SpotifyV0.Model
         string _name;
         Playlist _onAirPlaylist;
         int _count;
-        public int Count { get { return _count; } set { _count = value; } }
         public string Name { get { return _name; } }
+        public int Count { get { return _count; } set { _count = value; } }
+        
         public Radio(string Name)
         {
             _name = Name;

@@ -12,8 +12,9 @@ namespace SpotifyV0.Model
         string _name;
         Song[] _songs;
         int _count;
-        public int Count { get { return _count; } set { _count = value; } }
         public string Name { get { return _name; } set { _name = value; } }
+        public int Count { get { return _count; } set { _count = value; } }
+        
         public Song[] Songs { get { return _songs; } set { _songs = value; } }
         public Playlist() { }
         public Playlist(string Name)

@@ -14,8 +14,8 @@ namespace SpotifyV0.Model
         Song[] _songs;
         string _genre;
         int _count;
-        public int Count { get { return _count; } set { _count = value; } }
         public string Name { get { return _name; } set { _name = value; } }
+        public int Count { get { return _count; } set { _count = value; } }
         public Song[] Songs { get { return _songs; } set { _songs = value; } }
         public Artist Artist { get { return _artist; } }
         public string Genre { get { return _genre; } set { _genre = value; } }
