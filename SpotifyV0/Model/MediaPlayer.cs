@@ -30,12 +30,16 @@ namespace SpotifyV0.Model
         {
             DateTime now = DateTime.Now;
             //_songs = _songs.Append(song).ToArray();
+            song.Count++;
+            song.Artist.Count++;
+            song.Album.Count++;
             _timeNextSong = now.AddMilliseconds(song.TimeMillis);
             return song;
         }
         public Song Start(IPlaylist playlist)
         {
             _songs = playlist.Songs;
+            playlist.Count++;
             return Start(_songs[_currentIndex]);
         }
         public Song PlayPause()

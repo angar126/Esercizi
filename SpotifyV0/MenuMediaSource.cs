@@ -9,8 +9,10 @@ namespace SpotifyV0
 {
     static class MenuMediaSource
     {
-        static public void CreateMenu()
+        static ConsoleUI _console;
+        static public void CreateMenu(ConsoleUI console)
         {
+            _console = console;
             char userInput = new char();
             while (!userInput.Equals('E'))
             {
@@ -34,7 +36,7 @@ namespace SpotifyV0
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("Wrong character, try again");
                     Console.ResetColor();
-                    CreateMenu();
+                    CreateMenu(_console);
                 }
                 Console.Write("Enter your choice: ");
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
@@ -50,19 +52,16 @@ namespace SpotifyV0
             switch (userInput)
             {
                 case 'M':
-                    Console.WriteLine("M pressed.");
+                    //Console.WriteLine("M pressed.");
 
-                    //prova
-                    Song song = new Song("TITOLO!");
-                    ConsoleUI classUI = new ConsoleUI(song);
-                    classUI.CreateMenuSong();
+                    _console.CreateMenuMusic();
 
                     break;
                 case 'V':
                     Console.WriteLine("V pressed.");
 
                     //al momento ripropone il menu
-                    CreateMenu();
+                    CreateMenu(_console);
 
                     break;
                 case 'E':

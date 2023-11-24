@@ -7,7 +7,7 @@ using SpotifyV0.Interfaces;
 
 namespace SpotifyV0.Model
 {
-    internal class Playlist : IPlaylist,ICountable
+    internal class Playlist : IPlaylist
     {
         string _name;
         Song[] _songs;
@@ -19,11 +19,13 @@ namespace SpotifyV0.Model
         public Playlist(string Name)
         {
             _name = Name;
+            _count = 0;
         }
         public Playlist(string Name, Song[] Songs)
         {
             _name = Name;
             _songs = Songs;
+            _count = 0;
         }
         public Playlist(string Name, Song[] Songs,int Count)
         {

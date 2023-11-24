@@ -29,23 +29,24 @@ namespace SpotifyV0
             Song[] songDB = new Song[] {song111, song112, song121 , song122 , song211 , song212 , song221 , song222 };
 
 
-            Playlist playlist1 = new Playlist("PLAYLIST1", songDB);
-            Playlist playlist2 = new Playlist("PLAYLIST2", songDB);
-            Playlist playlist3 = new Playlist("PLAYLIST3", songDB);
+            Playlist playlist1 = new Playlist("PLAYLIST1", songDB,1);
+            Playlist playlist2 = new Playlist("PLAYLIST2", songDB,3);
+            Playlist playlist3 = new Playlist("PLAYLIST3", songDB,2);
 
             Playlist[] playlistDB =new Playlist[] {playlist1, playlist2, playlist3};
 
 
-            Radio radio1 = new Radio("RADIO1", playlist1);
-            Radio radio2 = new Radio("RADIO2", playlist1);
-            Radio radio3 = new Radio("RADIO3", playlist1);
+            Radio radio1 = new Radio("RADIO1", playlist1,2);
+            Radio radio2 = new Radio("RADIO2", playlist1,1);
+            Radio radio3 = new Radio("RADIO3", playlist1,3);
 
             Radio[] radioDB = new Radio[] { radio1 , radio2 , radio3};
+            Artist[] artistDB=new Artist[] { artist1, artist2 };
+            Album[] albumDB = new Album[] {album11, album12, album21, album22};
 
-
-            ConsoleUI m = new ConsoleUI(songDB,radioDB,playlistDB);
-
-            m.CreateMenuSong();
+            ConsoleUI c = new ConsoleUI(songDB,radioDB,playlistDB,artistDB,albumDB);
+            //MenuMediaSource.CreateMenu(c);
+            c.CreateMenuMusic();
 
 
         }

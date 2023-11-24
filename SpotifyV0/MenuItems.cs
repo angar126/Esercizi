@@ -30,9 +30,9 @@ namespace SpotifyV0
                     Console.ResetColor();
                 }
                 Console.ResetColor();
-                Console.Write("Enter your choice: ");
+                Console.Write("Enter your choice - TopFive press 0: ");
                 
-            } while (validInput=!int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 1 || userChoice > options.Length);
+            } while (validInput=!int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 
             Console.WriteLine();
             Console.ResetColor();

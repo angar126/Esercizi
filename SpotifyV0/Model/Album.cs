@@ -7,7 +7,7 @@ using SpotifyV0.Interfaces;
 
 namespace SpotifyV0.Model
 {
-    internal class Album : IPlaylist,ICountable
+    internal class Album : IPlaylist
     {
         string _name;
         Artist _artist;
@@ -24,6 +24,7 @@ namespace SpotifyV0.Model
         {
             _name = Name;
             _artist = artist;
+            _count = 0;
         }
         public Album(string Name, Artist artist,int Count)
         {
