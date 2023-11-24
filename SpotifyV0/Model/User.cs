@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0
+namespace SpotifyV0.Model
 {
     abstract class User
     {
@@ -12,11 +12,12 @@ namespace SpotifyV0
         string _name;
 
         public int Id { get { return _id; } }
-        public string Name { get { return _name;} }
+        public string Name { get { return _name; } }
 
-        public User(string Name) {
-         _name = Name;
-        //id sarà autogenerato
+        public User(string Name)
+        {
+            _name = Name;
+            //id sarà autogenerato
         }
     }
 }

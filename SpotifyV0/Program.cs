@@ -1,4 +1,5 @@
 ﻿using System;
+using SpotifyV0.Model;
 
 namespace SpotifyV0
 {

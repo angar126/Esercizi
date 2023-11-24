@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotifyV0.Interfaces;
 
-namespace SpotifyV0
+namespace SpotifyV0.Model
 {
     class MediaPlayer
     {
@@ -13,16 +14,17 @@ namespace SpotifyV0
 
         DateTime _timeNextSong;
         public MediaPlayer() { }
-        public MediaPlayer(Song[] Songs) {
+        public MediaPlayer(Song[] Songs)
+        {
             _songs = Songs;
-            _currentIndex = 0; 
+            _currentIndex = 0;
         }
         public MediaPlayer(Song Song)
         {
             _songs = new Song[] { Song };
             _currentIndex = 0;
         }
-        public int CurrentIndex { get { return _currentIndex;} }
+        public int CurrentIndex { get { return _currentIndex; } }
         public Song[] Songs { get { return _songs; } set { _songs = value; } }
         public Song Start(Song song)
         {
@@ -31,23 +33,27 @@ namespace SpotifyV0
             _timeNextSong = now.AddMilliseconds(song.TimeMillis);
             return song;
         }
-        public Song Start(IPlaylist playlist) {
+        public Song Start(IPlaylist playlist)
+        {
             _songs = playlist.Songs;
             return Start(_songs[_currentIndex]);
         }
-        public Song PlayPause() {
+        public Song PlayPause()
+        {
             return _songs[_currentIndex];
         }
         public void Stop() { }
         public void Pause() { }
-        public Song Next() {
-            if (_currentIndex < _songs.Length-1)
+        public Song Next()
+        {
+            if (_currentIndex < _songs.Length - 1)
             {
                 _currentIndex++;
             }
             return Start(_songs[_currentIndex]);
         }
-        public Song Previous() {
+        public Song Previous()
+        {
             if (_currentIndex > 0)
             {
                 _currentIndex--;

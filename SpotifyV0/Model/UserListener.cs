@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SpotifyV0
+namespace SpotifyV0.Model
 {
-    class UserListener: User
+    class UserListener : User
     {
         Playlist _favouriteSongs;
         bool _isPremium;
         Radio[] _radioFavourites;
         Playlist[] _playlists;
 
-        public Playlist FavouriteSongs { get{return _favouriteSongs ;} }
-        public Radio[] RadioFavourites { get { return _radioFavourites ;} }
-        public bool IsPremium { get { return _isPremium ;} set { _isPremium = value ; } }
-        public UserListener(string Name):base(Name)
+        public Playlist FavouriteSongs { get { return _favouriteSongs; } }
+        public Radio[] RadioFavourites { get { return _radioFavourites; } }
+        public bool IsPremium { get { return _isPremium; } set { _isPremium = value; } }
+        public UserListener(string Name) : base(Name)
         {
             _isPremium = false;
             _playlists = new Playlist[0];
@@ -30,12 +30,12 @@ namespace SpotifyV0
         }
         public void RemovePlaylist(Playlist playlist)
         {
-           _playlists =  _playlists.Where(i=> i!= playlist ).ToArray() ;
-          
+            _playlists = _playlists.Where(i => i != playlist).ToArray();
+
         }
         public void AddFavouriteSong(Song song)
         {
-            _favouriteSongs.AddSong(song) ;
+            _favouriteSongs.AddSong(song);
         }
         public void RemoveFavouriteSong(Song song)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0
+namespace SpotifyV0.Model
 {
     class Radio
     {
@@ -12,7 +12,7 @@ namespace SpotifyV0
         Playlist _onAirPlaylist;
 
         public string Name { get { return _name; } }
-        public Radio (string Name)
+        public Radio(string Name)
         {
             _name = Name;
         }

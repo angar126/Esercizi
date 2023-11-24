@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotifyV0.Interfaces;
+using SpotifyV0.Model;
 
 namespace SpotifyV0
 {
@@ -10,14 +13,18 @@ namespace SpotifyV0
     {
         Song[] _songDB;
         Radio[] _radioDB;
+        Artist[] _artistDB;
+        Album[] _albumDB;
         Playlist[] _playlistDB;
-        char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E' };
+        char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
         char[] _numb = new char[0];
         Song _song;
         Song[] _songs;
         int n;
+        Playlist _currentPlaylist;
+        List<Song> _songsPlayed = new List<Song>();
+        List<Song>_songsAdded = new List<Song>();
 
-        //IPlaylist _playlist;
         MediaPlayer _mediaPlayer;
         public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB)
         {
@@ -49,7 +56,7 @@ namespace SpotifyV0
                 {
                     ShowMenu();
                     ShowList();
-                    ShowMenuSong(_song);
+                    ShowMenuOnlySong();
                 }
                 else ShowMenu();
 
@@ -61,17 +68,13 @@ namespace SpotifyV0
                 Console.Clear();
             }
         }
-
-        void ShowMenuSong(Song song)
-        {
-            ShowSong(_song);
-            Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
-        }
         void ShowMenuOnlySong()
         {
             Console.WriteLine("--------------------------------------------");
             ShowSong(_song);
             Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
+            if (_currentPlaylist != null) Console.WriteLine($"AddToPlaylist({_currentPlaylist.Name}):Q ");
+            _songsPlayed.Add( _song );
         }
         void ShowList()
         {
@@ -144,9 +147,6 @@ namespace SpotifyV0
 
             } while (validInput = !(_botton.Contains(userInput) || _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
 
-
-            //userInput == 'F' || userInput == 'B' || userInput == 'P' || userInput == 'S' || userInput == 'E'));
-
             return userInput;
         }
         void ShowSong(Song song)
@@ -155,16 +155,6 @@ namespace SpotifyV0
             Console.WriteLine($"Playing now : {song.Title}");
             Console.ResetColor();
         }
-        void ShowMenuItem(ConsoleColor BackgroundColor, ConsoleColor ForeGround)
-        {
-            Console.BackgroundColor = BackgroundColor;
-            Console.ForegroundColor = ForeGround;
-
-
-
-            Console.ResetColor();
-        }
-
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
 
@@ -193,7 +183,13 @@ namespace SpotifyV0
                 //break;
                 case 'C':
                     //Console.WriteLine("Profile.");
-                    // Aggiungi il codice
+                    break;
+                case 'H':
+                    //Console.WriteLine("Search.");
+                    break;
+                case 'O':
+                    //Console.WriteLine("Top5.");
+
                     break;
                 case 'A':
                     //Console.WriteLine("Artist.");
@@ -238,6 +234,7 @@ namespace SpotifyV0
                     _songs = _playlistDB[choosePlaylist].Songs;
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
+                    _currentPlaylist = _playlistDB[choosePlaylist];
                     ShowMenuOnlySong();
 
                     break;
@@ -254,19 +251,37 @@ namespace SpotifyV0
                     _mediaPlayer = new MediaPlayer(_songs);
                     _song = _songs[_mediaPlayer.CurrentIndex];
                     ShowMenuOnlySong();
-
+                    break;
+                case 'Q':
+                    if(_currentPlaylist != null)
+                    {
+                        _currentPlaylist.AddSong(_song);
+                        _songsAdded.Add(_song);
+                    }
                     break;
                 case var _ when char.IsDigit(userInput):
-
                     _song = _songs[n - 1];
-
                     break;
                 case 'E':
                     Console.WriteLine("Exiting the program.");
+                    try
+                    {
+
+                        DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
+                    }
+                    catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
+                    try
+                    {
+                        DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
+                    }
+                    catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
                     Environment.Exit(0);
                     break;
             }
         }
-
+        ICountable[] Top(ICountable[] array)
+        {
+            return array.OrderByDescending(c => c.Count).Take(2000).ToArray();
+        }
     }
 }
