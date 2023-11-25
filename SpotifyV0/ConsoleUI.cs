@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SpotifyV0.Interfaces;
 using SpotifyV0.Model;
@@ -34,8 +35,6 @@ namespace SpotifyV0
             _playlistDB = PlaylistDB;
             _artistDB=ArtistDB;
             _albumDB=AlbumDB;
-            
-            CreateMenuMusic();
         }
         //ConsoleUI(Song song)
         //{
@@ -145,6 +144,7 @@ namespace SpotifyV0
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("Wrong character, try again");
                     Console.ResetColor();
+                    Thread.Sleep(200);
                     CreateMenuMusic();
                     //continue;
                 }
