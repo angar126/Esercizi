@@ -204,7 +204,6 @@ namespace SpotifyV0
                     //Console.WriteLine("Artist.");
                     //DEVO FARE REFACTORING DI TUTTI QUESTI METODI QUASI UGUALI
                     HandlerArtist();
-
                     break;
                 case 'D':
                     //Console.WriteLine("Albums.");
@@ -219,14 +218,10 @@ namespace SpotifyV0
                     HandlerRadio();
                     break;
                 case 'Q':
-                    if (_currentPlaylist != null)
-                    {
-                        _currentPlaylist.AddSong(_song);
-                        _songsAdded.Add(_song);
-                    }
+                    HandlerAddSongToPlaylist();
                     break;
                 case var _ when char.IsDigit(userInput):
-                    _song = _songs[n - 1];
+                    HandlerSelectSong();
                     break;
                 case 'E':
                     Exit();
@@ -290,6 +285,18 @@ namespace SpotifyV0
                 ShowMenuOnlySong();
             }
         }*/
+        void HandlerSelectSong()
+        {
+            _song = _songs[n - 1];
+        }
+        void HandlerAddSongToPlaylist()
+        {
+            if (_currentPlaylist != null)
+            {
+                _currentPlaylist.AddSong(_song);
+                _songsAdded.Add(_song);
+            }
+        }
         void HandlerArtist()
         {
             Artist[] ar = _artistDB;
