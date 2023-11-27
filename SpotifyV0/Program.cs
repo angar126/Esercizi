@@ -69,6 +69,7 @@ namespace SpotifyV0
             }
             finally
             { 
+                //posso metterlo sia qua che quando faccio il play della canzone...
                 Logger.LogInfo($"User time span: {XmlConvert.ToString(user.TimeSpan)}");
                 Logger.CloseLog();
             }
