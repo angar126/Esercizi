@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -202,137 +203,20 @@ namespace SpotifyV0
                 case 'A':
                     //Console.WriteLine("Artist.");
                     //DEVO FARE REFACTORING DI TUTTI QUESTI METODI QUASI UGUALI
-                    Artist[] ar = _artistDB;
-                    string[] artistList = _songDB.Select(song => song.Artist.Alias)
-                               .Distinct()
-                               .ToArray();
-
-                    ShowMenu();
-                    int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
-                    if (chooseArtist == -1)
-                    {
-                        ar = TopItemsProvider.GetTopItems(_artistDB);
-
-                        artistList = ar.Select(artist => artist.Alias)
-                               .Distinct()
-                               .ToArray();
-
-                        do
-                        {
-                            ShowMenu();
-                            chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
-                        } while (chooseArtist == -1);
-                    }
-                    Console.ResetColor();
-                    _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();
-                    _mediaPlayer = new MediaPlayer(_songs);
-                    _song = _songs[_mediaPlayer.CurrentIndex];
-                    ShowMenuOnlySong();
-
+                    HandlerArtist();
 
                     break;
                 case 'D':
                     //Console.WriteLine("Albums.");
-                    Album[] al = _albumDB;
-                    string[] albumList = al.Select(album => album.Name)
-                               .Distinct()
-                               .ToArray();
-
-                    ShowMenu();
-                    int chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
-                    if (chooseAlbums == -1)
-                    {
-                        al = TopItemsProvider.GetTopItems(_albumDB);
-                        //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
-
-                        albumList = al.Select(album => album.Name)
-                               .Distinct()
-                               .ToArray();
-                        ShowMenu();
-
-                        chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
-                        do
-                        {
-                            ShowMenu();
-
-                            chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
-                        } while (chooseAlbums == -1);
-                    }
-                    Console.ResetColor();
-                    _songs = _songDB.Where(song => song.Album.Name == albumList[chooseAlbums]).ToArray();
-                    _mediaPlayer = new MediaPlayer(_songs);
-                    _song = _songs[_mediaPlayer.CurrentIndex];
-                    ShowMenuOnlySong();
-
+                    HandlerAlbum();
                     break;
                 case 'L':
                     //Console.WriteLine("Playists.");
-                    Playlist[] pl = _playlistDB;
-                    string[] playList = pl.Select(playlist => playlist.Name)
-                               .Distinct()
-                               .ToArray();
-
-                    ShowMenu();
-                    int choosePlaylist = MenuItems.CreateMenu(playList, ConsoleColor.Green, ConsoleColor.Black);
-                    if (choosePlaylist == -1)
-                    {
-                        pl = TopItemsProvider.GetTopItems(_playlistDB);
-                        //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
-
-                        string[] playList2 = pl.Select(playlist => playlist.Name)
-                               .Distinct()
-                               .ToArray();
-                        ShowMenu();
-
-                        choosePlaylist = MenuItems.CreateMenu(playList2, ConsoleColor.Green, ConsoleColor.Black);
-                        do
-                        {
-                            ShowMenu();
-
-                            choosePlaylist = MenuItems.CreateMenu(playList2, ConsoleColor.Green, ConsoleColor.Black);
-                        } while (choosePlaylist == -1);
-
-                    }
-                    Console.ResetColor();
-                    _songs = pl[choosePlaylist].Songs;
-                    _mediaPlayer = new MediaPlayer(_songs);
-                    _song = _songs[_mediaPlayer.CurrentIndex];
-                    _currentPlaylist = pl[choosePlaylist];
-                    ShowMenuOnlySong();
-
+                    HandlerPlaylist();
                     break;
                 case 'R':
                     //Console.WriteLine("Radio.");
-                    Radio[] rd = _radioDB;
-                    string[] playRadio = rd.Select(radio => radio.Name)
-                               .Distinct()
-                               .ToArray();
-
-                    ShowMenu();
-                    int chooseRadio = MenuItems.CreateMenu(playRadio, ConsoleColor.Yellow, ConsoleColor.Black);
-                    if (chooseRadio == -1)
-                    {
-                        rd = TopItemsProvider.GetTopItems(_radioDB);
-                        //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
-
-                        string[] playRadio2 = rd.Select(playlist => playlist.Name)
-                               .Distinct()
-                               .ToArray();
-                        ShowMenu();
-
-                        chooseRadio = MenuItems.CreateMenu(playRadio2, ConsoleColor.Yellow, ConsoleColor.Black);
-                        do
-                        {
-                            ShowMenu();
-
-                            chooseRadio = MenuItems.CreateMenu(playRadio2, ConsoleColor.Yellow, ConsoleColor.Black);
-                        } while (chooseRadio == -1);
-                    }
-                    Console.ResetColor();
-                    _songs = rd[chooseRadio].OnAirPlaylist.Songs;
-                    _mediaPlayer = new MediaPlayer(_songs);
-                    _song = _songs[_mediaPlayer.CurrentIndex];
-                    ShowMenuOnlySong();
+                    HandlerRadio();
                     break;
                 case 'Q':
                     if (_currentPlaylist != null)
@@ -373,7 +257,7 @@ namespace SpotifyV0
             }
         }
         //PROVA REFACTORING
-        
+
         /*private void HandlerObj<T>(T[] categoryArray, Func<T, string> selector, ConsoleColor foregroundColor, ConsoleColor backgroundColor) where T : ICountable
         {
             {
@@ -406,5 +290,136 @@ namespace SpotifyV0
                 ShowMenuOnlySong();
             }
         }*/
+        void HandlerArtist()
+        {
+            Artist[] ar = _artistDB;
+            string[] artistList = _songDB.Select(song => song.Artist.Alias)
+                       .Distinct()
+                       .ToArray();
+
+            ShowMenu();
+            int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
+            if (chooseArtist == -1)
+            {
+                ar = TopItemsProvider.GetTopItems(_artistDB);
+
+                artistList = ar.Select(artist => artist.Alias)
+                       .Distinct()
+                       .ToArray();
+
+                do
+                {
+                    ShowMenu();
+                    chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
+                } while (chooseArtist == -1);
+            }
+            Console.ResetColor();
+            _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();
+            _mediaPlayer = new MediaPlayer(_songs);
+            _song = _songs[_mediaPlayer.CurrentIndex];
+            ShowMenuOnlySong();
+        }
+        void HandlerAlbum()
+        {
+            Album[] al = _albumDB;
+            string[] albumList = al.Select(album => album.Name)
+                       .Distinct()
+                       .ToArray();
+
+            ShowMenu();
+            int chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
+            if (chooseAlbums == -1)
+            {
+                al = TopItemsProvider.GetTopItems(_albumDB);
+                //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
+
+                albumList = al.Select(album => album.Name)
+                       .Distinct()
+                       .ToArray();
+                ShowMenu();
+
+                chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
+                do
+                {
+                    ShowMenu();
+
+                    chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
+                } while (chooseAlbums == -1);
+            }
+            Console.ResetColor();
+            _songs = _songDB.Where(song => song.Album.Name == albumList[chooseAlbums]).ToArray();
+            _mediaPlayer = new MediaPlayer(_songs);
+            _song = _songs[_mediaPlayer.CurrentIndex];
+            ShowMenuOnlySong();
+        }
+        void HandlerPlaylist()
+        {
+            Playlist[] pl = _playlistDB;
+            string[] playList = pl.Select(playlist => playlist.Name)
+                       .Distinct()
+                       .ToArray();
+
+            ShowMenu();
+            int choosePlaylist = MenuItems.CreateMenu(playList, ConsoleColor.Green, ConsoleColor.Black);
+            if (choosePlaylist == -1)
+            {
+                pl = TopItemsProvider.GetTopItems(_playlistDB);
+                //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
+
+                string[] playList2 = pl.Select(playlist => playlist.Name)
+                       .Distinct()
+                       .ToArray();
+                ShowMenu();
+
+                choosePlaylist = MenuItems.CreateMenu(playList2, ConsoleColor.Green, ConsoleColor.Black);
+                do
+                {
+                    ShowMenu();
+
+                    choosePlaylist = MenuItems.CreateMenu(playList2, ConsoleColor.Green, ConsoleColor.Black);
+                } while (choosePlaylist == -1);
+
+            }
+            Console.ResetColor();
+            _songs = pl[choosePlaylist].Songs;
+            _mediaPlayer = new MediaPlayer(_songs);
+            _song = _songs[_mediaPlayer.CurrentIndex];
+            _currentPlaylist = pl[choosePlaylist];
+            ShowMenuOnlySong();
+        }
+        void HandlerRadio()
+        {
+            //Console.WriteLine("Radio.");
+            Radio[] rd = _radioDB;
+            string[] playRadio = rd.Select(radio => radio.Name)
+                       .Distinct()
+                       .ToArray();
+
+            ShowMenu();
+            int chooseRadio = MenuItems.CreateMenu(playRadio, ConsoleColor.Yellow, ConsoleColor.Black);
+            if (chooseRadio == -1)
+            {
+                rd = TopItemsProvider.GetTopItems(_radioDB);
+                //Playlist[] list = topItems.Select(item => new Playlist { Count = item.Count }).ToArray();
+
+                string[] playRadio2 = rd.Select(playlist => playlist.Name)
+                       .Distinct()
+                       .ToArray();
+                ShowMenu();
+
+                chooseRadio = MenuItems.CreateMenu(playRadio2, ConsoleColor.Yellow, ConsoleColor.Black);
+                do
+                {
+                    ShowMenu();
+
+                    chooseRadio = MenuItems.CreateMenu(playRadio2, ConsoleColor.Yellow, ConsoleColor.Black);
+                } while (chooseRadio == -1);
+            }
+            Console.ResetColor();
+            _songs = rd[chooseRadio].OnAirPlaylist.Songs;
+            _mediaPlayer = new MediaPlayer(_songs);
+            _song = _songs[_mediaPlayer.CurrentIndex];
+            ShowMenuOnlySong();
+        }
     }
 }
