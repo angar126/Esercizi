@@ -46,6 +46,10 @@ namespace SpotifyV0
             Artist[] artistDB = new Artist[] { artist1, artist2 };
             Album[] albumDB = new Album[] { album11, album12, album21, album22 };
 
+            
+            //Se è free o premium gli carico le ore inerenti al suo abbonamento 
+            //non mi sembra sia necessario aggiungere una classe o una struttura 
+
             TimeSpan timespan = TimeSpan.FromMinutes(5);
 
             UserListener user = new UserListener("User",timespan);
