@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using SpotifyV0.Model;
+using System.Xml;
 
 namespace SpotifyV0
 {
@@ -17,15 +18,15 @@ namespace SpotifyV0
             Album album21 = new Album("AlbumA", artist2);
             Album album22 = new Album("AlbumB", artist2);
 
-            Song song111 = new Song("TITOLO11", artist1, album11, 10000);
-            Song song112 = new Song("TITOLO12", artist1, album11, 10000);
-            Song song121 = new Song("TITOLO21", artist1, album12, 10000);
-            Song song122 = new Song("TITOLO22", artist1, album12, 10000);
+            Song song111 = new Song("TITOLO11", artist1, album11, 100000);
+            Song song112 = new Song("TITOLO12", artist1, album11, 100000);
+            Song song121 = new Song("TITOLO21", artist1, album12, 100000);
+            Song song122 = new Song("TITOLO22", artist1, album12, 100000);
 
-            Song song211 = new Song("TITOLO11", artist2, album21, 10000);
-            Song song212 = new Song("TITOLO12", artist2, album21, 10000);
-            Song song221 = new Song("TITOLO21", artist2, album22, 10000);
-            Song song222 = new Song("TITOLO22", artist2, album22, 10000);
+            Song song211 = new Song("TITOLO11", artist2, album21, 100000);
+            Song song212 = new Song("TITOLO12", artist2, album21, 100000);
+            Song song221 = new Song("TITOLO21", artist2, album22, 100000);
+            Song song222 = new Song("TITOLO22", artist2, album22, 100000);
 
             Song[] songDB = new Song[] { song111, song112, song121, song122, song211, song212, song221, song222 };
 
@@ -45,10 +46,16 @@ namespace SpotifyV0
             Artist[] artistDB = new Artist[] { artist1, artist2 };
             Album[] albumDB = new Album[] { album11, album12, album21, album22 };
 
-            ConsoleUI c = new ConsoleUI(songDB, radioDB, playlistDB, artistDB, albumDB);
+            TimeSpan timespan = TimeSpan.FromMinutes(5);
+
+            UserListener user = new UserListener("User",timespan);
+            
+            ConsoleUI c = new ConsoleUI(songDB, radioDB, playlistDB, artistDB, albumDB,user);
+            
             try
             {
-                //MenuMediaSource.CreateMenu(c);
+                //MenuLogin.CreateMenu(c);
+                
                 c.CreateMenuMusic();
             }
             catch (Exception ex)
@@ -57,9 +64,12 @@ namespace SpotifyV0
                 Logger.LogError(ex);
             }
             finally
-            {
+            { 
+                Logger.LogInfo($"User time span: {XmlConvert.ToString(user.TimeSpan)}");
                 Logger.CloseLog();
             }
+            
+            Console.ReadLine();
 
         }
     }

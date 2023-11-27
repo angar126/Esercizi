@@ -27,15 +27,16 @@ namespace SpotifyV0
         Playlist _currentPlaylist;
         List<Song> _songsPlayed = new List<Song>();
         List<Song> _songsAdded = new List<Song>();
-
+        UserListener _user;
         MediaPlayer _mediaPlayer;
-        public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB)
+        public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
             _playlistDB = PlaylistDB;
             _artistDB = ArtistDB;
             _albumDB = AlbumDB;
+            _user = User;
         }
         //ConsoleUI(Song song)
         //{
@@ -172,13 +173,13 @@ namespace SpotifyV0
                 case 'F':
                     //Console.WriteLine("Next pressed.");
                     if (Mediaplayer != null)
-                        _song = Mediaplayer.Next();
+                        _song = playSong(Mediaplayer.Next());
 
                     break;
                 case 'B':
                     //Console.WriteLine("Previous pressed.");
                     if (Mediaplayer != null)
-                        _song = Mediaplayer.Previous();
+                        _song = playSong(Mediaplayer.Previous());
                     break;
                 case 'P':
                     //Console.WriteLine("Pause pressed.");
@@ -196,6 +197,7 @@ namespace SpotifyV0
                 //break;
                 case 'C':
                     //Console.WriteLine("Profile.");
+                    
                     break;
                 case 'H':
                     //Console.WriteLine("Search.");
@@ -287,7 +289,7 @@ namespace SpotifyV0
         }*/
         void HandlerSelectSong()
         {
-            _song = _songs[n - 1];
+            _song = playSong(_songs[n - 1]);
         }
         void HandlerAddSongToPlaylist()
         {
@@ -323,7 +325,7 @@ namespace SpotifyV0
             Console.ResetColor();
             _songs = _songDB.Where(song => song.Artist.Name == artistList[chooseArtist]).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = _songs[_mediaPlayer.CurrentIndex];
+            _song = playSong(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandlerAlbum()
@@ -356,7 +358,7 @@ namespace SpotifyV0
             Console.ResetColor();
             _songs = _songDB.Where(song => song.Album.Name == albumList[chooseAlbums]).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = _songs[_mediaPlayer.CurrentIndex];
+            _song = playSong(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandlerPlaylist()
@@ -390,7 +392,7 @@ namespace SpotifyV0
             Console.ResetColor();
             _songs = pl[choosePlaylist].Songs;
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = _songs[_mediaPlayer.CurrentIndex];
+            _song = playSong(_songs[_mediaPlayer.CurrentIndex]);
             _currentPlaylist = pl[choosePlaylist];
             ShowMenuOnlySong();
         }
@@ -427,6 +429,16 @@ namespace SpotifyV0
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();
+        }
+        Song playSong(Song song)
+        {
+            if (_user.TimeSpan < TimeSpan.FromMilliseconds(0))
+            {
+                Random random = new Random();
+                song = _songDB[random.Next(_songDB.Length)];
+            }
+            _user.TimeSpan= TimeSpan.FromMilliseconds(song.TimeMillis);
+            return song;
         }
     }
 }

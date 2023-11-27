@@ -9,10 +9,11 @@ namespace SpotifyV0.Model
 {
     class MediaPlayer
     {
+        //UserListener user;
         int _currentIndex;
         Song[] _songs;
 
-        DateTime _timeNextSong;
+        DateTime _timeSong;
         public MediaPlayer() { }
         public MediaPlayer(Song[] Songs)
         {
@@ -28,12 +29,13 @@ namespace SpotifyV0.Model
         public Song[] Songs { get { return _songs; } set { _songs = value; } }
         public Song Start(Song song)
         {
-            DateTime now = DateTime.Now;
+           // DateTime now = DateTime.Now;
             //_songs = _songs.Append(song).ToArray();
             song.Count++;
             song.Artist.Count++;
             song.Album.Count++;
-            _timeNextSong = now.AddMilliseconds(song.TimeMillis);
+            //_timeSong = now.AddMilliseconds(song.TimeMillis);
+            //user.TimeSpan = TimeSpan.FromMilliseconds((double)song.TimeMillis);
             return song;
         }
         public Song Start(IPlaylist playlist)
