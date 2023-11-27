@@ -58,9 +58,9 @@ namespace SpotifyV0
             
             try
             {
-                //MenuLogin.CreateMenu(c);
+                MenuLogin.CreateMenu(c);
                 
-                c.CreateMenuMusic();
+                //c.CreateMenuMusic();
             }
             catch (Exception ex)
             {

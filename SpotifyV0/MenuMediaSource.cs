@@ -14,7 +14,8 @@ namespace SpotifyV0
         {
             _console = console;
             char userInput = new char();
-            while (!userInput.Equals('E'))
+
+            while (!(userInput.Equals('E')|| userInput.Equals('M') || userInput.Equals('V')))
             {
 
                 Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");

@@ -34,6 +34,7 @@ namespace SpotifyV0
             Console.WriteLine(culture.ToString());
             Thread.Sleep(200);
             MenuMediaSource.CreateMenu(console);
+            Console.Clear();
         }
         static string ShowLengMenu()
         {
