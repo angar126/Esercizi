@@ -201,6 +201,7 @@ namespace SpotifyV0
                     break;
                 case 'A':
                     //Console.WriteLine("Artist.");
+                    //DEVO FARE REFACTORING DI TUTTI QUESTI METODI QUASI UGUALI
                     Artist[] ar = _artistDB;
                     string[] artistList = _songDB.Select(song => song.Artist.Alias)
                                .Distinct()
@@ -371,8 +372,9 @@ namespace SpotifyV0
                 return array.OrderByDescending(item => item.Count).Take(5).ToArray();
             }
         }
-        /*
-        private void HandlerObj<T>(T[] categoryArray, Func<T, string> selector, ConsoleColor foregroundColor, ConsoleColor backgroundColor) where T : ICountable
+        //PROVA REFACTORING
+        
+        /*private void HandlerObj<T>(T[] categoryArray, Func<T, string> selector, ConsoleColor foregroundColor, ConsoleColor backgroundColor) where T : ICountable
         {
             {
                 T[] items = categoryArray;
