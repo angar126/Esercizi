@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotifyV0.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -139,7 +140,7 @@ namespace SpotifyV0
                         {
                             try
                             {
-                                entry.GetType().GetProperty(headers[j]) // prendo  proprietà dell'oggetto Person  tramite i nomi delle colonne del file 
+                            entry.GetType().GetProperty(headers[j]) // prendo  proprietà dell'oggetto Person  tramite i nomi delle colonne del file 
                                   .SetValue(entry, // Vado a settare il valore predendo invece il valore della cella che corrisponde alla colonna 
                                      Convert.ChangeType(col, //   singola cella del CSV (il valore da settare )
                                          entry.GetType().GetProperty(headers[j])

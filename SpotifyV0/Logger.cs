@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SpotifyV0
 {
@@ -13,7 +14,7 @@ namespace SpotifyV0
 
         static Logger()
         {
-            logFileListener = new TextWriterTraceListener("log.txt");
+            logFileListener = new TextWriterTraceListener($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}log.txt");
             Trace.Listeners.Add(logFileListener);
 
             // Abilita la registrazione degli errori

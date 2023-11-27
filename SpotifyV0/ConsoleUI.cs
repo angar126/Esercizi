@@ -300,7 +300,7 @@ namespace SpotifyV0
         void HandlerArtist()
         {
             Artist[] ar = _artistDB;
-            string[] artistList = _songDB.Select(song => song.Artist.Alias)
+            string[] artistList = _songDB.Select(song => song.Artist.Name)
                        .Distinct()
                        .ToArray();
 
@@ -310,7 +310,7 @@ namespace SpotifyV0
             {
                 ar = TopItemsProvider.GetTopItems(_artistDB);
 
-                artistList = ar.Select(artist => artist.Alias)
+                artistList = ar.Select(artist => artist.Name)
                        .Distinct()
                        .ToArray();
 
@@ -321,7 +321,7 @@ namespace SpotifyV0
                 } while (chooseArtist == -1);
             }
             Console.ResetColor();
-            _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();
+            _songs = _songDB.Where(song => song.Artist.Name == artistList[chooseArtist]).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();

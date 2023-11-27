@@ -10,6 +10,7 @@ namespace SpotifyV0.Model
 {
     class Song : ICountable
     {
+        int _id;
         string _title;
         Artist _artist;
         Album _album;
