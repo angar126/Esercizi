@@ -25,7 +25,7 @@ namespace SpotifyV0
         int n;
         Playlist _currentPlaylist;
         List<Song> _songsPlayed = new List<Song>();
-        List<Song>_songsAdded = new List<Song>();
+        List<Song> _songsAdded = new List<Song>();
 
         MediaPlayer _mediaPlayer;
         public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB)
@@ -33,8 +33,8 @@ namespace SpotifyV0
             _songDB = songDB;
             _radioDB = RadioDB;
             _playlistDB = PlaylistDB;
-            _artistDB=ArtistDB;
-            _albumDB=AlbumDB;
+            _artistDB = ArtistDB;
+            _albumDB = AlbumDB;
         }
         //ConsoleUI(Song song)
         //{
@@ -78,9 +78,9 @@ namespace SpotifyV0
             Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.Gray;
-            if (_currentPlaylist != null) Console.WriteLine($"AddToPlaylist({_currentPlaylist.Name}):Q ");
+            if (_currentPlaylist != null) Console.WriteLine($"Add Song to last selected Playlist ({_currentPlaylist.Name}):Q ");
             Console.ResetColor();
-            _songsPlayed.Add( _song );
+            _songsPlayed.Add(_song);
         }
         void ShowList()
         {
@@ -170,8 +170,8 @@ namespace SpotifyV0
             {
                 case 'F':
                     //Console.WriteLine("Next pressed.");
-                    if(Mediaplayer!=null)
-                    _song = Mediaplayer.Next();
+                    if (Mediaplayer != null)
+                        _song = Mediaplayer.Next();
 
                     break;
                 case 'B':
@@ -205,22 +205,22 @@ namespace SpotifyV0
                     string[] artistList = _songDB.Select(song => song.Artist.Alias)
                                .Distinct()
                                .ToArray();
-                    
+
                     ShowMenu();
                     int chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
                     if (chooseArtist == -1)
                     {
                         ar = TopItemsProvider.GetTopItems(_artistDB);
-                        
+
                         artistList = ar.Select(artist => artist.Alias)
                                .Distinct()
                                .ToArray();
-                        
+
                         do
                         {
                             ShowMenu();
                             chooseArtist = MenuItems.CreateMenu(artistList, ConsoleColor.Magenta, ConsoleColor.White);
-                        }while (chooseArtist == -1);
+                        } while (chooseArtist == -1);
                     }
                     Console.ResetColor();
                     _songs = _songDB.Where(song => song.Artist.Alias == artistList[chooseArtist]).ToArray();
@@ -236,7 +236,7 @@ namespace SpotifyV0
                     string[] albumList = al.Select(album => album.Name)
                                .Distinct()
                                .ToArray();
-                    
+
                     ShowMenu();
                     int chooseAlbums = MenuItems.CreateMenu(albumList, ConsoleColor.Red, ConsoleColor.White);
                     if (chooseAlbums == -1)
@@ -270,7 +270,7 @@ namespace SpotifyV0
                     string[] playList = pl.Select(playlist => playlist.Name)
                                .Distinct()
                                .ToArray();
-                    
+
                     ShowMenu();
                     int choosePlaylist = MenuItems.CreateMenu(playList, ConsoleColor.Green, ConsoleColor.Black);
                     if (choosePlaylist == -1)
@@ -306,7 +306,7 @@ namespace SpotifyV0
                     string[] playRadio = rd.Select(radio => radio.Name)
                                .Distinct()
                                .ToArray();
-                    
+
                     ShowMenu();
                     int chooseRadio = MenuItems.CreateMenu(playRadio, ConsoleColor.Yellow, ConsoleColor.Black);
                     if (chooseRadio == -1)
@@ -334,7 +334,7 @@ namespace SpotifyV0
                     ShowMenuOnlySong();
                     break;
                 case 'Q':
-                    if(_currentPlaylist != null)
+                    if (_currentPlaylist != null)
                     {
                         _currentPlaylist.AddSong(_song);
                         _songsAdded.Add(_song);
@@ -344,21 +344,25 @@ namespace SpotifyV0
                     _song = _songs[n - 1];
                     break;
                 case 'E':
-                    Console.WriteLine("Exiting the program.");
-                    try
-                    {
-
-                        DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
-                    }
-                    catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
-                    try
-                    {
-                        DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
-                    }
-                    catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
-                    Environment.Exit(0);
+                    Exit();
                     break;
             }
+        }
+        private void Exit()
+        {
+            Console.WriteLine("Exiting the program.");
+            try
+            {
+
+                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
+            }
+            catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
+            try
+            {
+                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
+            }
+            catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
+            Environment.Exit(0);
         }
         static public class TopItemsProvider
         {
@@ -367,5 +371,38 @@ namespace SpotifyV0
                 return array.OrderByDescending(item => item.Count).Take(5).ToArray();
             }
         }
+        /*
+        private void HandlerObj<T>(T[] categoryArray, Func<T, string> selector, ConsoleColor foregroundColor, ConsoleColor backgroundColor) where T : ICountable
+        {
+            {
+                T[] items = categoryArray;
+                string[] itemList = categoryArray.Select(selector)
+                                        .Distinct()
+                                        .ToArray();
+
+                ShowMenu();
+                int selectedItemIndex = MenuItems.CreateMenu(itemList, foregroundColor, backgroundColor);
+
+                if (selectedItemIndex == -1)
+                {
+                    items = TopItemsProvider.GetTopItems(categoryArray);
+                    itemList = items.Select(selector)
+                                 .Distinct()
+                                 .ToArray();
+
+                    do
+                    {
+                        ShowMenu();
+                        selectedItemIndex = MenuItems.CreateMenu(itemList, foregroundColor, backgroundColor);
+                    } while (selectedItemIndex == -1);
+                }
+
+                Console.ResetColor();
+                _songs = categoryArray.Where(item => selector(item) == itemList[selectedItemIndex]).ToArray();
+                _mediaPlayer = new MediaPlayer(_songs);
+                _song = _songs[_mediaPlayer.CurrentIndex];
+                ShowMenuOnlySong();
+            }
+        }*/
     }
 }
