@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using SpotifyV0.Interfaces;
 using SpotifyV0.Model;
 using static SpotifyV0.ConsoleUI;
@@ -244,7 +245,7 @@ namespace SpotifyV0
                 DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
             }
             catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
-            Environment.Exit(0);
+            //Environment.Exit(0);
         }
         static public class TopItemsProvider
         {
@@ -438,6 +439,7 @@ namespace SpotifyV0
                 song = _songDB[random.Next(_songDB.Length)];
             }
             _user.TimeSpan= TimeSpan.FromMilliseconds(song.TimeMillis);
+            //Logger.LogInfo($"User time span: {XmlConvert.ToString(_user.TimeSpan)}");
             return song;
         }
     }
