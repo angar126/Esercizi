@@ -11,60 +11,86 @@ namespace SpotifyV0.Model
     {
         //UserListener user;
         int _currentIndex;
-        Song[] _songs;
+        IPlayable[] _plays;
 
-        DateTime _timeSong;
+        //DateTime _timeSong;
         public MediaPlayer() { }
         public MediaPlayer(Song[] Songs)
         {
-            _songs = Songs;
+            _plays = Songs;
             _currentIndex = 0;
         }
         public MediaPlayer(Song Song)
         {
-            _songs = new Song[] { Song };
+            _plays = new Song[] { Song };
+            _currentIndex = 0;
+        }
+        public MediaPlayer(Film Film)
+        {
+            _plays = new Film[] { Film };
+            _currentIndex = 0;
+        }
+        public MediaPlayer(Film[] Films)
+        {
+            _plays = Films;
             _currentIndex = 0;
         }
         public int CurrentIndex { get { return _currentIndex; } }
-        public Song[] Songs { get { return _songs; } set { _songs = value; } }
-        public Song Start(Song song)
+        public IPlayable[] Plays { get { return _plays; } set { _plays = value; } }
+        public IPlayable Start(IPlayable play)
         {
-           // DateTime now = DateTime.Now;
+            // DateTime now = DateTime.Now;
             //_songs = _songs.Append(song).ToArray();
-            song.Count++;
-            song.Artist.Count++;
-            song.Album.Count++;
+            play.Count++;
+            if (play is Song)
+            {
+                Song song = (Song)play;
+                song.Artist.Count++;
+                song.Album.Count++;
+            }
+            if (play is Film)
+            {
+                Film film = (Film)play;
+                film.Director.Count++;
+
+            }
             //_timeSong = now.AddMilliseconds(song.TimeMillis);
             //user.TimeSpan = TimeSpan.FromMilliseconds((double)song.TimeMillis);
-            return song;
+            return play;
         }
         public Song Start(IPlaylist playlist)
         {
-            _songs = playlist.Songs;
+            _plays = playlist.Songs;
             playlist.Count++;
-            return Start(_songs[_currentIndex]);
+            return (Song)Start(_plays[_currentIndex]);
         }
-        public Song PlayPause()
+        public Film Start(Film[] playlist)
         {
-            return _songs[_currentIndex];
+            _plays = playlist;
+            //playlist.Count++;
+            return (Film)Start(_plays[_currentIndex]);
+        }
+        public IPlayable PlayPause()
+        {
+            return _plays[_currentIndex];
         }
         public void Stop() { }
         public void Pause() { }
-        public Song Next()
+        public IPlayable Next()
         {
-            if (_currentIndex < _songs.Length - 1)
+            if (_currentIndex < _plays.Length - 1)
             {
                 _currentIndex++;
             }
-            return Start(_songs[_currentIndex]);
+            return Start(_plays[_currentIndex]);
         }
-        public Song Previous()
+        public IPlayable Previous()
         {
             if (_currentIndex > 0)
             {
                 _currentIndex--;
             }
-            return Start(_songs[_currentIndex]);
+            return Start(_plays[_currentIndex]);
         }
     }
 }

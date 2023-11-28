@@ -46,7 +46,16 @@ namespace SpotifyV0
             Artist[] artistDB = new Artist[] { artist1, artist2 };
             Album[] albumDB = new Album[] { album11, album12, album21, album22 };
 
-            
+            Director director1 = new Director("Director1");
+            Director director2 = new Director("Director2");
+
+            Film film1 = new Film("Film1", director1);
+            Film film2 = new Film("Film2", director1);
+            Film film3 = new Film("Film3", director2);
+            Film film4 = new Film("Film4", director2);
+
+            Film[] filmDB = new Film[] { film1, film2, film3, film4 };
+            Director[] directorDB = new Director[] { director1, director2};
             //Se è free o premium gli carico le ore inerenti al suo abbonamento 
             //non mi sembra sia necessario aggiungere una classe o una struttura 
 
@@ -54,7 +63,7 @@ namespace SpotifyV0
 
             UserListener user = new UserListener("User",timespan);
             
-            ConsoleUI c = new ConsoleUI(songDB, radioDB, playlistDB, artistDB, albumDB,user);
+            ConsoleUI c = new ConsoleUI(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB,user);
             
             try
             {

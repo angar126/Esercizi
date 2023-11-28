@@ -62,7 +62,7 @@ namespace SpotifyV0
                     Console.WriteLine("V pressed.");
 
                     //al momento ripropone il menu
-                    CreateMenu(_console);
+                    _console.CreateMenuFilm();
 
                     break;
                 case 'E':

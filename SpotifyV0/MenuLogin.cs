@@ -33,8 +33,9 @@ namespace SpotifyV0
             CultureInfo culture = new CultureInfo(ShowLengMenu());
             Console.WriteLine(culture.ToString());
             Thread.Sleep(200);
-            MenuMediaSource.CreateMenu(console);
             Console.Clear();
+            MenuMediaSource.CreateMenu(console);
+            
         }
         static string ShowLengMenu()
         {
