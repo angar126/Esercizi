@@ -24,12 +24,16 @@ namespace SpotifyV0
         char[] _numb = new char[0];
         Song _song;
         Song[] _songs;
+        char _typeMenu;
+
+        
         int n;
         Playlist _currentPlaylist;
         List<Song> _songsPlayed = new List<Song>();
         List<Song> _songsAdded = new List<Song>();
         UserListener _user;
         MediaPlayer _mediaPlayer;
+        public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
         public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
         {
             _songDB = songDB;
@@ -38,7 +42,9 @@ namespace SpotifyV0
             _artistDB = ArtistDB;
             _albumDB = AlbumDB;
             _user = User;
+            _typeMenu = 'M';
         }
+
         public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB,Director[] DirectorDB, Film[] FilmDB, UserListener User)
         {
             _songDB = songDB;
@@ -588,7 +594,7 @@ namespace SpotifyV0
                     HandleStop(Mediaplayer);
                     break;
                 case 'M':
-                    HandleMusic(Mediaplayer);
+                    HandleFilms();
                     break;
                 case 'C':
                     HandleProfile();
@@ -659,30 +665,24 @@ namespace SpotifyV0
         }
 
         void HandleDirector()
-        {
-            
+        {   
             Director[] dr = _directorDB;
             string[] play1 = dr.Select(director => director.Name)
                        .Distinct()
                        .ToArray();
-
             ShowMenuFilm();
             int choose = MenuItems.CreateMenu(play1, ConsoleColor.Red, ConsoleColor.White);
             if (choose == -1)
             {
                 dr = TopItemsProvider.GetTopItems(_directorDB);
-                
-
                 string[] play2 = dr.Select(director => director.Name)
                        .Distinct()
                        .ToArray();
                 ShowMenuFilm();
-
                 choose = MenuItems.CreateMenu(play2, ConsoleColor.Red, ConsoleColor.White);
                 do
                 {
                     ShowMenuFilm();
-
                     choose = MenuItems.CreateMenu(play2, ConsoleColor.Red, ConsoleColor.White);
                 } while (choose == -1);
             }
@@ -691,6 +691,57 @@ namespace SpotifyV0
             _mediaPlayer = new MediaPlayer(_films);
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             ShowPlaying(_film);
+        }
+
+        //PROVA METODO HANDLER GLOBALE
+        private void HandlerObj<T>(T[] categoryArray, Func<T, string> selector, ConsoleColor foregroundColor, ConsoleColor backgroundColor) where T : IPlayable
+        {
+            {
+                T[] items = categoryArray;
+                string[] itemList = categoryArray.Select(selector)
+                                        .Distinct()
+                                        .ToArray();
+
+                ShowMenu();
+                int selectedItemIndex = MenuItems.CreateMenu(itemList, foregroundColor, backgroundColor);
+
+                if (selectedItemIndex == -1)
+                {
+                    items = TopItemsProvider.GetTopItems(categoryArray);
+                    itemList = items.Select(selector)
+                                 .Distinct()
+                                 .ToArray();
+
+                    do
+                    {
+                        ShowMenu();
+                        selectedItemIndex = MenuItems.CreateMenu(itemList, foregroundColor, backgroundColor);
+                    } while (selectedItemIndex == -1);
+                }
+
+                Console.ResetColor();
+                if (_typeMenu == 'V')
+                {
+                    _films = categoryArray.Where(item => selector(item) == itemList[selectedItemIndex]).OfType<Film>().ToArray();
+                    _mediaPlayer = new MediaPlayer(_films);
+                    _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
+                    ShowPlaying(_film);
+                }
+                else if (_typeMenu == 'M') {
+                    _songs = categoryArray.Where(item => selector(item) == itemList[selectedItemIndex]).OfType<Song>().ToArray();
+                    _mediaPlayer = new MediaPlayer(_songs);
+                    _song = _songs[_mediaPlayer.CurrentIndex];
+                    ShowPlaying(_song);
+                        }
+                ShowMenuOnlySong();
+            }
+        }
+
+        void ShowMenu()
+        {
+            if (_typeMenu == 'V') ShowMenuFilm();
+            else if (_typeMenu == 'M') ShowMenuMusic();
+            else Console.WriteLine("Error!");
         }
     }
 }

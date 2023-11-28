@@ -21,7 +21,7 @@ namespace SpotifyV0
                 Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
 
                 userInput = GetValidInput();
-
+                console.TypeMenu = userInput;
                 HandleInputSong(userInput);
             }
         }
