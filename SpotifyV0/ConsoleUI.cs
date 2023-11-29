@@ -146,23 +146,13 @@ namespace SpotifyV0
         {
             char userInput;
             bool validInput = false;
-
             do
             {
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
-                    Thread.Sleep(200);
-                    CreateMenuMusic();
-                    //continue;
+                    ErrorMsgMenu();
                 }
-                Console.Write("Enter your choice: ");
-                userInput = char.ToUpper(Console.ReadKey().KeyChar);
-                n = (int)Char.GetNumericValue(userInput);
-                Console.WriteLine();
-
+                userInput = UserInput();
             } while (validInput = !(_botton.Contains(userInput) || _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
 
             return userInput;
@@ -406,17 +396,9 @@ namespace SpotifyV0
             {
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
-                    Thread.Sleep(200);
-                    CreateMenuFilm();
-                    //continue;
+                    ErrorMsgMenu();
                 }
-                Console.Write("Enter your choice: ");
-                userInput = char.ToUpper(Console.ReadKey().KeyChar);
-                n = (int)Char.GetNumericValue(userInput);
-                Console.WriteLine();
+                userInput = UserInput();
             } while (validInput = !(_bottonFilm.Contains(userInput) || _films != null && _films.Length != 0 && n > 0 && n <= _films.Length));
             return userInput;
         }
@@ -505,6 +487,29 @@ namespace SpotifyV0
             if (_typeMenu == 'V') ShowMenuFilm();
             else if (_typeMenu == 'M') ShowMenuMusic();
             else Console.WriteLine("Error!");
+        }
+        void CreateMenu()
+        {
+            if (_typeMenu == 'V') CreateMenuFilm();
+            else if (_typeMenu == 'M') CreateMenuMusic();
+            else Console.WriteLine("Error!");
+        }
+        void ErrorMsgMenu()
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("Wrong character, try again");
+            Console.ResetColor();
+            Thread.Sleep(200);
+            CreateMenu();
+        }
+        char UserInput()
+        {
+            char userInput;
+            Console.Write("Enter your choice: ");
+            userInput = char.ToUpper(Console.ReadKey().KeyChar);
+            n = (int)Char.GetNumericValue(userInput);
+            Console.WriteLine();
+            return userInput;
         }
     }
 }
