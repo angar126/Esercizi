@@ -31,6 +31,7 @@ namespace SpotifyV0
             Console.WriteLine("-------------------------------");
             Console.WriteLine();
             CultureInfo culture = new CultureInfo(ShowLengMenu());
+            Logger.LogInfo($"Login Data: {DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss", culture)}");
             Console.WriteLine(culture.ToString());
             Thread.Sleep(200);
             Console.Clear();
