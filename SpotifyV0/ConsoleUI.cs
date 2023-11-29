@@ -25,6 +25,7 @@ namespace SpotifyV0
         Song _song;
         Song[] _songs;
         char _typeMenu;
+        bool _timeOver = false;
 
 
         int n;
@@ -43,6 +44,7 @@ namespace SpotifyV0
             _albumDB = AlbumDB;
             _user = User;
             _typeMenu = 'M';
+            _timeOver = User.TimeSpan < TimeSpan.Zero;
         }
 
         public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, Director[] DirectorDB, Film[] FilmDB, UserListener User)
@@ -53,6 +55,7 @@ namespace SpotifyV0
             _artistDB = ArtistDB;
             _albumDB = AlbumDB;
             _user = User;
+            _timeOver = User.TimeSpan < TimeSpan.Zero;
             _directorDB = DirectorDB;
             _filmDB = FilmDB;
         }
@@ -62,7 +65,6 @@ namespace SpotifyV0
             char userInput = new char();
             while (!userInput.Equals('E'))
             {
-                // Mostra il menu
                 if (_song != null)
                 {
                     ShowMenuMusic();
@@ -70,13 +72,8 @@ namespace SpotifyV0
                     ShowMenuOnlySong();
                 }
                 else ShowMenuMusic();
-
-                // Ottieni l'input dell'utente
                 userInput = GetValidInputSong();
-                //Console.Clear();
-                // Gestisci l'input dell'utente
                 HandleInputSong(userInput, _mediaPlayer);
-                //Console.Clear();
             }
         }
         void ShowMenuOnlySong()
@@ -164,6 +161,12 @@ namespace SpotifyV0
             Console.WriteLine($"Playing now : {playable.Title}");
             Console.ResetColor();
             Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
+            if (_timeOver)
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Time is Over!");
+                Console.ResetColor();
+            }
         }
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
@@ -301,10 +304,11 @@ namespace SpotifyV0
             if (play is Song)
             {
                 Song song = play as Song;
-                if (_user.TimeSpan < TimeSpan.FromMilliseconds(0))
+                if (_timeOver||_user.TimeSpan < TimeSpan.Zero)
                 {
                     Random random = new Random();
                     song = _songDB[random.Next(_songDB.Length)];
+                    _timeOver = true;
                 }
                 _user.TimeSpan = TimeSpan.FromMilliseconds(song.TimeMillis);
                 play = (IPlayable)song;
