@@ -17,26 +17,36 @@ namespace SpotifyV0
 {
     public class Control
     {
+        //MENU SELECTOR//////////////////////////////////////
         char _musicChar = 'V';
         char _filmChar = 'M';
+        char _typeMenu;
+
+        //DATA//////////////////////////////////////////////////
         Song[] _songDB;
         Radio[] _radioDB;
         Artist[] _artistDB;
         Album[] _albumDB;
         Playlist[] _playlistDB;
+
+        //SONG SWITCH///////////////////////////////////////////
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
-        char[] _numb = new char[0];
         Song _song;
-        Song[] _songs;
-        char _typeMenu;
-        bool _timeOver = false;
+        Song[] _songs;        
+
+        //MHA forse è meglio passarlo///
         int n;
+
+        //PLAYLIST////////////////////////////////////////////
         Playlist _currentPlaylist;
         List<Song> _songsPlayed = new List<Song>();
         List<Song> _songsAdded = new List<Song>();
+
+        //SYSTEM//////////////////////////////////////////////
         UserListener _user;
         MediaPlayer _mediaPlayer;
         View _view;
+        bool _timeOver = false;
         public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
         public Control(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
         {
@@ -81,6 +91,8 @@ namespace SpotifyV0
                 HandleInputSong(userInput, _mediaPlayer);
             }
         }
+
+        //Bottom Banner Song
         void ShowMenuOnlySong()
         {
             _view.ShowPlaying(_song.Title, _timeOver);
@@ -190,6 +202,8 @@ namespace SpotifyV0
             }
             //Environment.Exit(0);
         }
+
+        //TopFive
         static public class TopItemsProvider
         {
             static public T[] GetTopItems<T>(T[] array) where T : ICountable
@@ -247,6 +261,8 @@ namespace SpotifyV0
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();
         }
+
+        //When Play song/Film
         IPlayable playItem(IPlayable play)
         {
             if (play is Song)
@@ -387,31 +403,6 @@ namespace SpotifyV0
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
-        int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        {
-            string[] play1 = list.Select(selector)
-                       .Distinct()
-                       .ToArray();
-            _view.ShowMenu(_typeMenu);
-            return MenuItems.CreateMenu(play1, backgroundColor, foregroundColor);
-        }
-        int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
-        {
-            int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
-            if (choose == -1)
-            {
-                list = TopItemsProvider.GetTopItems(list);
-                //choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
-                do
-                {
-                    _view.ShowMenu(_typeMenu);
-                    choose = chooseItem(list, selector, backgroundColor, foregroundColor);
-                } while (choose == -1);
-            }
-            Console.ResetColor();
-            return choose;
-        }
-
         void HandleDirector()
         {
             Director[] dr = _directorDB;
@@ -437,6 +428,34 @@ namespace SpotifyV0
             n = (int)char.GetNumericValue(userInput);
             _view.SpaceLine();
             return userInput;
+        }
+
+        //Choose single item
+        int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        {
+            string[] play1 = list.Select(selector)
+                       .Distinct()
+                       .ToArray();
+            _view.ShowMenu(_typeMenu);
+            return MenuItems.CreateMenu(play1, backgroundColor, foregroundColor);
+        }
+
+        //Choose complex obj
+        int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
+        {
+            int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
+            if (choose == -1)
+            {
+                list = TopItemsProvider.GetTopItems(list);
+                //choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
+                do
+                {
+                    _view.ShowMenu(_typeMenu);
+                    choose = chooseItem(list, selector, backgroundColor, foregroundColor);
+                } while (choose == -1);
+            }
+            Console.ResetColor();
+            return choose;
         }
     }
 }
