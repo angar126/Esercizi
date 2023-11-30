@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Interfaces;
 
-namespace SpotifyV0.Model
+namespace SpotiModel
 {
-    class Radio : ICountable
+    public class Radio : ICountable
     {
         string _name;
         Playlist _onAirPlaylist;

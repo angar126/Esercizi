@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Model;
 
 namespace SpotifyV0
 {
     static class MenuMediaSource
     {
-        static ConsoleUI _console;
-        static public void CreateMenu(ConsoleUI console)
+        static Control _console;
+        static public void CreateMenu(Control console)
         {
             _console = console;
             char userInput = new char();
-            while (!userInput.Equals('E'))
+
+            while (!(userInput.Equals('E')|| userInput.Equals('M') || userInput.Equals('V')))
             {
 
                 Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
 
                 userInput = GetValidInput();
-
+                console.TypeMenu = userInput;
                 HandleInputSong(userInput);
             }
         }
@@ -61,7 +61,7 @@ namespace SpotifyV0
                     Console.WriteLine("V pressed.");
 
                     //al momento ripropone il menu
-                    CreateMenu(_console);
+                    _console.CreateMenuFilm();
 
                     break;
                 case 'E':

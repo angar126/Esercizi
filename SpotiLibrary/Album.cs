@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Interfaces;
 
-namespace SpotifyV0.Model
+namespace SpotiModel
 {
-    internal class Album : IPlaylist
+    public class Album : IPlaylist
     {
         string _name;
         Artist _artist;

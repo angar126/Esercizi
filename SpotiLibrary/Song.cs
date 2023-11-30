@@ -1,15 +1,15 @@
-﻿using SpotifyV0.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Model
+namespace SpotiModel
 {
-    class Song : ICountable
+    public class Song : IPlayable
     {
+        int _id;
         string _title;
         Artist _artist;
         Album _album;
@@ -18,7 +18,7 @@ namespace SpotifyV0.Model
         string _genre;
         int _count;
         
-        public string Title { get { return _title; } }
+        public string Title { get { return _title; } set { _title = value; } }
         public string Genre { get { return _genre; } set { _genre = value; } }
         public Artist Artist { get { return _artist; } }
         public Album Album { get { return _album; } }

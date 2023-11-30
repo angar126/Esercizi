@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace SpotifyV0
 {
-    static class MenuItems
+    static class MenuEnum
     {
-        static public int CreateMenu(string[] options, ConsoleColor BackgroundColor, ConsoleColor ForeGround)
+
+        
+        static public int CreateMenu(string[] options)
         {
-            Console.BackgroundColor = BackgroundColor;
-            Console.ForegroundColor = ForeGround;
+
             bool validInput = false;
 
             for (int i = 0; i < options.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {options[i]}");
             }
-           
+
             int userChoice;
             do
             {
@@ -30,13 +31,13 @@ namespace SpotifyV0
                     Console.ResetColor();
                 }
                 Console.ResetColor();
-                Console.Write("Enter your choice - TopFive press 0: ");
-                
-            } while (validInput=!int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
+                Console.Write("Enter your choice: ");
+
+            } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 
             Console.WriteLine();
             Console.ResetColor();
             return userChoice - 1;
         }
-    }   
+    }
 }

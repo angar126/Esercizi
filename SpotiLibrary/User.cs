@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Model
+namespace SpotiModel
 {
-    abstract class User
+    public abstract class User
     {
         int _id;
         string _name;

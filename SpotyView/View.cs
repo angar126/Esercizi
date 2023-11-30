@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SpotifyV0
+namespace SpotiView
 {
     public class View
     {

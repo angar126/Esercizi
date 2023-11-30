@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SpotiModel
 {
-    public interface ICountable
+    public interface IPlayable:ICountable
     {
-        public int Count { get; set; }
+        public string Title { get; set; }
     }
 }
