@@ -263,7 +263,7 @@ namespace SpotifyV0
         }
 
         //When Play song/Film
-        IPlayable playItem(IPlayable play)
+        dynamic playItem(dynamic play)
         {
             if (play is Song)
             {
@@ -412,6 +412,15 @@ namespace SpotifyV0
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
+        //Prova dynamic ma sbaglio qualcosa
+        //void HandleItem<T>(T[] db, ref dynamic itemPlay, ref dynamic list, dynamic listDB, Func<T, string> selector, Func<T, bool> selectorWhere, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
+        //{
+        //    int choose = chooseObj(db, selector, backgroundColor, foregroundColor);
+        //    list = listDB.Where(selectorWhere).ToArray();
+        //    _mediaPlayer = new MediaPlayer(list);
+        //    itemPlay = playItem(list[_mediaPlayer.CurrentIndex]);
+        //    _view.ShowPlaying((itemPlay.Title ?? itemPlay.Name), _timeOver);
+        //}
 
         void CreateMenu()
         {
