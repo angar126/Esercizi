@@ -119,6 +119,14 @@ namespace SpotiView
         {
             Console.WriteLine("Error!");
         }
+        public void ExitMsg()
+        {
+            Console.WriteLine("Exiting the program.");
+        }
+        public void ExceptionDataStreamMsg(string file, string msg)
+        {
+            Console.WriteLine($"Error writing to {file}: {msg}");
+        }
         public void SpaceLine()
         {
             Console.WriteLine();

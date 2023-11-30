@@ -87,63 +87,10 @@ namespace SpotifyV0
 
             if (_currentPlaylist != null)
             {
-                //Console.ForegroundColor = ConsoleColor.Black;
-                //Console.BackgroundColor = ConsoleColor.Gray;
-                //Console.WriteLine($"Add Song to last selected Playlist ({_currentPlaylist.Name}):Q ");
-                //Console.ResetColor();
                 _view.AddSong(_currentPlaylist.Name);
                 _songsPlayed.Add(_song);
             }
         }
-
-        //void ShowList(string[] strings)
-        //{
-        //    for (int i = 0; i < strings.Length; i++)
-        //    {
-        //        Console.WriteLine($"{i + 1}. {strings[i]}");
-        //    }
-        //}
-        //void TopMenu()
-        //{
-        //    Console.Clear();
-        //    Console.Write("            ");
-        //    Console.ForegroundColor = ConsoleColor.Black;
-        //    Console.BackgroundColor = ConsoleColor.White;
-        //    Console.Write("  MENU:M  ");
-        //    Console.ResetColor();
-        //    Console.Write("  ");
-        //    Console.ForegroundColor = ConsoleColor.Black;
-        //    Console.BackgroundColor = ConsoleColor.White;
-        //    Console.Write("  PROFILE:C ");
-        //    Console.ResetColor();
-        //    Console.WriteLine();
-        //}
-        //void Button(string String, ConsoleColor BackgroundColor, ConsoleColor ForegroundColor)
-        //{
-        //    Console.ForegroundColor = ForegroundColor;
-        //    Console.BackgroundColor = BackgroundColor;
-        //    Console.Write(String);
-        //    Console.ResetColor();
-        //}
-        //void MiddleMenuSong()
-        //{
-        //    _view.Button("Artist:A", ConsoleColor.Magenta, ConsoleColor.White);
-        //    Console.Write(" ");
-        //    _view.Button("Albums:D", ConsoleColor.Red, ConsoleColor.White);
-        //    Console.Write(" ");
-        //    _view.Button("Playlists:L", ConsoleColor.Green, ConsoleColor.Black);
-        //    Console.Write(" ");
-        //    _view.Button("Radio:R", ConsoleColor.Yellow, ConsoleColor.Black);
-        //    Console.Write(" ");
-        //    _view.Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
-        //    Console.WriteLine();
-        //    Console.WriteLine("--------------------------------------------");
-        //}
-        //void ShowMenuMusic()
-        //{
-        //    _view.TopMenu();
-        //    _view.MiddleMenuSong();
-        //}
 
         char GetValidInputSong()
         {
@@ -161,20 +108,6 @@ namespace SpotifyV0
 
             return userInput;
         }
-        //void ShowPlaying(IPlayable playable)
-        //{
-        //    Console.WriteLine("--------------------------------------------");
-        //    Console.BackgroundColor = ConsoleColor.Blue;
-        //    Console.WriteLine($"Playing now : {playable.Title}");
-        //    Console.ResetColor();
-        //    Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
-        //    if (_timeOver)
-        //    {
-        //        Console.BackgroundColor = ConsoleColor.Red;
-        //        Console.WriteLine($"Time is Over!");
-        //        Console.ResetColor();
-        //    }
-        //}
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
 
@@ -235,18 +168,26 @@ namespace SpotifyV0
         }
         private void Exit()
         {
-            Console.WriteLine("Exiting the program.");
+            _view.ExitMsg();
             try
             {
 
                 DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
             }
-            catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                _view.ExceptionDataStreamMsg("songsplayd.csv", ex.Message);
+                //Console.WriteLine($"Error writing to songsplayd.csv: {ex.Message}");
+            }
             try
             {
                 DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
             }
-            catch (Exception ex) { Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); }
+            catch (Exception ex)
+            {
+                _view.ExceptionDataStreamMsg("songsadded.csv", ex.Message);
+                //Console.WriteLine($"Error writing to songsadded.csv: {ex.Message}"); 
+            }
             //Environment.Exit(0);
         }
         static public class TopItemsProvider
@@ -368,21 +309,7 @@ namespace SpotifyV0
         Director[] _directorDB;
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
-        //void MiddleMenuFilm()
-        //{
-        //    Button("Films:A", ConsoleColor.Magenta, ConsoleColor.White);
-        //    Console.Write(" ");
-        //    Button("Director:D", ConsoleColor.Red, ConsoleColor.White);
-        //    Console.Write(" ");
-        //    Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
-        //    Console.WriteLine();
-        //    Console.WriteLine("--------------------------------------------");
-        //}
-        //void ShowMenuFilm()
-        //{
-        //    _view.TopMenu();
-        //    _view.MiddleMenuFilm();
-        //}
+
         public void CreateMenuFilm()
         {
             char userInput = new char();
@@ -494,26 +421,14 @@ namespace SpotifyV0
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
-        //void ShowMenu()
-        //{
-        //    if (_typeMenu == 'V') ShowMenuFilm();
-        //    else if (_typeMenu == 'M') _view.ShowMenuMusic();
-        //    else Console.WriteLine("Error!");
-        //}
+
         void CreateMenu()
         {
             if (_typeMenu == _filmChar) CreateMenuFilm();
             else if (_typeMenu == _musicChar) CreateMenuMusic();
             else _view.ErrorMsg();
         }
-        //void ErrorMsgMenu()
-        //{
-        //    Console.BackgroundColor = ConsoleColor.Red;
-        //    Console.WriteLine("Wrong character, try again");
-        //    Console.ResetColor();
-        //    Thread.Sleep(200);
-        //    CreateMenu();
-        //}
+
         char UserInput()
         {
             char userInput;
