@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
-using SpotifyV0.Model;
 using System.Xml;
+using SpotifyV0;
 
 namespace SpotifyV0
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
@@ -63,7 +63,7 @@ namespace SpotifyV0
 
             UserListener user = new UserListener("User",timespan);
             
-            ConsoleUI c = new ConsoleUI(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB,user);
+            Control c = new Control(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB,user);
             
             try
             {

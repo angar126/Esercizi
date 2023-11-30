@@ -18,7 +18,7 @@ namespace SpotifyV0
             {
                 Console.WriteLine($"{i + 1}. {options[i]}");
             }
-           
+
             int userChoice;
             do
             {
@@ -31,8 +31,8 @@ namespace SpotifyV0
                 }
                 Console.ResetColor();
                 Console.Write("Enter your choice - TopFive press 0: ");
-                
-            } while (validInput=!int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
+
+            } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 
             Console.WriteLine();
             Console.ResetColor();
@@ -40,7 +40,7 @@ namespace SpotifyV0
         }
         static public int CreateMenu(string[] options)
         {
-            
+
             bool validInput = false;
 
             for (int i = 0; i < options.Length; i++)
@@ -67,5 +67,5 @@ namespace SpotifyV0
             Console.ResetColor();
             return userChoice - 1;
         }
-    }   
+    }
 }

@@ -1,13 +1,12 @@
-﻿using SpotifyV0.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Model
+namespace SpotifyV0
 {
-    class Film:IPlayable
+    public class Film:IPlayable
     {
         int _id;
         string _title;

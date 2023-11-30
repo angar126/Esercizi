@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Model;
 
-namespace SpotifyV0.Interfaces
+namespace SpotifyV0
 {
-    internal interface IPlaylist : ICountable
+    public interface IPlaylist : ICountable
     {
         string Name { get; set; }
         Song[] Songs { get; set; }

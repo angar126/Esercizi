@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Interfaces;
 
-namespace SpotifyV0.Model
+namespace SpotifyV0
 {
-    internal class Director : ICountable
+    public class Director : ICountable
     {
         string _name;
         int _count;

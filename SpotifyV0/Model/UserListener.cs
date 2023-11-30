@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SpotifyV0.Model
+namespace SpotifyV0
 {
-    class UserListener : User
+    public class UserListener : User
     {
         Playlist _favouriteSongs;
         bool _isGold;

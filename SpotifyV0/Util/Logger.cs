@@ -8,7 +8,7 @@ using System.IO;
 
 namespace SpotifyV0
 {
-    static class Logger
+    static public class Logger
     {
         private static readonly TextWriterTraceListener logFileListener;
 

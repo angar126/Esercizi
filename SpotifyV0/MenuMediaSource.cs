@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Model;
 
 namespace SpotifyV0
 {
     static class MenuMediaSource
     {
-        static ConsoleUI _console;
-        static public void CreateMenu(ConsoleUI console)
+        static Control _console;
+        static public void CreateMenu(Control console)
         {
             _console = console;
             char userInput = new char();

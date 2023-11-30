@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using SpotifyV0.Interfaces;
-using SpotifyV0.Model;
-using static SpotifyV0.ConsoleUI;
+
+
 
 namespace SpotifyV0
 {
-    class ConsoleUI
+    public class Control
     {
+        char _musicChar = 'V';
+        char _filmChar = 'M';
         Song[] _songDB;
         Radio[] _radioDB;
         Artist[] _artistDB;
@@ -26,16 +27,15 @@ namespace SpotifyV0
         Song[] _songs;
         char _typeMenu;
         bool _timeOver = false;
-
-
         int n;
         Playlist _currentPlaylist;
         List<Song> _songsPlayed = new List<Song>();
         List<Song> _songsAdded = new List<Song>();
         UserListener _user;
         MediaPlayer _mediaPlayer;
+        View _view;
         public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
-        public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
+        public Control(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
@@ -45,9 +45,10 @@ namespace SpotifyV0
             _user = User;
             _typeMenu = 'M';
             _timeOver = User.TimeSpan < TimeSpan.Zero;
+            _view = new View();
         }
 
-        public ConsoleUI(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, Director[] DirectorDB, Film[] FilmDB, UserListener User)
+        public Control(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, Director[] DirectorDB, Film[] FilmDB, UserListener User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
@@ -58,6 +59,7 @@ namespace SpotifyV0
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _directorDB = DirectorDB;
             _filmDB = FilmDB;
+            _view = new View();
         }
 
         public void CreateMenuMusic()
@@ -67,77 +69,78 @@ namespace SpotifyV0
             {
                 if (_song != null)
                 {
-                    ShowMenuMusic();
-                    ShowList(_songs.Select(song => song.Title).ToArray());
+                    _view.ShowMenu(_typeMenu);
+                    _view.ShowList(_songs.Select(song => song.Title).ToArray());
                     ShowMenuOnlySong();
                 }
-                else ShowMenuMusic();
+                else _view.ShowMenu(_typeMenu);
                 userInput = GetValidInputSong();
                 HandleInputSong(userInput, _mediaPlayer);
             }
         }
         void ShowMenuOnlySong()
         {
-            ShowPlaying(_song);
+            _view.ShowPlaying(_song.Title, _timeOver);
 
             if (_currentPlaylist != null)
             {
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.BackgroundColor = ConsoleColor.Gray;
-                Console.WriteLine($"Add Song to last selected Playlist ({_currentPlaylist.Name}):Q ");
-                Console.ResetColor();
+                //Console.ForegroundColor = ConsoleColor.Black;
+                //Console.BackgroundColor = ConsoleColor.Gray;
+                //Console.WriteLine($"Add Song to last selected Playlist ({_currentPlaylist.Name}):Q ");
+                //Console.ResetColor();
+                _view.AddSong(_currentPlaylist.Name);
                 _songsPlayed.Add(_song);
             }
         }
 
-        void ShowList(string[] strings)
-        {
-            for (int i = 0; i < strings.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {strings[i]}");
-            }
-        }
-        void TopMenu()
-        {
-            Console.Clear();
-            Console.Write("            ");
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.Write("  MENU:M  ");
-            Console.ResetColor();
-            Console.Write("  ");
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.Write("  PROFILE:C ");
-            Console.ResetColor();
-            Console.WriteLine();
-        }
-        void Button(string String, ConsoleColor BackgroundColor, ConsoleColor ForegroundColor)
-        {
-            Console.ForegroundColor = ForegroundColor;
-            Console.BackgroundColor = BackgroundColor;
-            Console.Write(String);
-            Console.ResetColor();
-        }
-        void MiddleMenuSong()
-        {
-            Button("Artist:A", ConsoleColor.Magenta, ConsoleColor.White);
-            Console.Write(" ");
-            Button("Albums:D", ConsoleColor.Red, ConsoleColor.White);
-            Console.Write(" ");
-            Button("Playlists:L", ConsoleColor.Green, ConsoleColor.Black);
-            Console.Write(" ");
-            Button("Radio:R", ConsoleColor.Yellow, ConsoleColor.Black);
-            Console.Write(" ");
-            Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
-            Console.WriteLine();
-            Console.WriteLine("--------------------------------------------");
-        }
-        void ShowMenuMusic()
-        {
-            TopMenu();
-            MiddleMenuSong();
-        }
+        //void ShowList(string[] strings)
+        //{
+        //    for (int i = 0; i < strings.Length; i++)
+        //    {
+        //        Console.WriteLine($"{i + 1}. {strings[i]}");
+        //    }
+        //}
+        //void TopMenu()
+        //{
+        //    Console.Clear();
+        //    Console.Write("            ");
+        //    Console.ForegroundColor = ConsoleColor.Black;
+        //    Console.BackgroundColor = ConsoleColor.White;
+        //    Console.Write("  MENU:M  ");
+        //    Console.ResetColor();
+        //    Console.Write("  ");
+        //    Console.ForegroundColor = ConsoleColor.Black;
+        //    Console.BackgroundColor = ConsoleColor.White;
+        //    Console.Write("  PROFILE:C ");
+        //    Console.ResetColor();
+        //    Console.WriteLine();
+        //}
+        //void Button(string String, ConsoleColor BackgroundColor, ConsoleColor ForegroundColor)
+        //{
+        //    Console.ForegroundColor = ForegroundColor;
+        //    Console.BackgroundColor = BackgroundColor;
+        //    Console.Write(String);
+        //    Console.ResetColor();
+        //}
+        //void MiddleMenuSong()
+        //{
+        //    _view.Button("Artist:A", ConsoleColor.Magenta, ConsoleColor.White);
+        //    Console.Write(" ");
+        //    _view.Button("Albums:D", ConsoleColor.Red, ConsoleColor.White);
+        //    Console.Write(" ");
+        //    _view.Button("Playlists:L", ConsoleColor.Green, ConsoleColor.Black);
+        //    Console.Write(" ");
+        //    _view.Button("Radio:R", ConsoleColor.Yellow, ConsoleColor.Black);
+        //    Console.Write(" ");
+        //    _view.Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
+        //    Console.WriteLine();
+        //    Console.WriteLine("--------------------------------------------");
+        //}
+        //void ShowMenuMusic()
+        //{
+        //    _view.TopMenu();
+        //    _view.MiddleMenuSong();
+        //}
 
         char GetValidInputSong()
         {
@@ -147,27 +150,28 @@ namespace SpotifyV0
             {
                 if (validInput)
                 {
-                    ErrorMsgMenu();
+                    _view.ErrorMsgMenu();
+                    CreateMenu();
                 }
                 userInput = UserInput();
             } while (validInput = !(_botton.Contains(userInput) || _songs != null && _songs.Length != 0 && n > 0 && n <= _songs.Length));
 
             return userInput;
         }
-        void ShowPlaying(IPlayable playable)
-        {
-            Console.WriteLine("--------------------------------------------");
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"Playing now : {playable.Title}");
-            Console.ResetColor();
-            Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
-            if (_timeOver)
-            {
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Time is Over!");
-                Console.ResetColor();
-            }
-        }
+        //void ShowPlaying(IPlayable playable)
+        //{
+        //    Console.WriteLine("--------------------------------------------");
+        //    Console.BackgroundColor = ConsoleColor.Blue;
+        //    Console.WriteLine($"Playing now : {playable.Title}");
+        //    Console.ResetColor();
+        //    Console.WriteLine("Next:F     Previous:B     Pause:P     Stop:S");
+        //    if (_timeOver)
+        //    {
+        //        Console.BackgroundColor = ConsoleColor.Red;
+        //        Console.WriteLine($"Time is Over!");
+        //        Console.ResetColor();
+        //    }
+        //}
         void HandleInputSong(char userInput, MediaPlayer Mediaplayer)
         {
 
@@ -265,7 +269,7 @@ namespace SpotifyV0
         void HandleArtist()
         {
             Artist[] ar = _artistDB;
-            int choose = chooseObj<Artist>(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
+            int choose = chooseObj(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
             _songs = _songDB.Where(song => song.Artist.Name == ar[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
@@ -274,7 +278,7 @@ namespace SpotifyV0
         void HandleAlbum()
         {
             Album[] al = _albumDB;
-            int choose = chooseObj<Album>(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
+            int choose = chooseObj(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
             _songs = _songDB.Where(song => song.Album.Name == al[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
@@ -283,7 +287,7 @@ namespace SpotifyV0
         void HandlePlaylist()
         {
             Playlist[] pl = _playlistDB;
-            int choose = chooseObj<Playlist>(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
+            int choose = chooseObj(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
             _songs = pl[choose].Songs;
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
@@ -293,7 +297,7 @@ namespace SpotifyV0
         void HandleRadio()
         {
             Radio[] rd = _radioDB;
-            int choose = chooseObj<Radio>(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
+            int choose = chooseObj(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
             _songs = rd[choose].OnAirPlaylist.Songs;
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
@@ -304,14 +308,14 @@ namespace SpotifyV0
             if (play is Song)
             {
                 Song song = play as Song;
-                if (_timeOver||_user.TimeSpan < TimeSpan.Zero)
+                if (_timeOver || _user.TimeSpan < TimeSpan.Zero)
                 {
                     Random random = new Random();
                     song = _songDB[random.Next(_songDB.Length)];
                     _timeOver = true;
                 }
                 _user.TimeSpan = TimeSpan.FromMilliseconds(song.TimeMillis);
-                play = (IPlayable)song;
+                play = song;
             }
             //Logger.LogInfo($"User time span: {XmlConvert.ToString(_user.TimeSpan)}");
             return play;
@@ -361,21 +365,21 @@ namespace SpotifyV0
         Director[] _directorDB;
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
-        void MiddleMenuFilm()
-        {
-            Button("Films:A", ConsoleColor.Magenta, ConsoleColor.White);
-            Console.Write(" ");
-            Button("Director:D", ConsoleColor.Red, ConsoleColor.White);
-            Console.Write(" ");
-            Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
-            Console.WriteLine();
-            Console.WriteLine("--------------------------------------------");
-        }
-        void ShowMenuFilm()
-        {
-            TopMenu();
-            MiddleMenuFilm();
-        }
+        //void MiddleMenuFilm()
+        //{
+        //    Button("Films:A", ConsoleColor.Magenta, ConsoleColor.White);
+        //    Console.Write(" ");
+        //    Button("Director:D", ConsoleColor.Red, ConsoleColor.White);
+        //    Console.Write(" ");
+        //    Button("Exit:E", ConsoleColor.White, ConsoleColor.Black);
+        //    Console.WriteLine();
+        //    Console.WriteLine("--------------------------------------------");
+        //}
+        //void ShowMenuFilm()
+        //{
+        //    _view.TopMenu();
+        //    _view.MiddleMenuFilm();
+        //}
         public void CreateMenuFilm()
         {
             char userInput = new char();
@@ -383,11 +387,11 @@ namespace SpotifyV0
             {
                 if (_film != null)
                 {
-                    ShowMenuFilm();
-                    ShowList(_films.Select(film => film.Title).ToArray());
-                    ShowPlaying(_film);
+                    _view.ShowMenu(_typeMenu);
+                    _view.ShowList(_films.Select(film => film.Title).ToArray());
+                    _view.ShowPlaying(_film.Title, _timeOver);
                 }
-                else ShowMenuFilm();
+                else _view.ShowMenu(_typeMenu); ;
                 userInput = GetValidInputFilm();
                 HandleInputVideo(userInput, _mediaPlayer);
             }
@@ -400,7 +404,8 @@ namespace SpotifyV0
             {
                 if (validInput)
                 {
-                    ErrorMsgMenu();
+                    _view.ErrorMsgMenu();
+                    CreateMenu();
                 }
                 userInput = UserInput();
             } while (validInput = !(_bottonFilm.Contains(userInput) || _films != null && _films.Length != 0 && n > 0 && n <= _films.Length));
@@ -446,73 +451,73 @@ namespace SpotifyV0
         void HandleFilms()
         {
             Film[] fl = _filmDB;
-            int choose = chooseObj<Film>(fl, film => film.Title, ConsoleColor.Magenta, ConsoleColor.White);
+            int choose = chooseObj(fl, film => film.Title, ConsoleColor.Magenta, ConsoleColor.White);
             _films = fl;
             _mediaPlayer = new MediaPlayer(_films);
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
-            ShowPlaying(_film);
+            _view.ShowPlaying(_film.Title, _timeOver);
         }
         int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
         {
             string[] play1 = list.Select(selector)
                        .Distinct()
                        .ToArray();
-            ShowMenu();
+            _view.ShowMenu(_typeMenu);
             return MenuItems.CreateMenu(play1, backgroundColor, foregroundColor);
         }
         int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
         {
-            int choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
+            int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
             if (choose == -1)
             {
                 list = TopItemsProvider.GetTopItems(list);
                 //choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
                 do
                 {
-                    ShowMenuFilm();
-                    choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
+                    _view.ShowMenu(_typeMenu);
+                    choose = chooseItem(list, selector, backgroundColor, foregroundColor);
                 } while (choose == -1);
             }
             Console.ResetColor();
             return choose;
-            }
+        }
 
         void HandleDirector()
         {
             Director[] dr = _directorDB;
-            int choose = chooseObj<Director>(dr, director => director.Name, ConsoleColor.Red, ConsoleColor.White);
+            int choose = chooseObj(dr, director => director.Name, ConsoleColor.Red, ConsoleColor.White);
             _films = _filmDB.Where(film => film.Director.Equals(dr[choose])).ToArray();
             _mediaPlayer = new MediaPlayer(_films);
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
-            ShowPlaying(_film);
+            _view.ShowPlaying(_film.Title, _timeOver);
         }
-        void ShowMenu()
-        {
-            if (_typeMenu == 'V') ShowMenuFilm();
-            else if (_typeMenu == 'M') ShowMenuMusic();
-            else Console.WriteLine("Error!");
-        }
+        //void ShowMenu()
+        //{
+        //    if (_typeMenu == 'V') ShowMenuFilm();
+        //    else if (_typeMenu == 'M') _view.ShowMenuMusic();
+        //    else Console.WriteLine("Error!");
+        //}
         void CreateMenu()
         {
-            if (_typeMenu == 'V') CreateMenuFilm();
-            else if (_typeMenu == 'M') CreateMenuMusic();
-            else Console.WriteLine("Error!");
+            if (_typeMenu == _filmChar) CreateMenuFilm();
+            else if (_typeMenu == _musicChar) CreateMenuMusic();
+            else _view.ErrorMsg();
         }
-        void ErrorMsgMenu()
-        {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine("Wrong character, try again");
-            Console.ResetColor();
-            Thread.Sleep(200);
-            CreateMenu();
-        }
+        //void ErrorMsgMenu()
+        //{
+        //    Console.BackgroundColor = ConsoleColor.Red;
+        //    Console.WriteLine("Wrong character, try again");
+        //    Console.ResetColor();
+        //    Thread.Sleep(200);
+        //    CreateMenu();
+        //}
         char UserInput()
         {
             char userInput;
-            Console.Write("Enter your choice: ");
+            _view.EnterChoiceMsg();
             userInput = char.ToUpper(Console.ReadKey().KeyChar);
-            n = (int)Char.GetNumericValue(userInput);
-            Console.WriteLine();
+            n = (int)char.GetNumericValue(userInput);
+            _view.SpaceLine();
             return userInput;
         }
     }

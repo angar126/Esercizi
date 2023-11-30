@@ -1,14 +1,13 @@
-﻿using SpotifyV0.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Model
+namespace SpotifyV0
 {
-    class Song : IPlayable
+    public class Song : IPlayable
     {
         int _id;
         string _title;

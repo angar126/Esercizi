@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpotifyV0.Interfaces;
 
-namespace SpotifyV0.Model
+namespace SpotifyV0
 {
-    class MediaPlayer
+    public class MediaPlayer
     {
         //UserListener user;
         int _currentIndex;

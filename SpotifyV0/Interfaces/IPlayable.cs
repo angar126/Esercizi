@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Interfaces
+namespace SpotifyV0
 {
-    internal interface IPlayable:ICountable
+    public interface IPlayable:ICountable
     {
         public string Title { get; set; }
     }

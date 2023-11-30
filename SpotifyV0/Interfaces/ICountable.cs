@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyV0.Interfaces
+namespace SpotifyV0
 {
     public interface ICountable
     {

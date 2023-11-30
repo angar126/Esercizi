@@ -10,7 +10,7 @@ namespace SpotifyV0
 {
     internal class MenuLogin
     {
-        static ConsoleUI _console;
+        static Control _console;
         static Dictionary<string, string> _lenguages = new Dictionary<string, string>()
             {
             { "Chinese (Simplified)", "zh-CN" },
@@ -24,7 +24,7 @@ namespace SpotifyV0
             { "Spanish", "es-ES" },
 
         };
-        static public void CreateMenu(ConsoleUI console)
+        static public void CreateMenu(Control console)
         {
             Console.WriteLine("-------------------------------");
             Console.WriteLine("         MENU DI LOGIN");
