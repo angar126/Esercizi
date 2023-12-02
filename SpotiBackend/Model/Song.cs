@@ -35,7 +35,11 @@ namespace SpotiBackend
             Rating = rating;
             
         }
-        public Song(string title) { Title = title; }
-        public Song() { }
+        public Song(string title) { Title = title;
+            TimeMillis = 100000;
+        }
+        public Song() {
+            TimeMillis = 100000;
+        }
     }
 }

@@ -75,7 +75,7 @@ namespace SpotiBackend
                     };
                     album.AddSong(song);
                     
-
+                    Songs.Add(song);
                 }
                 else
                 {//todo
@@ -87,7 +87,7 @@ namespace SpotiBackend
                     {
                         playlist = new Playlist(musicDto.Playlist);
                         playlist.PlaylistId = musicDto.PlaylistId;
-                        Albums.Add(album);
+                        Playlists.Add(playlist);
                         playlist.Rating = 1;
                         
                     }

@@ -69,7 +69,7 @@ namespace SpotiControl
 
             MusicService m = MusicService.GetInstance();
 
-            songDB=m.GetAllSongs().ToArray();
+            songDB = m.GetAllSongs().ToArray();
             playlistDB=m.GetAllPlaylists().ToArray();
             artistDB=m.GetAllArtists().ToArray();
             albumDB=m.GetAllAlbums().ToArray();
