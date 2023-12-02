@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace SpotiBackend
 {
-    public class Film:IPlayable
+    public class Film : IPlayable
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public double TimeMillis { get; set; }
         public string Genre { get; set; }
         public int Rating { get; set; }
         public string Title { get; set; }
         public Director Director { get; set; }
+        public Film(string title, Director director)
+        {
+            Title = title;
+            Director = director;
+            Rating = 0;
+        }
     }
 }

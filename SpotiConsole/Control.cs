@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using SpotiControl.DTO;
+using SpotiBackend;
 using SpotiUtil;
 using SpotiView;
 
@@ -23,32 +23,32 @@ namespace SpotiControl
         char _typeMenu;
 
         //DATA//////////////////////////////////////////////////
-        SongDTO[] _songDB;
-        RadioDTO[] _radioDB;
-        ArtistDTO[] _artistDB;
-        AlbumDTO[] _albumDB;
-        PlaylistDTO[] _playlistDB;
+        Song[] _songDB;
+        Radio[] _radioDB;
+        Artist[] _artistDB;
+        Album[] _albumDB;
+        Playlist[] _playlistDB;
 
         //SONG SWITCH///////////////////////////////////////////
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
-        SongDTO _song;
-        SongDTO[] _songs;        
+        Song _song;
+        Song[] _songs;        
 
         //MHA forse è meglio passarlo///
         int n;
 
         //PLAYLIST////////////////////////////////////////////
-        PlaylistDTO _currentPlaylist;
-        List<SongDTO> _songsPlayed = new List<SongDTO>();
-        List<SongDTO> _songsAdded = new List<SongDTO>();
+        Playlist _currentPlaylist;
+        List<Song> _songsPlayed = new List<Song>();
+        List<Song> _songsAdded = new List<Song>();
 
         //SYSTEM//////////////////////////////////////////////
-        UserListenerDTO _user;
+        UserListener _user;
         MediaPlayer _mediaPlayer;
         View _view;
         bool _timeOver = false;
         public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
-        public Control(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, UserListenerDTO User)
+        public Control(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
@@ -61,7 +61,7 @@ namespace SpotiControl
             _view = new View();
         }
 
-        public Control(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, DirectorDTO[] DirectorDB, FilmDTO[] FilmDB, UserListenerDTO User)
+        public Control(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, Director[] DirectorDB, Film[] FilmDB, UserListener User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
@@ -184,7 +184,7 @@ namespace SpotiControl
             try
             {
 
-                DataStreamL<SongDTO>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
+                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
             }
             catch (Exception ex)
             {
@@ -193,7 +193,7 @@ namespace SpotiControl
             }
             try
             {
-                DataStreamL<SongDTO>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
+                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
             }
             catch (Exception ex)
             {
@@ -214,7 +214,7 @@ namespace SpotiControl
 
         void HandleSelectSong()
         {
-            _song = (SongDTO)playItem(_songs[n - 1]);
+            _song = (Song)playItem(_songs[n - 1]);
         }
         void HandleAddSongToPlaylist()
         {
@@ -226,35 +226,35 @@ namespace SpotiControl
         }
         void HandleArtist()
         {
-            ArtistDTO[] ar = _artistDB;
+            Artist[] ar = _artistDB;
             int choose = chooseObj(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
             _songs = _songDB.Where(song => song.Artist.Name == ar[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandleAlbum()
         {
-            AlbumDTO[] al = _albumDB;
+            Album[] al = _albumDB;
             int choose = chooseObj(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
             _songs = _songDB.Where(song => song.Album.Name == al[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandlePlaylist()
         {
-            PlaylistDTO[] pl = _playlistDB;
+            Playlist[] pl = _playlistDB;
             int choose = chooseObj(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
             _songs = pl[choose].Songs;
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
             _currentPlaylist = pl[choose];
             ShowMenuOnlySong();
         }
         void HandleRadio()
         {
-            RadioDTO[] rd = _radioDB;
+            Radio[] rd = _radioDB;
             int choose = chooseObj(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
             _songs = rd[choose].OnAirPlaylist.Songs;
             _mediaPlayer = new MediaPlayer(_songs);
@@ -265,9 +265,9 @@ namespace SpotiControl
         //When Play song/Film
         dynamic playItem(dynamic play)
         {
-            if (play is SongDTO)
+            if (play is Song)
             {
-                SongDTO song = play as SongDTO;
+                Song song = play as Song;
                 if (_timeOver || _user.TimeSpan < TimeSpan.Zero)
                 {
                     Random random = new Random();
@@ -284,16 +284,16 @@ namespace SpotiControl
         {
             if (Mediaplayer != null)
                 if (_songs != null)
-                    _song = (SongDTO)playItem(Mediaplayer.Next());
-                else _film = (FilmDTO)playItem(Mediaplayer.Next());
+                    _song = (Song)playItem(Mediaplayer.Next());
+                else _film = (Film)playItem(Mediaplayer.Next());
         }
 
         private void HandlePrevious(MediaPlayer Mediaplayer)
         {
             if (Mediaplayer != null)
                 if (_songs != null)
-                    _song = (SongDTO)playItem(Mediaplayer.Previous());
-                else _film = (FilmDTO)playItem(Mediaplayer.Previous());
+                    _song = (Song)playItem(Mediaplayer.Previous());
+                else _film = (Film)playItem(Mediaplayer.Previous());
         }
 
         private void HandlePause(MediaPlayer Mediaplayer)
@@ -319,10 +319,10 @@ namespace SpotiControl
 
         //////////////////////////////////////////////FILM///////////////////////////////////////////
 
-        FilmDTO[] _films;
-        FilmDTO _film;
-        FilmDTO[] _filmDB;
-        DirectorDTO[] _directorDB;
+        Film[] _films;
+        Film _film;
+        Film[] _filmDB;
+        Director[] _directorDB;
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
 
@@ -396,20 +396,20 @@ namespace SpotiControl
         }
         void HandleFilms()
         {
-            FilmDTO[] fl = _filmDB;
+            Film[] fl = _filmDB;
             int choose = chooseObj(fl, film => film.Title, ConsoleColor.Magenta, ConsoleColor.White);
             _films = fl;
             _mediaPlayer = new MediaPlayer(_films);
-            _film = (FilmDTO)playItem(_films[_mediaPlayer.CurrentIndex]);
+            _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
         void HandleDirector()
         {
-            DirectorDTO[] dr = _directorDB;
+            Director[] dr = _directorDB;
             int choose = chooseObj(dr, director => director.Name, ConsoleColor.Red, ConsoleColor.White);
             _films = _filmDB.Where(film => film.Director.Equals(dr[choose])).ToArray();
             _mediaPlayer = new MediaPlayer(_films);
-            _film = (FilmDTO)playItem(_films[_mediaPlayer.CurrentIndex]);
+            _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
         //Prova dynamic ma sbaglio qualcosa

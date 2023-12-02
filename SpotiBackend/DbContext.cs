@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace SpotiControl
+namespace SpotiBackend
 {
     public abstract class DbContext
     {
-        string _path; // Solitamente la configurazione per accedere al DstaSrc
+        string _path; // Solitamente la configurazione per accedere al DataSrc
         protected DbContext(string path)
         {
             _path = path;

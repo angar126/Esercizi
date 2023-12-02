@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SpotiBackend\SpotiBackend.csproj" />
     <ProjectReference Include="..\SpotiUtil\SpotiUtil.csproj" />
     <ProjectReference Include="..\SpotyView\SpotyView.csproj" />
   </ItemGroup>

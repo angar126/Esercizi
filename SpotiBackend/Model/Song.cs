@@ -16,7 +16,26 @@ namespace SpotiBackend
         public Album Album { get; set; }
         public string ReleaseDate { get; set; }
         public int Rating { get; set; }
-        //public double TimeMillis { get; set; }
-        public int? PlaylistId { get; set; }
+        public int PlaylistId { get; set; }
+        public double TimeMillis { get ; set; }
+
+        public Song(string title, Artist artist, Album album, double timeMillis)
+        {
+            Title = title;
+            Artist = artist;
+            Album = album;
+            TimeMillis = timeMillis;
+        }
+        public Song(string title, Artist artist, Album album, double timeMillis, int rating)
+        {
+            Title = title;
+            Artist = artist;
+            Album = album;
+            TimeMillis = timeMillis;
+            Rating = rating;
+            
+        }
+        public Song(string title) { Title = title; }
+        public Song() { }
     }
 }

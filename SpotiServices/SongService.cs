@@ -1,6 +1,7 @@
 ﻿using SpotiControl.DTO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace SpotiControl
@@ -11,7 +12,7 @@ namespace SpotiControl
         static SongService instance;
         SongService()
         {
-            DbContext = new SpotifyDbContext(@"D:\logs\");
+            DbContext = new SpotifyDbContext($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs.csv");
         }
 
         public static SongService GetInstance()
