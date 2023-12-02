@@ -11,7 +11,7 @@ namespace SpotiBackend
     {
         public string Name { get; set; }
         public int Rating { get; set; }
-        public Song[] Songs { get; set; }
+        public Song[] Songs { get; set; } = Array.Empty<Song>();
         public Artist Artist { get; set; }
         public string Genre { get; set; }
         public Album() { }

@@ -17,7 +17,10 @@ namespace SpotiBackend
 
         List<MusicDto> musicDtos;
         public MusicDbContext(string path) : base(path) {
-
+            Songs = new List<Song>();
+            Artists = new List<Artist>();
+            Albums = new List<Album>();
+            Playlists = new List<Playlist>();
             musicDtos = ReadFromCsv<MusicDto>(path);// + typeof(Song).Name.ToString() + ".csv");
             MergerData();
         }
