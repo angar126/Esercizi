@@ -24,7 +24,7 @@ namespace SpotiBackend
             musicDtos = ReadFromCsv<MusicDto>(path);// + typeof(Song).Name.ToString() + ".csv");
             MergerData();
         }
-
+        //TODO controllo campi
         public void MergerData()
         {
             
@@ -82,7 +82,7 @@ namespace SpotiBackend
                 }
                 if (Plbool)
                 {
-                    Playlist? playlist = Playlists.FirstOrDefault(a => a.PlaylistId == musicDto.PlaylistId);
+                    Playlist playlist = Playlists.FirstOrDefault(a => a.PlaylistId == musicDto.PlaylistId);
                     if (playlist == null)
                     {
                         playlist = new Playlist(musicDto.Playlist);

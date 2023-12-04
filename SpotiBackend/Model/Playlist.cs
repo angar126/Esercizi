@@ -13,9 +13,9 @@ namespace SpotiBackend
         public Song[] Songs { get; set; } = Array.Empty<Song>();
         public int PlaylistId { get; set; }
         public Playlist() { }
-        public Playlist(string Name)
+        public Playlist(string name)
         {
-            Name = Name;
+            Name = name;
             Rating = 0;
         }
         public Playlist(string Name, Song[] Songs)
