@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SpotiControl
 {
-    static class MenuItems
+    //andrebbe nella view
+    static public class MenuItems
     {
         static public int CreateMenu(string[] options, ConsoleColor BackgroundColor, ConsoleColor ForeGround)
         {

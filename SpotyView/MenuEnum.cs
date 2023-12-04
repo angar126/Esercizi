@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SpotiControl
 {
-    static class MenuEnum
+    static public class MenuEnum
     {
 
-        
+        //andrebbe nella view
         static public int CreateMenu(string[] options)
         {
 

@@ -104,14 +104,14 @@ namespace SpotiView
             else if (TypeMenu == _musicChar) ShowMenuMusic();
             else Console.WriteLine("Error!");
         }
-        public void ErrorMsgMenu()
+        static public void ErrorMsgMenu()
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine("Wrong character, try again");
             Console.ResetColor();
             Thread.Sleep(200);
         }
-        public void EnterChoiceMsg()
+        static public void EnterChoiceMsg()
         {
             Console.Write("Enter your choice: ");
         }
@@ -119,7 +119,7 @@ namespace SpotiView
         {
             Console.WriteLine("Error!");
         }
-        public void ExitMsg()
+        static public void ExitMsg()
         {
             Console.WriteLine("Exiting the program.");
         }
@@ -130,6 +130,21 @@ namespace SpotiView
         public void SpaceLine()
         {
             Console.WriteLine();
+        }
+        static public void printTopMenuLogin()
+        {
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("         MENU DI LOGIN");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine();
+        }
+        static public void printChooseLenguage()
+        {
+            Console.WriteLine("Choose the language: ");
+        }
+        static public void printMusicOrFilm()
+        {
+            Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
         }
     }
 }

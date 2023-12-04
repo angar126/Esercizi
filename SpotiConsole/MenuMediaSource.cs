@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotiView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpotiControl
 {
+    //dovrei dividere parte view e switch case
     static class MenuMediaSource
     {
         static Control _console;
@@ -17,13 +19,14 @@ namespace SpotiControl
             while (!(userInput.Equals('E')|| userInput.Equals('M') || userInput.Equals('V')))
             {
 
-                Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
+                View.printMusicOrFilm();
 
                 userInput = GetValidInput();
                 console.TypeMenu = userInput;
                 HandleInputSong(userInput);
             }
         }
+        // andrebbe nella view
         static char GetValidInput()
         {
             char userInput;
@@ -33,12 +36,10 @@ namespace SpotiControl
             {
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
+                    View.ErrorMsgMenu();
                     CreateMenu(_console);
                 }
-                Console.Write("Enter your choice: ");
+                View.EnterChoiceMsg();
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
                 Console.WriteLine();
 
@@ -58,14 +59,13 @@ namespace SpotiControl
 
                     break;
                 case 'V':
-                    Console.WriteLine("V pressed.");
+                    //Console.WriteLine("V pressed.");
 
-                    //al momento ripropone il menu
                     _console.CreateMenuFilm();
 
                     break;
                 case 'E':
-                    Console.WriteLine("Exiting the program.");
+                    View.ExitMsg();
                     Environment.Exit(0);
                     break;
             }

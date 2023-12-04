@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SpotiUtil;
+using SpotiView;
 
 namespace SpotiControl
 {
@@ -27,10 +28,8 @@ namespace SpotiControl
         };
         static public void CreateMenu(Control console)
         {
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine("         MENU DI LOGIN");
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine();
+            //andrebbe nella view
+            View.printTopMenuLogin();
             CultureInfo culture = new CultureInfo(ShowLengMenu());
             Logger.LogInfo($"Login Data: {DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss", culture)}");
             Console.WriteLine(culture.ToString());
@@ -41,7 +40,7 @@ namespace SpotiControl
         }
         static string ShowLengMenu()
         {
-            Console.WriteLine("Choose the language: ");
+            View.printChooseLenguage();
             int index = MenuEnum.CreateMenu(_lenguages.Keys.ToArray());
             return _lenguages.ElementAt(index).Value;
         }

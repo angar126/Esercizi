@@ -112,7 +112,7 @@ namespace SpotiControl
             {
                 if (validInput)
                 {
-                    _view.ErrorMsgMenu();
+                    View.ErrorMsgMenu();
                     CreateMenu();
                 }
                 userInput = UserInput();
@@ -180,7 +180,7 @@ namespace SpotiControl
         }
         private void Exit()
         {
-            _view.ExitMsg();
+            View.ExitMsg();
             try
             {
 
@@ -350,7 +350,7 @@ namespace SpotiControl
             {
                 if (validInput)
                 {
-                    _view.ErrorMsgMenu();
+                    View.ErrorMsgMenu();
                     CreateMenu();
                 }
                 userInput = UserInput();
@@ -432,7 +432,7 @@ namespace SpotiControl
         char UserInput()
         {
             char userInput;
-            _view.EnterChoiceMsg();
+            View.EnterChoiceMsg();
             userInput = char.ToUpper(Console.ReadKey().KeyChar);
             n = (int)char.GetNumericValue(userInput);
             _view.SpaceLine();
