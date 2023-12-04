@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotiUtil;
 
 
 namespace SpotiBackend
@@ -32,71 +33,77 @@ namespace SpotiBackend
 
             foreach (var musicDto in musicDtos)
             {
-                Artist? artist = Artists.FirstOrDefault(a => a.Name == musicDto.Artist);
+                bool pass = true;
+                if (pass && musicDto.Artist != null && musicDto.Title != null && musicDto.Album != null)
+                {
+                    Artist? artist = Artists.FirstOrDefault(a => a.Name == musicDto.Artist);
 
-                if (artist == null)
-                {
-                    artist = new Artist(musicDto.Artist);
-                    artist.Genre = musicDto.Genre;
-                    Artists.Add(artist);
-                    artist.Rating = 1;
-                }
-                else
-                {
-                    artist.Rating++;
-                }  
-
-                Album? album = Albums.FirstOrDefault(a => a.Name == musicDto.Album);
-                if(album == null)
-                {
-                    album = new Album(musicDto.Album, artist);
-                    album.Genre = musicDto.Genre;
-                    artist.AddAlbum(album);
-                    Albums.Add(album);
-                    album.Rating = 1;
-                }
-                else
-                {
-                    album.Rating++;
-                }
-                bool Plbool = musicDto.PlaylistId != null;
-                
-                Song? song = Songs.FirstOrDefault(a => a.Id == musicDto.Id);
-                if (song == null)
-                {
-                    song = new Song
+                    if (artist == null)
                     {
-                        Id = musicDto.Id,
-                        Rating = musicDto.Rating,
-                        Title = musicDto.Title,
-                        Artist = artist,
-                        Album = album,
-                        Genre = musicDto.Genre,
-                    };
-                    album.AddSong(song);
-                    
-                    Songs.Add(song);
-                }
-                else
-                {//todo
-                }
-                if (Plbool)
-                {
-                    Playlist playlist = Playlists.FirstOrDefault(a => a.PlaylistId == musicDto.PlaylistId);
-                    if (playlist == null)
-                    {
-                        playlist = new Playlist(musicDto.Playlist);
-                        playlist.PlaylistId = musicDto.PlaylistId;
-                        Playlists.Add(playlist);
-                        playlist.Rating = 1;
-                        
+                        artist = new Artist(musicDto.Artist);
+                        artist.Genre = musicDto.Genre;
+                        Artists.Add(artist);
+                        artist.Rating = 1;
                     }
                     else
                     {
-                        playlist.Rating++;
+                        artist.Rating++;
                     }
-                    playlist.AddSong(song);
+
+
+                    Album? album = Albums.FirstOrDefault(a => a.Name == musicDto.Album);
+                    if (album == null)
+                    {
+                        album = new Album(musicDto.Album, artist);
+                        album.Genre = musicDto.Genre;
+                        artist.AddAlbum(album);
+                        Albums.Add(album);
+                        album.Rating = 1;
+                    }
+                    else
+                    {
+                        album.Rating++;
+                    }
+                   
+                    Song? song = Songs.FirstOrDefault(a => a.Id == musicDto.Id);
+                    if (song == null)
+                    {
+                        song = new Song
+                        {
+                            Id = musicDto.Id,
+                            Rating = musicDto.Rating,
+                            Title = musicDto.Title,
+                            Artist = artist,
+                            Album = album,
+                            Genre = musicDto.Genre,
+                        };
+                        album.AddSong(song);
+
+                        Songs.Add(song);
+                    }
+                    else
+                    {//todo
+                    }
+                    if (musicDto.Playlist != null)
+                    {
+                        Playlist playlist = Playlists.FirstOrDefault(a => a.PlaylistId == musicDto.PlaylistId);
+                        if (playlist == null)
+                        {
+                            playlist = new Playlist(musicDto.Playlist);
+                            playlist.PlaylistId = musicDto.PlaylistId;
+                            Playlists.Add(playlist);
+                            playlist.Rating = 1;
+
+                        }
+                        else
+                        {
+                            playlist.Rating++;
+                        }
+                        playlist.AddSong(song);
+                    }
                 }
+                else Logger.LogInfo($"Error data null : {musicDto.Id}");
+                pass = true;
             }
 
         }
