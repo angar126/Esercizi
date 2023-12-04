@@ -121,7 +121,36 @@ namespace SpotiBackend
             }
             File.AppendAllLines(_path, list);
         }
+        public void WriteExistData<T>(IEnumerable<T> data)
+        {
 
+            List<string> list = new List<string>();
+            StringBuilder sb = new StringBuilder();
+            var cols = data.GetEnumerator().GetType().GetProperties();
+
+            foreach (var col in cols)// cicla tutte le Entity della classe in oggetto
+            {
+                sb.Append(col.Name);
+                sb.Append(',');
+            }
+
+            list.Add(sb.ToString().Substring(0, sb.Length - 1));
+            foreach (var row in data)
+            {
+
+                sb = new StringBuilder();
+                foreach (var col in cols)// cicla tutte le Entity della classe in oggetto
+                {
+
+                    sb.Append(col.GetValue(row));
+                    sb.Append(',');
+
+
+                }
+                list.Add(sb.ToString().Substring(0, sb.Length - 1));
+            }
+            File.AppendAllLines(_path, list);
+        }
 
     }
 }

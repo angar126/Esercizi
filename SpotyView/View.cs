@@ -131,10 +131,10 @@ namespace SpotiView
         {
             Console.WriteLine();
         }
-        static public void printTopMenuLogin()
+        static public void printTopMenuLeng()
         {
             Console.WriteLine("-------------------------------");
-            Console.WriteLine("         MENU DI LOGIN");
+            Console.WriteLine("         LENGUAGE MENU");
             Console.WriteLine("-------------------------------");
             Console.WriteLine();
         }
@@ -145,6 +145,26 @@ namespace SpotiView
         static public void printMusicOrFilm()
         {
             Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
+        }
+        static public void printTopMenuLogin()
+        {
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("         LOGIN MENU");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine();
+        }
+        static public string askUser()
+        {
+            bool exit = false;
+            string str;
+            do
+            {
+                if (exit) { ExitMsg(); }
+                Console.WriteLine("Inserisci l'User Name: ");
+                str = Console.ReadLine();
+                
+            } while (exit = str != null);
+            return str;
         }
     }
 }

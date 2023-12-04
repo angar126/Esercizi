@@ -25,7 +25,6 @@ namespace SpotiBackend
             musicDtos = ReadFromCsv<MusicDto>(path);// + typeof(Song).Name.ToString() + ".csv");
             MergerData();
         }
-        //TODO controllo campi
         public void MergerData()
         {
             

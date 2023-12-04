@@ -4,16 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotiBackend;
 
 namespace SpotiControl
 {
     //dovrei dividere parte view e switch case
     static class MenuMediaSource
     {
-        static Control _console;
-        static public void CreateMenu(Control console)
+        static DataBase _db;
+        static char TypeMenu;
+
+        static public void CreateMenu(DataBase db)
         {
-            _console = console;
+            _db = db;
             char userInput = new char();
 
             while (!(userInput.Equals('E')|| userInput.Equals('M') || userInput.Equals('V')))
@@ -22,7 +25,7 @@ namespace SpotiControl
                 View.printMusicOrFilm();
 
                 userInput = GetValidInput();
-                console.TypeMenu = userInput;
+                TypeMenu = userInput;
                 HandleInputSong(userInput);
             }
         }
@@ -37,7 +40,7 @@ namespace SpotiControl
                 if (validInput)
                 {
                     View.ErrorMsgMenu();
-                    CreateMenu(_console);
+                    CreateMenu(_db);
                 }
                 View.EnterChoiceMsg();
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
@@ -54,14 +57,16 @@ namespace SpotiControl
             {
                 case 'M':
                     //Console.WriteLine("M pressed.");
-
-                    _console.CreateMenuMusic();
+                    ControlMusic music = new ControlMusic(_db.SongDB,_db.RadioDB,_db.PlaylistDB,_db.ArtistDB,_db.AlbumDB,_db.User);
+                    music.TypeMenu = TypeMenu;
+                    music.CreateMenu();
 
                     break;
                 case 'V':
                     //Console.WriteLine("V pressed.");
-
-                    _console.CreateMenuFilm();
+                    ControlFilm film = new ControlFilm(_db.DirectorDB,_db.FilmDB,_db.User);
+                    film.TypeMenu = TypeMenu;
+                    film.CreateMenu();
 
                     break;
                 case 'E':

@@ -1,0 +1,122 @@
+﻿using SpotiBackend;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SpotiView;
+
+namespace SpotiControl
+{
+    abstract public class ControlPlayer
+    {
+        Song _song;
+        Song[] _songs;
+        Song[] _songDB;
+        Film _film;
+        bool _timeOver;
+        UserListener _user;
+        char _typeMenu;
+        View _view;
+        int n;
+        public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
+        public ControlPlayer(UserListener User)
+        {
+            _user = User;
+            _timeOver = User.TimeSpan < TimeSpan.Zero;
+            _view = new View();
+        }
+        public void HandleNext(MediaPlayer Mediaplayer)
+        {
+            if (Mediaplayer != null)
+                if (_songs != null)
+                    _song = (Song)playItem(Mediaplayer.Next());
+                else _film = (Film)playItem(Mediaplayer.Next());
+        }
+
+        public void HandlePrevious(MediaPlayer Mediaplayer)
+        {
+            if (Mediaplayer != null)
+                if (_songs != null)
+                    _song = (Song)playItem(Mediaplayer.Previous());
+                else _film = (Film)playItem(Mediaplayer.Previous());
+        }
+
+        public void HandlePause(MediaPlayer Mediaplayer)
+        {
+            if (Mediaplayer != null)
+                if (_songs != null)
+                    Mediaplayer.Pause();
+        }
+
+        public void HandleStop(MediaPlayer Mediaplayer)
+        {
+            if (Mediaplayer != null)
+                if (_songs != null)
+                    Mediaplayer.Stop();
+        }
+        public dynamic playItem(dynamic play)
+        {
+            if (play is Song)
+            {
+                Song song = play as Song;
+                if (_timeOver || _user.TimeSpan < TimeSpan.Zero)
+                {
+                    Random random = new Random();
+                    song = _songDB[random.Next(_songDB.Length)];
+                    _timeOver = true;
+                }
+                _user.TimeSpan = TimeSpan.FromMilliseconds(song.TimeMillis);
+                play = song;
+            }
+            //Logger.LogInfo($"User time span: {XmlConvert.ToString(_user.TimeSpan)}");
+            return play;
+        }
+        public int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        {
+            string[] play1 = list.Select(selector)
+                       .Distinct()
+                       .ToArray();
+            _view.ShowMenu(_typeMenu);
+            return MenuItems.CreateMenu(play1, backgroundColor, foregroundColor);
+        }
+
+        //Choose complex obj
+        public int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
+        {
+            int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
+            if (choose == -1)
+            {
+                list = TopItemsProvider.GetTopItems(list);
+                //choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
+                do
+                {
+                    _view.ShowMenu(_typeMenu);
+                    choose = chooseItem(list, selector, backgroundColor, foregroundColor);
+                } while (choose == -1);
+            }
+            Console.ResetColor();
+            return choose;
+        }
+        static public class TopItemsProvider
+        {
+            static public T[] GetTopItems<T>(T[] array) where T : ICountable
+            {
+                return array.OrderByDescending(item => item.Rating).Take(5).ToArray();
+            }
+        }
+        abstract public void CreateMenu();
+
+        public char UserInput()
+        {
+            char userInput;
+            View.EnterChoiceMsg();
+            userInput = char.ToUpper(Console.ReadKey().KeyChar);
+            n = (int)char.GetNumericValue(userInput);
+            _view.SpaceLine();
+            return userInput;
+        }
+        public void HandleProfile() { }
+        abstract public void Exit();
+    }
+}

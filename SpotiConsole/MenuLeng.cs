@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SpotiBackend;
 using SpotiUtil;
 using SpotiView;
 
 namespace SpotiControl
 {
-    internal class MenuLogin
+    internal class MenuLeng
     {
-        static Control _console;
         static Dictionary<string, string> _lenguages = new Dictionary<string, string>()
             {
             { "Chinese (Simplified)", "zh-CN" },
@@ -26,16 +26,16 @@ namespace SpotiControl
             { "Spanish", "es-ES" },
 
         };
-        static public void CreateMenu(Control console)
+        static public void CreateMenu(DataBase db)
         {
             //andrebbe nella view
-            View.printTopMenuLogin();
+            View.printTopMenuLeng();
             CultureInfo culture = new CultureInfo(ShowLengMenu());
             Logger.LogInfo($"Login Data: {DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss", culture)}");
             Console.WriteLine(culture.ToString());
             Thread.Sleep(200);
             Console.Clear();
-            MenuMediaSource.CreateMenu(console);
+            MenuMediaSource.CreateMenu(db);
             
         }
         static string ShowLengMenu()

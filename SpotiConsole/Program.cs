@@ -5,6 +5,7 @@ using SpotiUtil;
 using SpotiBackend;
 using SpotiControl.Services;
 using System.IO;
+using SpotiBackend;
 
 namespace SpotiControl
 {
@@ -12,6 +13,7 @@ namespace SpotiControl
     {
         static void Main(string[] args)
         {
+            ////////RIGHE PER PROVARE FUNZIONALITA'///////
             Console.WriteLine($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs.csv");
             Artist artist1 = new Artist("Artista1");
             Artist artist2 = new Artist("Artista2");
@@ -74,12 +76,13 @@ namespace SpotiControl
             artistDB=m.GetAllArtists().ToArray();
             albumDB=m.GetAllAlbums().ToArray();
 
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            Control c = new Control(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB,user);
-            
             try
             {
-                MenuLogin.CreateMenu(c);
+                DataBase b = new DataBase(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
+                //ControlMusic c = new ControlMusic(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
+                MenuLeng.CreateMenu(b);
                 
                 //c.CreateMenuMusic();
             }
