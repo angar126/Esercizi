@@ -102,7 +102,7 @@ namespace SpotiBackend
                         playlist.AddSong(song);
                     }
                 }
-                else Logger.LogInfo($"Error data null : {musicDto.Id}");
+                else Logger.LogInfo($"Error data null, ID SONG in CSV: {musicDto.Id}");
                 pass = true;
             }
 
