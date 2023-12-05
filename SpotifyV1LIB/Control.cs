@@ -83,7 +83,7 @@ namespace SpotifyV0
                 if (_song != null)
                 {
                     _view.ShowMenu(_typeMenu);
-                    _view.ShowList(_songs.Select(song => song.Title).ToArray());
+                    View.ShowList(_songs.Select(song => song.Title).ToArray());
                     ShowMenuOnlySong();
                 }
                 else _view.ShowMenu(_typeMenu);
@@ -334,7 +334,7 @@ namespace SpotifyV0
                 if (_film != null)
                 {
                     _view.ShowMenu(_typeMenu);
-                    _view.ShowList(_films.Select(film => film.Title).ToArray());
+                    View.ShowList(_films.Select(film => film.Title).ToArray());
                     _view.ShowPlaying(_film.Title, _timeOver);
                 }
                 else _view.ShowMenu(_typeMenu); ;

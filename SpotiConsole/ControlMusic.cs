@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
 using SpotiBackend;
 using SpotiUtil;
 using SpotiView;
@@ -17,10 +12,6 @@ namespace SpotiControl
 {
     public class ControlMusic : ControlPlayer
     {
-        //MENU SELECTOR//////////////////////////////////////
-        char _musicChar = 'V';
-        char _filmChar = 'M';
-
         //DATA//////////////////////////////////////////////////
 
         Radio[] _radioDB;
@@ -60,7 +51,7 @@ namespace SpotiControl
                 if (_song != null)
                 {
                     _view.ShowMenuMusic();
-                    _view.ShowList(_songs.Select(song => song.Title).ToArray());
+                    View.ShowList(_songs.Select(song => song.Title).ToArray());
                     ShowMenuOnlySong();
                 }
                 else _view.ShowMenuMusic();

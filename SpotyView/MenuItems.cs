@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SpotiView;
+using System;
 
 namespace SpotiControl
 {
@@ -14,11 +11,9 @@ namespace SpotiControl
             Console.BackgroundColor = BackgroundColor;
             Console.ForegroundColor = ForeGround;
             bool validInput = false;
-
-            for (int i = 0; i < options.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {options[i]}");
-            }
+            
+            View.ShowList(options);
+            
 
             int userChoice;
             do
@@ -26,12 +21,10 @@ namespace SpotiControl
                 Console.WriteLine();
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
+                    View.ErrorMsgMenu();
                 }
                 Console.ResetColor();
-                Console.Write("Enter your choice - TopFive press 0: ");
+                View.EnterChoiceTop5Msg();
 
             } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 
@@ -55,12 +48,10 @@ namespace SpotiControl
                 Console.WriteLine();
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
+                    View.ErrorMsgMenu();
                 }
                 Console.ResetColor();
-                Console.Write("Enter your choice - TopFive press 0: ");
+                View.EnterChoiceTop5Msg();
 
             } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 

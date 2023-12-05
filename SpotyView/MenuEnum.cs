@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotiView;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,7 @@ namespace SpotiControl
 
             bool validInput = false;
 
-            for (int i = 0; i < options.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {options[i]}");
-            }
+            View.ShowList(options);
 
             int userChoice;
             do
@@ -26,12 +24,10 @@ namespace SpotiControl
                 Console.WriteLine();
                 if (validInput)
                 {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong character, try again");
-                    Console.ResetColor();
+                    View.ErrorMsgMenu();
                 }
                 Console.ResetColor();
-                Console.Write("Enter your choice: ");
+                View.EnterChoiceMsg();
 
             } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 

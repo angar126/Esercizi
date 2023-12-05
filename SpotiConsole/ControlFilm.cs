@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SpotiBackend;
 using SpotiView;
 
@@ -32,7 +29,7 @@ namespace SpotiControl
                 if (_film != null)
                 {
                     _view.ShowMenuFilm();
-                    _view.ShowList(_films.Select(film => film.Title).ToArray());
+                    View.ShowList(_films.Select(film => film.Title).ToArray());
                     _view.ShowPlaying(_film.Title, _timeOver);
                 }
                 else _view.ShowMenuFilm(); ;

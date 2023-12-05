@@ -36,7 +36,7 @@ namespace SpotiView
             Console.WriteLine($"Add Song to last selected Playlist ({currentPlaylistName}):Q ");
             Console.ResetColor();
         }
-        public void ShowList(string[] strings)
+        public static void ShowList(string[] strings)
         {
             for (int i = 0; i < strings.Length; i++)
             {
@@ -114,6 +114,10 @@ namespace SpotiView
         static public void EnterChoiceMsg()
         {
             Console.Write("Enter your choice: ");
+        }
+        static public void EnterChoiceTop5Msg()
+        {
+            Console.Write("Enter your choice - TopFive press 0: ");
         }
         public void ErrorMsg()
         {
