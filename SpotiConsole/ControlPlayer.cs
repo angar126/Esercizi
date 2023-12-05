@@ -10,15 +10,15 @@ namespace SpotiControl
 {
     abstract public class ControlPlayer
     {
-        Song _song;
-        Song[] _songs;
-        Song[] _songDB;
-        Film _film;
-        bool _timeOver;
-        UserListener _user;
-        char _typeMenu;
-        View _view;
-        int n;
+        protected Song _song;
+        protected Song[] _songs;
+        protected Song[] _songDB;
+        protected Film _film;
+        protected bool _timeOver = false;
+        protected UserListener _user;
+        protected char _typeMenu;
+        protected View _view;
+        protected int n;
         public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
         public ControlPlayer(UserListener User)
         {
@@ -26,7 +26,7 @@ namespace SpotiControl
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _view = new View();
         }
-        public void HandleNext(MediaPlayer Mediaplayer)
+        protected void HandleNext(MediaPlayer Mediaplayer)
         {
             if (Mediaplayer != null)
                 if (_songs != null)
@@ -34,7 +34,7 @@ namespace SpotiControl
                 else _film = (Film)playItem(Mediaplayer.Next());
         }
 
-        public void HandlePrevious(MediaPlayer Mediaplayer)
+        protected void HandlePrevious(MediaPlayer Mediaplayer)
         {
             if (Mediaplayer != null)
                 if (_songs != null)
@@ -42,20 +42,20 @@ namespace SpotiControl
                 else _film = (Film)playItem(Mediaplayer.Previous());
         }
 
-        public void HandlePause(MediaPlayer Mediaplayer)
+        protected void HandlePause(MediaPlayer Mediaplayer)
         {
             if (Mediaplayer != null)
                 if (_songs != null)
                     Mediaplayer.Pause();
         }
 
-        public void HandleStop(MediaPlayer Mediaplayer)
+        protected void HandleStop(MediaPlayer Mediaplayer)
         {
             if (Mediaplayer != null)
                 if (_songs != null)
                     Mediaplayer.Stop();
         }
-        public dynamic playItem(dynamic play)
+        protected dynamic playItem(dynamic play)
         {
             if (play is Song)
             {
@@ -72,7 +72,7 @@ namespace SpotiControl
             //Logger.LogInfo($"User time span: {XmlConvert.ToString(_user.TimeSpan)}");
             return play;
         }
-        public int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
+        protected int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
         {
             string[] play1 = list.Select(selector)
                        .Distinct()
@@ -82,7 +82,7 @@ namespace SpotiControl
         }
 
         //Choose complex obj
-        public int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
+        protected int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
         {
             int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
             if (choose == -1)
@@ -98,7 +98,7 @@ namespace SpotiControl
             Console.ResetColor();
             return choose;
         }
-        static public class TopItemsProvider
+        static protected class TopItemsProvider
         {
             static public T[] GetTopItems<T>(T[] array) where T : ICountable
             {
@@ -107,7 +107,7 @@ namespace SpotiControl
         }
         abstract public void CreateMenu();
 
-        public char UserInput()
+        protected char UserInput()
         {
             char userInput;
             View.EnterChoiceMsg();
@@ -116,7 +116,7 @@ namespace SpotiControl
             _view.SpaceLine();
             return userInput;
         }
-        public void HandleProfile() { }
+        protected void HandleProfile() { }
         abstract public void Exit();
     }
 }

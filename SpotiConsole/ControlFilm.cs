@@ -11,24 +11,14 @@ namespace SpotiControl
     public class ControlFilm : ControlPlayer
     {
         Film[] _films;
-        Film _film;
         Film[] _filmDB;
         Director[] _directorDB;
-        View _view;
         MediaPlayer _mediaPlayer;
-        bool _timeOver;
-        char _typeMenu;
-        int n;
+
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
         public ControlFilm(Director[] DirectorDB, Film[] FilmDB, UserListener User):base (User)
         {
-            //_songDB = songDB;
-            //_radioDB = RadioDB;
-            //_playlistDB = PlaylistDB;
-            //_artistDB = ArtistDB;
-            //_albumDB = AlbumDB;
-            //_user = User;
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _directorDB = DirectorDB;
             _filmDB = FilmDB;
@@ -41,11 +31,11 @@ namespace SpotiControl
             {
                 if (_film != null)
                 {
-                    _view.ShowMenu(_typeMenu);
+                    _view.ShowMenuFilm();
                     _view.ShowList(_films.Select(film => film.Title).ToArray());
                     _view.ShowPlaying(_film.Title, _timeOver);
                 }
-                else _view.ShowMenu(_typeMenu); ;
+                else _view.ShowMenuFilm(); ;
                 userInput = GetValidInputFilm();
                 HandleInputVideo(userInput, _mediaPlayer);
             }
@@ -124,15 +114,6 @@ namespace SpotiControl
             _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
-        //Prova dynamic ma sbaglio qualcosa
-        //void HandleItem<T>(T[] db, ref dynamic itemPlay, ref dynamic list, dynamic listDB, Func<T, string> selector, Func<T, bool> selectorWhere, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
-        //{
-        //    int choose = chooseObj(db, selector, backgroundColor, foregroundColor);
-        //    list = listDB.Where(selectorWhere).ToArray();
-        //    _mediaPlayer = new MediaPlayer(list);
-        //    itemPlay = playItem(list[_mediaPlayer.CurrentIndex]);
-        //    _view.ShowPlaying((itemPlay.Title ?? itemPlay.Name), _timeOver);
-        //}
         override public void Exit()
         {
             View.ExitMsg();

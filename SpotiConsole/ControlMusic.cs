@@ -20,10 +20,9 @@ namespace SpotiControl
         //MENU SELECTOR//////////////////////////////////////
         char _musicChar = 'V';
         char _filmChar = 'M';
-        char _typeMenu;
 
         //DATA//////////////////////////////////////////////////
-        Song[] _songDB;
+
         Radio[] _radioDB;
         Artist[] _artistDB;
         Album[] _albumDB;
@@ -31,11 +30,7 @@ namespace SpotiControl
 
         //SONG SWITCH///////////////////////////////////////////
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
-        Song _song;
-        Song[] _songs;
 
-        //MHA forse è meglio passarlo///
-        int n;
 
         //PLAYLIST////////////////////////////////////////////
         Playlist _currentPlaylist;
@@ -43,11 +38,9 @@ namespace SpotiControl
         List<Song> _songsAdded = new List<Song>();
 
         //SYSTEM//////////////////////////////////////////////
-        UserListener _user;
+
         MediaPlayer _mediaPlayer;
-        View _view;
-        bool _timeOver = false;
-        public char TypeMenu { get { return _typeMenu; } set { _typeMenu = value; } }
+
         public ControlMusic(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User): base(User)
         {
             _songDB = songDB;
@@ -57,25 +50,8 @@ namespace SpotiControl
             _albumDB = AlbumDB;
             _user = User;
             _timeOver = User.TimeSpan < TimeSpan.Zero;
-            //_directorDB = DirectorDB;
-            //_filmDB = FilmDB;
             _view = new View();
         }
-
-        //public ControlMusic(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, Director[] DirectorDB, Film[] FilmDB, UserListener User)
-        //{
-        //_songDB = songDB;
-        //    _radioDB = RadioDB;
-        //    _playlistDB = PlaylistDB;
-        //    _artistDB = ArtistDB;
-        //    _albumDB = AlbumDB;
-        //    _user = User;
-        //    _timeOver = User.TimeSpan<TimeSpan.Zero;
-        //    _directorDB = DirectorDB;
-        //    _filmDB = FilmDB;
-        //    _view = new View();
-        //}
-
         public void CreateMenuMusic()
         {
             char userInput = new char();
@@ -83,11 +59,11 @@ namespace SpotiControl
             {
                 if (_song != null)
                 {
-                    _view.ShowMenu(_typeMenu);
+                    _view.ShowMenuMusic();
                     _view.ShowList(_songs.Select(song => song.Title).ToArray());
                     ShowMenuOnlySong();
                 }
-                else _view.ShowMenu(_typeMenu);
+                else _view.ShowMenuMusic();
                 userInput = GetValidInputSong();
                 HandleInputSong(userInput, _mediaPlayer);
             }
@@ -206,16 +182,6 @@ namespace SpotiControl
             }
             //Environment.Exit(0);
         }
-
-        //TopFive
-        //static public class TopItemsProvider
-        //{
-        //    static public T[] GetTopItems<T>(T[] array) where T : ICountable
-        //    {
-        //        return array.OrderByDescending(item => item.Rating).Take(5).ToArray();
-        //    }
-        //}
-
         void HandleSelectSong()
         {
             _song = (Song)playItem(_songs[n - 1]);
@@ -265,212 +231,9 @@ namespace SpotiControl
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();
         }
-
-        //When Play song/Film
-        //dynamic playItem(dynamic play)
-        //{
-        //    if (play is Song)
-        //    {
-        //        Song song = play as Song;
-        //        if (_timeOver || _user.TimeSpan < TimeSpan.Zero)
-        //        {
-        //            Random random = new Random();
-        //            song = _songDB[random.Next(_songDB.Length)];
-        //            _timeOver = true;
-        //        }
-        //        _user.TimeSpan = TimeSpan.FromMilliseconds(song.TimeMillis);
-        //        play = song;
-        //    }
-        //    //Logger.LogInfo($"User time span: {XmlConvert.ToString(_user.TimeSpan)}");
-        //    return play;
-        //}
-
-        //void HandleNext(MediaPlayer Mediaplayer)
-        //{
-        //    if (Mediaplayer != null)
-        //        if (_songs != null)
-        //            _song = (Song)playItem(Mediaplayer.Next());
-        //        else _film = (Film)playItem(Mediaplayer.Next());
-        //}
-
-        //private void HandlePrevious(MediaPlayer Mediaplayer)
-        //{
-        //    if (Mediaplayer != null)
-        //        if (_songs != null)
-        //            _song = (Song)playItem(Mediaplayer.Previous());
-        //        else _film = (Film)playItem(Mediaplayer.Previous());
-        //}
-
-        //private void HandlePause(MediaPlayer Mediaplayer)
-        //{
-        //    if (Mediaplayer != null)
-        //        if (_songs != null)
-        //            Mediaplayer.Pause();
-        //}
-
-        //private void HandleStop(MediaPlayer Mediaplayer)
-        //{
-        //    if (Mediaplayer != null)
-        //        if (_songs != null)
-        //            Mediaplayer.Stop();
-        //}
-
         private void HandleMusic(MediaPlayer Mediaplayer)
         {
             CreateMenuMusic();
         }
-
-        //private void HandleProfile() { }
-
-        //////////////////////////////////////////////FILM///////////////////////////////////////////
-
-        //Film[] _films;
-        //Film _film;
-        //Film[] _filmDB;
-        //Director[] _directorDB;
-        //char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
-
-
-        //public void CreateMenuFilm()
-        //{
-        //    char userInput = new char();
-        //    while (!userInput.Equals('E'))
-        //    {
-        //        if (_film != null)
-        //        {
-        //            _view.ShowMenu(_typeMenu);
-        //            _view.ShowList(_films.Select(film => film.Title).ToArray());
-        //            _view.ShowPlaying(_film.Title, _timeOver);
-        //        }
-        //        else _view.ShowMenu(_typeMenu); ;
-        //        userInput = GetValidInputFilm();
-        //        HandleInputVideo(userInput, _mediaPlayer);
-        //    }
-        //}
-        //char GetValidInputFilm()
-        //{
-        //    char userInput;
-        //    bool validInput = false;
-        //    do
-        //    {
-        //        if (validInput)
-        //        {
-        //            View.ErrorMsgMenu();
-        //            CreateMenu();
-        //        }
-        //        userInput = UserInput();
-        //    } while (validInput = !(_bottonFilm.Contains(userInput) || _films != null && _films.Length != 0 && n > 0 && n <= _films.Length));
-        //    return userInput;
-        //}
-        //void HandleInputVideo(char userInput, MediaPlayer Mediaplayer)
-        //{
-        //    switch (userInput)
-        //    {
-        //        case 'F':
-        //            HandleNext(Mediaplayer);
-        //            break;
-        //        case 'B':
-        //            HandlePrevious(Mediaplayer);
-        //            break;
-        //        case 'P':
-        //            HandlePause(Mediaplayer);
-        //            break;
-        //        case 'S':
-        //            HandleStop(Mediaplayer);
-        //            break;
-        //        case 'M':
-        //            HandleFilms();
-        //            break;
-        //        case 'C':
-        //            HandleProfile();
-        //            break;
-        //        case 'A':
-        //            HandleFilms();
-        //            break;
-        //        case 'D':
-        //            HandleDirector();
-
-        //            break;
-        //        case var _ when char.IsDigit(userInput):
-        //            _film = _films[n - 1];
-        //            break;
-        //        case 'E':
-        //            Exit();
-        //            break;
-        //    }
-        //}
-        //void HandleFilms()
-        //{
-        //    Film[] fl = _filmDB;
-        //    int choose = chooseObj(fl, film => film.Title, ConsoleColor.Magenta, ConsoleColor.White);
-        //    _films = fl;
-        //    _mediaPlayer = new MediaPlayer(_films);
-        //    _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
-        //    _view.ShowPlaying(_film.Title, _timeOver);
-        //}
-        //void HandleDirector()
-        //{
-        //    Director[] dr = _directorDB;
-        //    int choose = chooseObj(dr, director => director.Name, ConsoleColor.Red, ConsoleColor.White);
-        //    _films = _filmDB.Where(film => film.Director.Equals(dr[choose])).ToArray();
-        //    _mediaPlayer = new MediaPlayer(_films);
-        //    _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
-        //    _view.ShowPlaying(_film.Title, _timeOver);
-        //}
-        ////Prova dynamic ma sbaglio qualcosa
-        ////void HandleItem<T>(T[] db, ref dynamic itemPlay, ref dynamic list, dynamic listDB, Func<T, string> selector, Func<T, bool> selectorWhere, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
-        ////{
-        ////    int choose = chooseObj(db, selector, backgroundColor, foregroundColor);
-        ////    list = listDB.Where(selectorWhere).ToArray();
-        ////    _mediaPlayer = new MediaPlayer(list);
-        ////    itemPlay = playItem(list[_mediaPlayer.CurrentIndex]);
-        ////    _view.ShowPlaying((itemPlay.Title ?? itemPlay.Name), _timeOver);
-        ////}
-
-        //void CreateMenu()
-        //{
-        //    if (_typeMenu == _filmChar) CreateMenuFilm();
-        //    else if (_typeMenu == _musicChar) CreateMenuMusic();
-        //    else _view.ErrorMsg();
-        //}
-
-        //char UserInput()
-        //{
-        //    char userInput;
-        //    View.EnterChoiceMsg();
-        //    userInput = char.ToUpper(Console.ReadKey().KeyChar);
-        //    n = (int)char.GetNumericValue(userInput);
-        //    _view.SpaceLine();
-        //    return userInput;
-        //}
-
-        //Choose single item
-        //int chooseItem<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
-        //{
-        //    string[] play1 = list.Select(selector)
-        //               .Distinct()
-        //               .ToArray();
-        //    _view.ShowMenu(_typeMenu);
-        //    return MenuItems.CreateMenu(play1, backgroundColor, foregroundColor);
-        //}
-
-        ////Choose complex obj
-        //int chooseObj<T>(T[] list, Func<T, string> selector, ConsoleColor backgroundColor, ConsoleColor foregroundColor) where T : ICountable
-        //{
-        //    int choose = chooseItem(list, selector, backgroundColor, foregroundColor);
-        //    if (choose == -1)
-        //    {
-        //        list = TopItemsProvider.GetTopItems(list);
-        //        //choose = chooseItem<T>(list, selector, backgroundColor, foregroundColor);
-        //        do
-        //        {
-        //            _view.ShowMenu(_typeMenu);
-        //            choose = chooseItem(list, selector, backgroundColor, foregroundColor);
-        //        } while (choose == -1);
-        //    }
-        //    Console.ResetColor();
-        //    return choose;
-        //}
-
     }
 }
