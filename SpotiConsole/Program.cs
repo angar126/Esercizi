@@ -69,18 +69,20 @@ namespace SpotiControl
             UserListener user = new UserListener("User",timespan);
 
 
-            MusicService m = MusicService.GetInstance();
-            songDB = m.GetAllSongs().ToArray();
-            playlistDB=m.GetAllPlaylists().ToArray();
-            artistDB=m.GetAllArtists().ToArray();
-            albumDB=m.GetAllAlbums().ToArray();
+            
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             try
             {
-                DataBase b = new DataBase(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
-                MenuLeng.CreateMenu(b);
+                MusicService m = MusicService.GetInstance();
+                songDB = m.GetAllSongs().ToArray();
+                playlistDB = m.GetAllPlaylists().ToArray();
+                artistDB = m.GetAllArtists().ToArray();
+                albumDB = m.GetAllAlbums().ToArray();
+
+                DataBase db = new DataBase(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
+                MenuLeng.CreateMenu(db);
 
                 //ControlMusic c = new ControlMusic(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
                 //c.CreateMenuMusic();

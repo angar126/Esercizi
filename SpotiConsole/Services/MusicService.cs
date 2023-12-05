@@ -13,7 +13,7 @@ namespace SpotiControl.Services
         static MusicService instance;
         MusicService()
         {
-            DbContext = new MusicDbContext($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}sonfgs.csv");
+            DbContext = new MusicDbContext($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs.csv");
         }
 
         public static MusicService GetInstance()
