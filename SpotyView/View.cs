@@ -111,7 +111,7 @@ namespace SpotiView
         {
             if (TypeMenu == _filmChar) ShowMenuFilm();
             else if (TypeMenu == _musicChar) ShowMenuMusic();
-            else Console.WriteLine("Error!");
+            else Console.WriteLine("Error Menu!");
         }
         static public void ErrorMsgMenu()
         {
