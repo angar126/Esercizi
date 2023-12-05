@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotiUtil;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,8 +21,17 @@ namespace SpotiBackend
         }
         protected List<T> ReadFromCsv<T>(string path) where T : class, new()
         {
-            List<string> lines = File.ReadAllLines(path).ToList();
-            return CreateObject<T>(lines);
+            try
+            {
+                List<string> lines = File.ReadAllLines(path).ToList();
+                return CreateObject<T>(lines);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInfo("Errore durante la lettura del file CSV.");
+                Logger.LogError(ex);
+                throw new Exception("Errore durante la lettura del file CSV.", ex);
+            }
         }
         public static List<T> CreateObject<T>(List<string> lines) where T : class, new()
         {
@@ -83,7 +93,12 @@ namespace SpotiBackend
                 }
 
             }
-            else Console.WriteLine("le proprietà nel file non corrispondono a proprietà oggetto");
+            else
+            {
+                Console.WriteLine("le proprietà nel file non corrispondono a proprietà oggetto");
+                Logger.LogInfo("La struttura del file CSV non è corretta.");
+                throw new InvalidOperationException("La struttura del file CSV non è corretta.");
+            }
 
             return list;
         }

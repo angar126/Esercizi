@@ -70,7 +70,6 @@ namespace SpotiControl
 
 
             MusicService m = MusicService.GetInstance();
-
             songDB = m.GetAllSongs().ToArray();
             playlistDB=m.GetAllPlaylists().ToArray();
             artistDB=m.GetAllArtists().ToArray();
@@ -81,9 +80,9 @@ namespace SpotiControl
             try
             {
                 DataBase b = new DataBase(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
-                //ControlMusic c = new ControlMusic(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
                 MenuLeng.CreateMenu(b);
-                
+
+                //ControlMusic c = new ControlMusic(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
                 //c.CreateMenuMusic();
             }
             catch (Exception ex)
