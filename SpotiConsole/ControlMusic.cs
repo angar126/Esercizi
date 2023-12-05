@@ -154,6 +154,9 @@ namespace SpotiControl
             View.ExitMsg();
             try
             {
+                //prova scrittura dto
+                MusicDbContext m =new MusicDbContext($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs2.csv");
+                m.WriteData(DataService.GetAllDTOSongs(_songDB,_playlistDB));
 
                 DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
             }
