@@ -29,27 +29,6 @@ namespace SpotiView
             Console.ResetColor();
             Console.WriteLine();
         }
-        public void AddSong(string currentPlaylistName)
-        {
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.BackgroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"Add Song to last selected Playlist ({currentPlaylistName}):Q ");
-            Console.ResetColor();
-        }
-        public static void ShowList(string[] strings)
-        {
-            for (int i = 0; i < strings.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {strings[i]}");
-            }
-        }
-        public void Button(string String, ConsoleColor BackgroundColor, ConsoleColor ForegroundColor)
-        {
-            Console.ForegroundColor = ForegroundColor;
-            Console.BackgroundColor = BackgroundColor;
-            Console.Write(String);
-            Console.ResetColor();
-        }
         public void MiddleMenuSong()
         {
             Button("Artist:A", ConsoleColor.Magenta, ConsoleColor.White);
@@ -64,6 +43,22 @@ namespace SpotiView
             Console.WriteLine();
             Console.WriteLine("--------------------------------------------");
         }
+        public void AddSong(string currentPlaylistName)
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"Add Song to last selected Playlist ({currentPlaylistName}):Q ");
+            Console.ResetColor();
+        }
+        
+        public void Button(string String, ConsoleColor BackgroundColor, ConsoleColor ForegroundColor)
+        {
+            Console.ForegroundColor = ForegroundColor;
+            Console.BackgroundColor = BackgroundColor;
+            Console.Write(String);
+            Console.ResetColor();
+        }
+       
         public void MiddleMenuFilm()
         {
             Button("Films:A", ConsoleColor.Magenta, ConsoleColor.White);
@@ -88,6 +83,20 @@ namespace SpotiView
                 Console.ResetColor();
             }
         }
+        static public void printTopMenuLeng()
+        {
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("         LENGUAGE MENU");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine();
+        }
+        static public void printTopMenuLogin()
+        {
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine("         LOGIN MENU");
+            Console.WriteLine("-------------------------------");
+            Console.WriteLine();
+        }
         public void ShowMenuMusic()
         {
             TopMenu();
@@ -110,6 +119,13 @@ namespace SpotiView
             Console.WriteLine("Wrong character, try again");
             Console.ResetColor();
             Thread.Sleep(200);
+        }
+        static public void ShowList(string[] strings)
+        {
+            for (int i = 0; i < strings.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {strings[i]}");
+            }
         }
         static public void EnterChoiceMsg()
         {
@@ -135,13 +151,7 @@ namespace SpotiView
         {
             Console.WriteLine();
         }
-        static public void printTopMenuLeng()
-        {
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine("         LENGUAGE MENU");
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine();
-        }
+        
         static public void printChooseLenguage()
         {
             Console.WriteLine("Choose the language: ");
@@ -150,13 +160,7 @@ namespace SpotiView
         {
             Console.WriteLine("Per iniziare un brano premi 'M', per iniziare un film premi 'V' :");
         }
-        static public void printTopMenuLogin()
-        {
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine("         LOGIN MENU");
-            Console.WriteLine("-------------------------------");
-            Console.WriteLine();
-        }
+        
         static public string askUser()
         {
             bool exit = false;
