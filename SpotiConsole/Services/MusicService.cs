@@ -7,7 +7,7 @@ using SpotiBackend;
 
 namespace SpotiControl.Services
 {
-    public class MusicService
+    public class MusicService: IDataService
     {
         static MusicDbContext DbContext;
         static MusicService instance;
@@ -24,21 +24,21 @@ namespace SpotiControl.Services
             }
             return instance;
         }
-        public List<Song> GetAllSongs()
+        public Song[] GetAllSongs()
         {
-            return DbContext.Songs;
+            return DbContext.Songs.ToArray(); 
         }
-        public List<Artist> GetAllArtists()
+        public Artist[] GetAllArtists()
         {
-            return DbContext.Artists;
+            return DbContext.Artists.ToArray();
         }
-        public List<Album> GetAllAlbums()
+        public Album[] GetAllAlbums()
         {
-            return DbContext.Albums;
+            return DbContext.Albums.ToArray();
         }
-        public List<Playlist> GetAllPlaylists()
+        public Playlist[] GetAllPlaylists()
         {
-            return DbContext.Playlists;
+            return DbContext.Playlists.ToArray();
         }
     }
 }

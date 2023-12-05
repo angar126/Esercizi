@@ -76,16 +76,8 @@ namespace SpotiControl
             try
             {
                 MusicService m = MusicService.GetInstance();
-                songDB = m.GetAllSongs().ToArray();
-                playlistDB = m.GetAllPlaylists().ToArray();
-                artistDB = m.GetAllArtists().ToArray();
-                albumDB = m.GetAllAlbums().ToArray();
-
-                DataBase db = new DataBase(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
+                DataBase db = new DataBase(m, radioDB,directorDB, filmDB, user);
                 MenuLeng.CreateMenu(db);
-
-                //ControlMusic c = new ControlMusic(songDB, radioDB, playlistDB, artistDB, albumDB, directorDB, filmDB, user);
-                //c.CreateMenuMusic();
             }
             catch (Exception ex)
             {

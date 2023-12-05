@@ -25,5 +25,16 @@ namespace SpotiBackend
             DirectorDB = directorDB;
             FilmDB = filmDB;
         }
+        public DataBase(IDataService dataService, Radio[] radioDB, Director[] directorDB, Film[] filmDB, UserListener user)
+        {
+            SongDB = dataService.GetAllSongs();
+            RadioDB = radioDB;
+            PlaylistDB = dataService.GetAllPlaylists();
+            ArtistDB = dataService.GetAllArtists();
+            AlbumDB = dataService.GetAllAlbums();
+            User = user;
+            DirectorDB = directorDB;
+            FilmDB = filmDB;
+        }
     }
 }
