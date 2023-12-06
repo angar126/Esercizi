@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace SpotiBackend
 {
-    //PROVA MA NON SERVE!
     public class SpotifyDbContext : DbContext
     {
         public List<Song> Songs { get; set; }
         public List<Artist> Artists { get; set; }
         public List<Album> Albums { get; set; }
         public List<Playlist> Playlists { get; set; }
-        //public List<Radio> Radios { get; set; }
-        //public List<UserListener> UserListeners { get; set; }
+        public List<Radio> Radios { get; set; }
+        public List<UserListener> UserListeners { get; set; }
         
 
         public SpotifyDbContext(string Path): base(Path) {
 
             Songs= ReadFromCsv<Song>(Path + typeof(Song).Name.ToString() + ".csv");
-            //Artists = ReadFromCsv<Artist>(Path + typeof(Artist).Name.ToString() + ".csv");
-            //Albums = ReadFromCsv<Album>(Path + typeof(Album).Name.ToString() + ".csv");
-            //Playlists = ReadFromCsv<Playlist>(Path + typeof(Playlist).Name.ToString() + ".csv");
-            //Radios = ReadFromCsv<Radio>(Path + typeof(Radio).Name.ToString() + ".csv");
-            //UserListeners = ReadFromCsv<UserListener>(Path + typeof(UserListener).Name.ToString() + ".csv");
+            Artists = ReadFromCsv<Artist>(Path + typeof(Artist).Name.ToString() + ".csv");
+            Albums = ReadFromCsv<Album>(Path + typeof(Album).Name.ToString() + ".csv");
+            Playlists = ReadFromCsv<Playlist>(Path + typeof(Playlist).Name.ToString() + ".csv");
+            Radios = ReadFromCsv<Radio>(Path + typeof(Radio).Name.ToString() + ".csv");
+            UserListeners = ReadFromCsv<UserListener>(Path + typeof(UserListener).Name.ToString() + ".csv");
             MergerData();
         }
         private void MergerData()

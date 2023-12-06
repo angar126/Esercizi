@@ -2,37 +2,37 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SpotiBackend;
+using SpotiData;
 using SpotiUtil;
 using SpotiView;
 
 
 
-namespace SpotiControl
+namespace SpotiServ
 {
     public class ControlMusic : ControlPlayer
     {
         //DATA//////////////////////////////////////////////////
 
-        Radio[] _radioDB;
-        Artist[] _artistDB;
-        Album[] _albumDB;
-        Playlist[] _playlistDB;
+        RadioDTO[] _radioDB;
+        ArtistDTO[] _artistDB;
+        AlbumDTO[] _albumDB;
+        PlaylistDTO[] _playlistDB;
 
         //SONG SWITCH///////////////////////////////////////////
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
 
 
         //PLAYLIST////////////////////////////////////////////
-        Playlist _currentPlaylist;
-        List<Song> _songsPlayed = new List<Song>();
-        List<Song> _songsAdded = new List<Song>();
+        PlaylistDTO _currentPlaylist;
+        List<SongDTO> _songsPlayed = new List<SongDTO>();
+        List<SongDTO> _songsAdded = new List<SongDTO>();
 
         //SYSTEM//////////////////////////////////////////////
 
         MediaPlayer _mediaPlayer;
 
-        public ControlMusic(Song[] songDB, Radio[] RadioDB, Playlist[] PlaylistDB, Artist[] ArtistDB, Album[] AlbumDB, UserListener User): base(User)
+        public ControlMusic(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, UserListenerDTO User): base(User)
         {
             _songDB = songDB;
             _radioDB = RadioDB;
@@ -155,11 +155,11 @@ namespace SpotiControl
             try
             {
                 //prova scrittura dto
-                DataService s =DataService.GetInstance();
-                //($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs2.csv");
-                s.GetAllDTOSongs(_songDB,_playlistDB);
+                //DataService s =DataService.GetInstance();
+                ////($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs2.csv");
+                //s.GetAllDTOSongs(_songDB,_playlistDB);
 
-                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
+                //DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
             }
             catch (Exception ex)
             {
@@ -168,7 +168,7 @@ namespace SpotiControl
             }
             try
             {
-                DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
+                //DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsadded.csv", _songsAdded);
             }
             catch (Exception ex)
             {
@@ -179,7 +179,7 @@ namespace SpotiControl
         }
         void HandleSelectSong()
         {
-            _song = (Song)playItem(_songs[n - 1]);
+            _song = (SongDTO)playItem(_songs[n - 1]);
         }
         void HandleAddSongToPlaylist()
         {
@@ -191,37 +191,37 @@ namespace SpotiControl
         }
         void HandleArtist()
         {
-            Artist[] ar = _artistDB;
+            ArtistDTO[] ar = _artistDB;
             int choose = chooseObj(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
-            _songs = _songDB.Where(song => song.Artist.Name == ar[choose].Name).ToArray();
+            _songs = _songDB.Where(song => song.ArtistDTO.Name == ar[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandleAlbum()
         {
-            Album[] al = _albumDB;
+            AlbumDTO[] al = _albumDB;
             int choose = chooseObj(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
-            _songs = _songDB.Where(song => song.Album.Name == al[choose].Name).ToArray();
+            _songs = _songDB.Where(song => song.AlbumDTO.Name == al[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
         }
         void HandlePlaylist()
         {
-            Playlist[] pl = _playlistDB;
+            PlaylistDTO[] pl = _playlistDB;
             int choose = chooseObj(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
-            _songs = pl[choose].Songs;
+            _songs = pl[choose].SongsDTO;
             _mediaPlayer = new MediaPlayer(_songs);
-            _song = (Song)playItem(_songs[_mediaPlayer.CurrentIndex]);
+            _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             _currentPlaylist = pl[choose];
             ShowMenuOnlySong();
         }
         void HandleRadio()
         {
-            Radio[] rd = _radioDB;
+            RadioDTO[] rd = _radioDB;
             int choose = chooseObj(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
-            _songs = rd[choose].OnAirPlaylist.Songs;
+            _songs = rd[choose].OnAirPlaylistDTO.SongsDTO;
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();
