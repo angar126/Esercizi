@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace SpotiData
 {
-    public class Album:ICountable
+    public class Album:Music, ICountable
     {
         public string Name { get; set; }
         public int Rating { get; set; }

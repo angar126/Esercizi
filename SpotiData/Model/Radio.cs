@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpotiData
 {
-    public class Radio :ICountable
+    public class Radio :Music, ICountable
     {
         
         public string Name { get; set; }

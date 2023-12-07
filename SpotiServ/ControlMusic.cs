@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SpotiData;
+using SpotiServ.Services;
 using SpotiUtil;
 using SpotiView;
 
@@ -186,12 +187,15 @@ namespace SpotiServ
             if (_currentPlaylist != null)
             {
                 _currentPlaylist.AddSong(_song);
+                PlaylistService ps = PlaylistService.GetInstance();
+                ps.Update(_currentPlaylist);
                 _songsAdded.Add(_song);
             }
         }
         void HandleArtist()
         {
-            ArtistDTO[] ar = _artistDB;
+            ArtistService ars = ArtistService.GetInstance();
+            ArtistDTO[] ar = ars.GetAll().ToArray();
             int choose = chooseObj(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
             _songs = _songDB.Where(song => song.ArtistDTO.Name == ar[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
@@ -200,7 +204,8 @@ namespace SpotiServ
         }
         void HandleAlbum()
         {
-            AlbumDTO[] al = _albumDB;
+            AlbumService als = AlbumService.GetInstance();
+            AlbumDTO[] al = als.GetAll().ToArray();
             int choose = chooseObj(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
             _songs = _songDB.Where(song => song.AlbumDTO.Name == al[choose].Name).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
@@ -209,7 +214,8 @@ namespace SpotiServ
         }
         void HandlePlaylist()
         {
-            PlaylistDTO[] pl = _playlistDB;
+            PlaylistService ps = PlaylistService.GetInstance();
+            PlaylistDTO[] pl = ps.GetAll().ToArray();
             int choose = chooseObj(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
             _songs = pl[choose].SongsDTO;
             _mediaPlayer = new MediaPlayer(_songs);
@@ -219,7 +225,8 @@ namespace SpotiServ
         }
         void HandleRadio()
         {
-            RadioDTO[] rd = _radioDB;
+            RadioService rs =RadioService.GetInstance();
+            RadioDTO[] rd = rs.GetAll().ToArray();
             int choose = chooseObj(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
             _songs = rd[choose].OnAirPlaylistDTO.SongsDTO;
             _mediaPlayer = new MediaPlayer(_songs);

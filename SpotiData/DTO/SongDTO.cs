@@ -23,7 +23,5 @@ namespace SpotiData
             Id = song.Id;
             Title = song.Title;
         }
-
-
     }
 }

@@ -8,21 +8,21 @@ using SpotiData;
 
 namespace SpotiServ
 {
-    public class MusicServiceRepo : IService<Song, SongDTO>
+    public class SongService : IService<Song, SongDTO>
     {
 
         readonly MusicRepository<Song, SongDTO, SongDTO> _MusicRepository;
 
-        static MusicServiceRepo instance;
-        MusicServiceRepo()
+        static SongService instance;
+        SongService()
         {
             _MusicRepository = new MusicRepository<Song, SongDTO, SongDTO>(@"D:\logs\");
         }
-        public static MusicServiceRepo GetInstance()
+        public static SongService GetInstance()
         {
             if (instance is null)
             {
-                instance = new MusicServiceRepo();
+                instance = new SongService();
             }
             return instance;
         }
@@ -32,7 +32,10 @@ namespace SpotiServ
             return _MusicRepository.GetAll().ToList();//_MusicRepository.GetAll().Select(i => new SongDTO(i)).ToList();
 
         }
-        public SongDTO Get(int Id) { return null; }
+        public SongDTO Get(int Id) {
+            List<SongDTO> songs = GetAll();
+            return songs.FirstOrDefault(s => s.Id == Id); 
+        }
         public SongDTO Update() { return null; }
         public SongDTO Delete(int Id) { return null; }
     }

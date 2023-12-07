@@ -7,11 +7,12 @@ using System.Xml.Linq;
 
 namespace SpotiData
 {
-    public abstract class User
+    public abstract class User:ICountable
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public User() { }
-        
+        public int Rating { get; set; }
+
     }
 }

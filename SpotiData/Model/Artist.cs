@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace SpotiData
 {
-    public class Artist:ICountable
+    public class Artist:Music, ICountable
     {
         public string Name { get; set; }
         public Album[] Albums { get; set; } = Array.Empty<Album>();

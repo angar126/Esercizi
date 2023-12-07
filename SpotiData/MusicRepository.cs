@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpotiData
 {
-    public class MusicRepository<T, Rq, Rs> : IRepository<T, Rq, Rs> where T : class, new() where Rs : Music, new() where Rq : Music, new()
+    public class MusicRepository<T, Rq, Rs> : IRepository<T, Rq, Rs> where T : class, new() where Rs : ICountable, new() where Rq : ICountable, new()
     {
         private readonly GenericDbContext<T, Rs> Db;
 
@@ -24,9 +24,10 @@ namespace SpotiData
         {
             // toDO
         }
+
     }
 
-    internal interface IRepository<T, Rq, Rs>
+    internal interface IRepository<T, Rq, Rs> where Rq : ICountable, new() where Rs : ICountable, new()
     {
         void Update(List<Rq> items);
         List<Rs> GetAll();

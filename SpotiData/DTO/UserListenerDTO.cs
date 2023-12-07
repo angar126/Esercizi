@@ -7,13 +7,14 @@ using System.Xml.Linq;
 
 namespace SpotiData
 {
-    public class UserListenerDTO
+    public class UserListenerDTO: UserDTO, ICountable
     {
-        PlaylistDTO[] Playlists { get; set; }
+        public PlaylistDTO[] Playlists { get; set; }
         public PlaylistDTO FavouriteSongs { get; set; }
         public RadioDTO[] RadioFavourites { get; set; }
         public bool IsGold { get; set; }
         public TimeSpan TimeSpan { get; set; }
+        public int Rating { get; set; }
 
     }
 }
