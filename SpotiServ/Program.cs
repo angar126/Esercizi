@@ -75,8 +75,8 @@ namespace SpotiServ
             try
             {
                 //MusicService m = MusicService.GetInstance();
-                //DataBase db = new DataBase(m, radioDB,directorDB, filmDB, user);
-                //MenuLeng.CreateMenu(db);
+                //DataBase db = new DataBase(m, radioDB, directorDB, filmDB, user);
+                MenuLeng.CreateMenu();
             }
             catch (Exception ex)
             {

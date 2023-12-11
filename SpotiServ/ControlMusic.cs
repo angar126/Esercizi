@@ -155,12 +155,8 @@ namespace SpotiServ
             View.ExitMsg();
             try
             {
-                //prova scrittura dto
-                //DataService s =DataService.GetInstance();
-                ////($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs2.csv");
-                //s.GetAllDTOSongs(_songDB,_playlistDB);
-
-                //DataStreamL<Song>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
+                
+                DataStreamL<SongDTO>.WriteonFile($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songsplayd.csv", _songsPlayed);
             }
             catch (Exception ex)
             {
