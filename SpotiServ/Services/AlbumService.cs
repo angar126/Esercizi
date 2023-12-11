@@ -28,7 +28,7 @@ namespace SpotiServ.Services
         public List<AlbumDTO> GetAll()
         {
 
-            return _MusicRepository.GetAll().ToList();//_MusicRepository.GetAll().Select(i => new SongDTO(i)).ToList();
+            return _MusicRepository.GetAll().ToList();
 
         }
         public AlbumDTO Get(int Id)

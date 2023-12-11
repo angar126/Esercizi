@@ -14,7 +14,7 @@ namespace SpotiServ
 
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
-        public ControlFilm(Director[] DirectorDB, Film[] FilmDB, UserListener User):base (User)
+        public ControlFilm(Director[] DirectorDB, Film[] FilmDB, UserListenerDTO User):base (User)
         {
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _directorDB = DirectorDB;

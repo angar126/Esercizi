@@ -9,7 +9,6 @@ namespace SpotiData
     public class PlaylistDTO: Music, ICountable
     {
         public string Name { get; set; }
-        public int Rating { get; set; }
         public SongDTO[] SongsDTO { get; set; } = Array.Empty<SongDTO>();
         public int PlaylistIdDTO { get; set; }
         public void AddSong(SongDTO song)

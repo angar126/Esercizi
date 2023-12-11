@@ -9,8 +9,7 @@ namespace SpotiData
     public class Playlist:Music, ICountable
     {
         public string Name { get; set; }
-        public int Rating { get; set; }
-        public Song[] Songs { get; set; } = Array.Empty<Song>();
+        public int[] IdSongs { get; set; } = Array.Empty<int>();
         public int PlaylistId { get; set; }
        
     }

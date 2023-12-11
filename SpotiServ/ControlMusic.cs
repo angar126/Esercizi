@@ -15,10 +15,10 @@ namespace SpotiServ
     {
         //DATA//////////////////////////////////////////////////
 
-        RadioDTO[] _radioDB;
-        ArtistDTO[] _artistDB;
-        AlbumDTO[] _albumDB;
-        PlaylistDTO[] _playlistDB;
+        //RadioDTO[] _radioDB;
+        //ArtistDTO[] _artistDB;
+        //AlbumDTO[] _albumDB;
+        //PlaylistDTO[] _playlistDB;
 
         //SONG SWITCH///////////////////////////////////////////
         char[] _botton = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'L', 'R', 'E', 'H', 'Q' };
@@ -32,14 +32,14 @@ namespace SpotiServ
         //SYSTEM//////////////////////////////////////////////
 
         MediaPlayer _mediaPlayer;
-
+        public ControlMusic(UserListenerDTO user): base (user) { }
         public ControlMusic(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, UserListenerDTO User): base(User)
         {
             _songDB = songDB;
-            _radioDB = RadioDB;
-            _playlistDB = PlaylistDB;
-            _artistDB = ArtistDB;
-            _albumDB = AlbumDB;
+            //_radioDB = RadioDB;
+            //_playlistDB = PlaylistDB;
+            //_artistDB = ArtistDB;
+            //_albumDB = AlbumDB;
             _user = User;
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _view = new View();
@@ -188,7 +188,7 @@ namespace SpotiServ
             {
                 _currentPlaylist.AddSong(_song);
                 PlaylistService ps = PlaylistService.GetInstance();
-                ps.Update(_currentPlaylist);
+                ps.Update();
                 _songsAdded.Add(_song);
             }
         }

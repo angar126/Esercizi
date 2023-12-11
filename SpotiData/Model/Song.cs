@@ -11,10 +11,9 @@ namespace SpotiData
     {
         public string Title { get; set; }
         public string Genre { get; set; }
-        public Artist Artist { get; set; }
-        public Album Album { get; set; }
+        public int IdArtist { get; set; }
+        public int IdAlbum { get; set; }
         public string ReleaseDate { get; set; }
-        public int Rating { get; set; }
         public int PlaylistId { get; set; }
         public double TimeMillis { get ; set; }
 

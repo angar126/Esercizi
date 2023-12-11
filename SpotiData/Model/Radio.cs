@@ -11,7 +11,7 @@ namespace SpotiData
         
         public string Name { get; set; }
         public int Rating { get; set; }
-        public Playlist OnAirPlaylist { get; set; }
+        public int OnAirPlaylist { get; set; }
         public Radio() { }
        
     }

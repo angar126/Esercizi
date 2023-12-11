@@ -8,6 +8,11 @@ namespace SpotiData
 {
     public class Music
     {
-        public int Id { get; set; }    
+        public int Id { get; set; }
+        public int Rating { get; set; }
+        public void Play()
+        {
+            Rating++;
+        }
     }
 }

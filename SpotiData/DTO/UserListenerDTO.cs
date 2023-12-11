@@ -9,9 +9,8 @@ namespace SpotiData
 {
     public class UserListenerDTO: UserDTO, ICountable
     {
-        public PlaylistDTO[] Playlists { get; set; }
-        public PlaylistDTO FavouriteSongs { get; set; }
-        public RadioDTO[] RadioFavourites { get; set; }
+        public int[] IdsPlaylists { get; set; }
+        //public int[] IdsFavouriteSongs { get; set; }
         public bool IsGold { get; set; }
         public TimeSpan TimeSpan { get; set; }
         public int Rating { get; set; }

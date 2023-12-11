@@ -23,6 +23,7 @@ namespace SpotiServ
             _user = User;
             _timeOver = User.TimeSpan < TimeSpan.Zero;
             _view = new View();
+            _songDB = SongService.GetInstance().GetAll().ToArray();
         }
         protected void HandleNext(MediaPlayer Mediaplayer)
         {

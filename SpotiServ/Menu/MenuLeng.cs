@@ -25,8 +25,10 @@ namespace SpotiServ
             { "Spanish", "es-ES" },
 
         };
-        static public void CreateMenu(DataBase db)
+        static public void CreateMenu()
         {
+            //fai il login
+            UserListenerDTO user= new UserListenerDTO();
             //andrebbe nella view
             View.printTopMenuLeng();
             CultureInfo culture = new CultureInfo(ShowLengMenu());
@@ -34,7 +36,7 @@ namespace SpotiServ
             Console.WriteLine(culture.ToString());
             Thread.Sleep(200);
             Console.Clear();
-            MenuMediaSource.CreateMenu(db);
+            MenuMediaSource.CreateMenu(user);
             
         }
         static string ShowLengMenu()

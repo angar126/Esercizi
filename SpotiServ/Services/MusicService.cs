@@ -1,21 +1,22 @@
-﻿
+﻿using SpotiData;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using SpotiData;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace SpotiServ
+namespace SpotiServ.Services
 {
-    public class MusicService: IDataService
+    class MusicService: IService<MusicDto,SongDTO>
     {
-        static MusicDbContext DbContext;
+        readonly MusicRepository<MusicDto, SongDTO, SongDTO> _MusicRepository;
+
         static MusicService instance;
         MusicService()
         {
-            DbContext = new MusicDbContext($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}{Path.DirectorySeparatorChar}songs.csv");
+            _MusicRepository = new MusicRepository<MusicDto, SongDTO, SongDTO>(@"D:\logs\");
         }
-
         public static MusicService GetInstance()
         {
             if (instance is null)
@@ -24,21 +25,23 @@ namespace SpotiServ
             }
             return instance;
         }
-        public Song[] GetAllSongs()
+        public List<SongDTO> GetAll()
         {
-            return DbContext.Songs.ToArray(); 
+            return _MusicRepository.GetAll().ToList();//_MusicRepository.GetAll().Select(i => new SongDTO(i)).ToList();
+
         }
-        public Artist[] GetAllArtists()
+        public SongDTO Get(int Id)
         {
-            return DbContext.Artists.ToArray();
+            List<SongDTO> items = GetAll();
+            return items.FirstOrDefault(s => s.Id == Id);
         }
-        public Album[] GetAllAlbums()
-        {
-            return DbContext.Albums.ToArray();
-        }
-        public Playlist[] GetAllPlaylists()
-        {
-            return DbContext.Playlists.ToArray();
-        }
+        public SongDTO Update() { return null; }
+        public SongDTO Delete(int Id) { return null; }
+        //public List<Artist> GetAllArtist()
+        //{
+        //    return GetAll().Select()
+        //               .Distinct()
+        //               .ToArray();
+        //}
     }
 }

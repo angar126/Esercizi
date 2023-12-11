@@ -37,7 +37,7 @@ namespace SpotiServ
             return playlists.FirstOrDefault(p => p.PlaylistIdDTO == Id);
         }
 
-        public PlaylistDTO Update(PlaylistDTO pDTO)
+        public PlaylistDTO Update()
         {
             // Implementa la logica di aggiornamento per le playlist
             return null;

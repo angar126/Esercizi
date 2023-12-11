@@ -10,7 +10,6 @@ namespace SpotiData
     {
         
         public string Name { get; set; }
-        public int Rating { get; set; }
         public PlaylistDTO OnAirPlaylistDTO { get; set; }
         
     }

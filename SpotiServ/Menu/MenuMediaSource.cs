@@ -8,12 +8,12 @@ namespace SpotiServ
     //dovrei dividere parte view e switch case
     static class MenuMediaSource
     {
-        static DataBase _db;
-        static char TypeMenu;
 
-        static public void CreateMenu(DataBase db)
+        static char TypeMenu;
+        static UserListenerDTO _user;
+        static public void CreateMenu(UserListenerDTO user)
         {
-            _db = db;
+            _user = user;
             char userInput = new char();
 
             while (!(userInput.Equals('E')|| userInput.Equals('M') || userInput.Equals('V')))
@@ -37,7 +37,7 @@ namespace SpotiServ
                 if (validInput)
                 {
                     View.ErrorMsgMenu();
-                    CreateMenu(_db);
+                    CreateMenu(_user);
                 }
                 View.EnterChoiceMsg();
                 userInput = char.ToUpper(Console.ReadKey().KeyChar);
@@ -54,16 +54,16 @@ namespace SpotiServ
             {
                 case 'M':
                     //Console.WriteLine("M pressed.");
-                    ControlMusic music = new ControlMusic(_db.SongDB,_db.RadioDB,_db.PlaylistDB,_db.ArtistDB,_db.AlbumDB,_db.User);
+                    ControlMusic music = new ControlMusic(_user);
                     music.TypeMenu = TypeMenu;
                     music.CreateMenu();
 
                     break;
                 case 'V':
                     //Console.WriteLine("V pressed.");
-                    ControlFilm film = new ControlFilm(_db.DirectorDB,_db.FilmDB,_db.User);
-                    film.TypeMenu = TypeMenu;
-                    film.CreateMenu();
+                    //ControlFilm film = new ControlFilm(_db.DirectorDB,_db.FilmDB,_db.User);
+                    //film.TypeMenu = TypeMenu;
+                    //film.CreateMenu();
 
                     break;
                 case 'E':

@@ -12,7 +12,6 @@ namespace SpotiData
         public string Name { get; set; }
         public AlbumDTO[] AlbumsDTO { get; set; } = Array.Empty<AlbumDTO>();
         public string Genre { get; set; }
-        public int Rating { get; set; }
 
     }
 }
