@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Linq;
 using SpotiData;
+using SpotiServ.Services;
 using SpotiView;
 
 namespace SpotiServ
 {
     public class ControlFilm : ControlPlayer
     {
-        Film[] _films;
-        Film[] _filmDB;
-        Director[] _directorDB;
+        FilmDTO[] _films;
+
         MediaPlayer _mediaPlayer;
 
         char[] _bottonFilm = new char[] { 'F', 'B', 'P', 'S', 'M', 'C', 'A', 'D', 'E' }; //'L', 'R', 'H', 'Q'
 
-        public ControlFilm(Director[] DirectorDB, Film[] FilmDB, UserListenerDTO User):base (User)
+        public ControlFilm(UserListenerDTO User):base (User)
         {
             _timeOver = User.TimeSpan < TimeSpan.Zero;
-            _directorDB = DirectorDB;
-            _filmDB = FilmDB;
+
             _view = new View();
         }
         public void CreateMenuFilm()
@@ -95,20 +94,23 @@ namespace SpotiServ
         }
         void HandleFilms()
         {
-            Film[] fl = _filmDB;
+            FilmService fs = FilmService.GetInstance();
+            FilmDTO[] fl = fs.GetAll().ToArray();
             int choose = chooseObj(fl, film => film.Title, ConsoleColor.Magenta, ConsoleColor.White);
             _films = fl;
             _mediaPlayer = new MediaPlayer(_films);
-            _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
+            _film = (FilmDTO)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
         void HandleDirector()
         {
-            Director[] dr = _directorDB;
+            DirectorService ds = DirectorService.GetInstance();
+            DirectorDTO[] dr = ds.GetAll().ToArray();
             int choose = chooseObj(dr, director => director.Name, ConsoleColor.Red, ConsoleColor.White);
-            _films = _filmDB.Where(film => film.Director.Equals(dr[choose])).ToArray();
+            FilmService fs = FilmService.GetInstance();
+            _films = fs.GetAll().ToArray().Where(film => film.DirectorDTO.Equals(dr[choose])).ToArray();
             _mediaPlayer = new MediaPlayer(_films);
-            _film = (Film)playItem(_films[_mediaPlayer.CurrentIndex]);
+            _film = (FilmDTO)playItem(_films[_mediaPlayer.CurrentIndex]);
             _view.ShowPlaying(_film.Title, _timeOver);
         }
         override public void Exit()

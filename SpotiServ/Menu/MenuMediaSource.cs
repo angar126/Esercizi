@@ -60,10 +60,10 @@ namespace SpotiServ
 
                     break;
                 case 'V':
-                    //Console.WriteLine("V pressed.");
-                    //ControlFilm film = new ControlFilm(_db.DirectorDB,_db.FilmDB,_db.User);
-                    //film.TypeMenu = TypeMenu;
-                    //film.CreateMenu();
+                    Console.WriteLine("V pressed.");
+                    ControlFilm film = new ControlFilm(_user);
+                    film.TypeMenu = TypeMenu;
+                    film.CreateMenu();
 
                     break;
                 case 'E':

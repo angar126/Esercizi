@@ -11,7 +11,7 @@ namespace SpotiServ
         protected SongDTO _song;
         protected SongDTO[] _songs;
         protected SongDTO[] _songDB;
-        protected Film _film;
+        protected FilmDTO _film;
         protected bool _timeOver = false;
         protected UserListenerDTO _user;
         protected char _typeMenu;
@@ -30,7 +30,7 @@ namespace SpotiServ
             if (Mediaplayer != null)
                 if (_songs != null)
                     _song = (SongDTO)playItem(Mediaplayer.Next());
-                else _film = (Film)playItem(Mediaplayer.Next());
+                else _film = (FilmDTO)playItem(Mediaplayer.Next());
         }
 
         protected void HandlePrevious(MediaPlayer Mediaplayer)
@@ -38,7 +38,7 @@ namespace SpotiServ
             if (Mediaplayer != null)
                 if (_songs != null)
                     _song = (SongDTO)playItem(Mediaplayer.Previous());
-                else _film = (Film)playItem(Mediaplayer.Previous());
+                else _film = (FilmDTO)playItem(Mediaplayer.Previous());
         }
 
         protected void HandlePause(MediaPlayer Mediaplayer)

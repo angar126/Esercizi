@@ -24,12 +24,12 @@ namespace SpotiData
             _plays = new SongDTO[] { Song };
             _currentIndex = 0;
         }
-        public MediaPlayer(Film Film)
+        public MediaPlayer(FilmDTO Film)
         {
-            _plays = new Film[] { Film };
+            _plays = new FilmDTO[] { Film };
             _currentIndex = 0;
         }
-        public MediaPlayer(Film[] Films)
+        public MediaPlayer(FilmDTO[] Films)
         {
             _plays = Films;
             _currentIndex = 0;
@@ -47,10 +47,10 @@ namespace SpotiData
                 song.ArtistDTO.Rating++;
                 song.AlbumDTO.Rating++;
             }
-            if (play is Film)
+            if (play is FilmDTO)
             {
-                Film film = (Film)play;
-                film.Director.Rating++;
+                FilmDTO film = (FilmDTO)play;
+                film.DirectorDTO.Rating++;
 
             }
             //_timeSong = now.AddMilliseconds(song.TimeMillis);
@@ -63,11 +63,11 @@ namespace SpotiData
             playlist.Rating++;
             return (SongDTO)Start(_plays[_currentIndex]);
         }
-        public Film Start(Film[] playlist)
+        public FilmDTO Start(FilmDTO[] playlist)
         {
             _plays = playlist;
             //playlist.Count++;
-            return (Film)Start(_plays[_currentIndex]);
+            return (FilmDTO)Start(_plays[_currentIndex]);
         }
         public IPlayable PlayPause()
         {

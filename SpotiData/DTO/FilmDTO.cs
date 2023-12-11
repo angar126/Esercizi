@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SpotiData
 {
-    public class Film : IPlayable
+    public class FilmDTO : IPlayable
     {
         public int Id { get; set; }
         public double TimeMillis { get; set; }
         public string Genre { get; set; }
         public int Rating { get; set; }
         public string Title { get; set; }
-        public Director Director { get; set; }
+        public DirectorDTO DirectorDTO { get; set; }
        
     }
 }
