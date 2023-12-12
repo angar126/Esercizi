@@ -10,7 +10,7 @@ namespace SpotiData
     public class Artist:Music, ICountable
     {
         public string Name { get; set; }
-        public int[] IdAlbums { get; set; } = Array.Empty<int>();
+        public string IdAlbums { get; set; }
         public string Genre { get; set; }
         
     }

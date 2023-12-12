@@ -16,7 +16,7 @@ namespace SpotiServ
         static SongService instance;
         SongService()
         {
-            _MusicRepository = new MusicRepository<Song, SongDTO, SongDTO>(@"D:\logs\");
+            _MusicRepository = new MusicRepository<Song, SongDTO, SongDTO>(@"C:\Users\user\Desktop\csv");
         }
         public static SongService GetInstance()
         {

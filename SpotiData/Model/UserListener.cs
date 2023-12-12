@@ -9,9 +9,9 @@ namespace SpotiData
 {
     public class UserListener : User
     {
-        int[] IdPlaylists { get; set; }
+        public string IdPlaylists { get; set; }
         public int FavouriteSongs { get; set; }
-        public int[] RadioFavourites { get; set; }
+        public string RadioFavourites { get; set; }
         public bool IsGold { get; set; }
         public TimeSpan TimeSpan { get; set; }
 

@@ -12,7 +12,6 @@ namespace SpotiData
         public string Name { get; set; }
         
         public SongDTO[] SongsDTO { get; set; } = Array.Empty<SongDTO>();
-        public ArtistDTO[] ArtistDTO { get; set; }
-        public string Genre { get; set; }
+        public ArtistDTO ArtistDTO { get; set; }
     }
 }

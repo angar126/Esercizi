@@ -15,7 +15,7 @@ namespace SpotiServ.Services
         static RadioService instance;
         RadioService()
         {
-            _MusicRepository = new MusicRepository<Radio, RadioDTO, RadioDTO>(@"D:\logs\");
+            _MusicRepository = new MusicRepository<Radio, RadioDTO, RadioDTO>(@"C:\Users\user\Desktop\csv");
         }
         public static RadioService GetInstance()
         {
