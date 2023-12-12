@@ -15,5 +15,19 @@ namespace DataLayer
         public int Type { get; set; }
         public string Host {  get; set; }
         public int Port { get; set; }
+
+        //poi DTO
+        public User(User user)
+        {
+            Id= user.Id;
+            Name= user.Name;
+            Email= user.Email;
+            Password= user.Password;
+            Type = user.Type;
+            Host = user.Host;
+            Port = user.Port;
+        }
+        public User() { }
     }
+    
 }

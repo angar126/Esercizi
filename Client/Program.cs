@@ -2,8 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Services;
+using DataLayer;
 using Microsoft.Extensions.Options;
 using static Client.Program;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -11,6 +13,8 @@ namespace Client
     {
         static void Main(string[] args)
         {
+
+            
             var configuration = new ConfigurationBuilder()
                   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                   .AddEnvironmentVariables()
@@ -40,6 +44,12 @@ namespace Client
             else
             {
                 Console.WriteLine("MySetting is null. Check configuration.");
+            }
+
+            List<User> list = UserService.GetInstance(setting.UserRepo).GetAll();
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.Name);
             }
         }
         public class MyService
