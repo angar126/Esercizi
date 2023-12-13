@@ -10,7 +10,7 @@ using DataLayer;
 
 namespace Services
 {
-    public class EmailService
+    public class EmailService:IEmailService
     {
         public EmailService()
         {

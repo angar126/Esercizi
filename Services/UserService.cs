@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class UserService
+    public class UserService:IUserService
     {
 
-        readonly Repository<User, User, User> _Repository;
+        readonly IRepository<User, User, User> _Repository;
 
-        static UserService instance;
-        UserService(String path)
+        //static UserService instance;
+        public UserService(IRepository<User, User, User> configuration)
         {
-            _Repository = new Repository<User, User, User>(path);
+            _Repository = configuration;
         }
-        public static UserService GetInstance(String path)
-        {
-            if (instance is null)
-            {
-                instance = new UserService(path);
-            }
-            return instance;
-        }
+        //public static UserService GetInstance(String path)
+        //{
+        //    if (instance is null)
+        //    {
+        //        instance = new UserService(path);
+        //    }
+        //    return instance;
+        //}
         public List<User> GetAll()
         {
 

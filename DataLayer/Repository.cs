@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +12,9 @@ namespace DataLayer
     {
         private readonly GenericDbContext<T, Rs> Db;
 
-        public Repository(string path)
+        public Repository(IConfiguration prov)
         {
-            Db = new GenericDbContext<T, Rs>(path);
+            Db = new GenericDbContext<T, Rs>(prov);
         }
 
         public List<Rs> GetAll()
@@ -26,14 +28,15 @@ namespace DataLayer
         }
         public void Update(Rq items)
         {
-            // toDO
+            
         }
 
     }
 
-    internal interface IRepository<T, Rq, Rs> where Rq : class, new() where Rs : class, new()
+    public interface IRepository<T, Rq, Rs> where Rq : class, new() where Rs : class, new()
     {
         void Update(List<Rq> items);
         List<Rs> GetAll();
+        public void Update(Rq items);
     }
 }

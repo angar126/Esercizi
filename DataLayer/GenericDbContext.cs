@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace DataLayer
     {
         //private readonly IMapper _mapper;
         public List<Rs> Data; // ServiceDTo
-        public GenericDbContext(string path) : base(path)
+        public GenericDbContext(IConfiguration configuration) : base(configuration)
         {
 
-            var dataFromDb = ReadFromCsv<T>(path + typeof(T).Name.ToString() + ".csv");
+            var dataFromDb = ReadFromCsv<T>(configuration.GetConnectionString("DefaultConnection") + typeof(T).Name.ToString() + ".csv");
 
             // Assuming Res has a constructor that accepts a T instance
             Data = dataFromDb.Select(item => Activator.CreateInstance(typeof(Rs), item)).Cast<Rs>().ToList();

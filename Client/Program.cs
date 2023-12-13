@@ -23,14 +23,22 @@ namespace Client
                   .AddEnvironmentVariables()
                   .Build();
 
+
+
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
-            //serviceCollection.AddTransient<MyService>();
+            serviceCollection.AddTransient<IOrderService, OrderService>();
+            serviceCollection.AddTransient<IProductService, ProductService>();
+            serviceCollection.AddTransient<IUserService, UserService>();
+            serviceCollection.AddTransient<IEmailService, EmailService>();
+            serviceCollection.AddTransient<IRepository<User, User, User>, Repository<User, User, User>>();
+            serviceCollection.AddTransient<IRepository<Product, Product, Product>, Repository<Product, Product, Product>>();
+            serviceCollection.AddTransient<IRepository<Order, Order, Order>, Repository<Order, Order, Order>>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-
             var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;
+
             string pathUserRepo= setting.UserRepo; ;
             string pathProductRepo = setting.ProductRepo;
             string pathOrderRepo = setting.OrderRepo;
@@ -38,60 +46,16 @@ namespace Client
 
             Console.WriteLine("Inserisci nome utente(finto login): in questo momento Monique/Glover");
             string Name = Console.ReadLine();
+            
+            var userService = serviceProvider.GetRequiredService<IUserService>();
+            User user = userService.GetByName(Name);
 
-            UserService us = UserService.GetInstance(pathUserRepo);
-            User user = us.GetByName(Name);
-
-            ProductService productService = ProductService.GetInstance(pathProductRepo);
+            var productService = serviceProvider.GetRequiredService<IProductService>();
             int idProd = MenuItems.CreateMenu(productService.GetAll().Select(item => item.Name).ToArray())+1;// +1 perchè ho riutilizzato il menu di spotify
 
-            OrderService os = OrderService.GetInstance(pathOrderRepo);
+            var orderService = serviceProvider.GetRequiredService<IOrderService>();
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
-            os.makeOrder(order,user,emailToOrder,""+order.Id,TemplateEmail.Text(user,order));
-
+            orderService.makeOrder(order,user,emailToOrder,""+order.Id,TemplateEmail.Text(user,order));
         }
-        //public class MyService
-        //{
-        //    private readonly MySetting _configuration;
-
-        //    public MyService(IOptions<MySetting> emailSettings)
-        //    {
-        //        _configuration = emailSettings.Value;
-        //    }
-
-        //    public void DoSomething()
-        //    {
-        //        Console.WriteLine();
-
-        //        Console.WriteLine($"{_configuration.UserRepo}");
-
-        //    }
-        //}
-        /*static void Main(string[] args)
-        {
-            var FromAddress = new MailAddress("marquis.mueller@ethereal.email", "CORSONET 2023");
-            var ToAddress = new MailAddress("bruno_ferreira@hotmail.it");
-            const string fromPassword = "BT6WuFezhU9FUwPVNW";
-
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.ethereal.email",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(FromAddress.Address, fromPassword)
-            };
-
-            using (var message = new MailMessage(FromAddress, ToAddress)
-            {
-                Subject = "gffgfffg",
-                Body = "gfgfgfgffg"
-            })
-            {
-                smtp.Send(message);
-            }
-        }*/
     }
 }

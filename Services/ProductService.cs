@@ -5,24 +5,24 @@ using System.Linq;
 
 namespace Services
 {
-    public class ProductService
+    public class ProductService:IProductService
     {
 
-            readonly Repository<Product, Product, Product> _Repository;
+            readonly IRepository<Product, Product, Product> _Repository;
 
-            static ProductService instance;
-            ProductService(String path)
+            //static ProductService instance;
+            public ProductService(IRepository<Product, Product, Product> configuration)
             {
-                _Repository = new Repository<Product, Product, Product>(path);
-            }
-            public static ProductService GetInstance(String path)
-            {
-                if (instance is null)
-                {
-                    instance = new ProductService(path);
-                }
-                return instance;
-            }
+            _Repository = configuration;
+        }
+            //public static ProductService GetInstance(String path)
+            //{
+            //    if (instance is null)
+            //    {
+            //        instance = new ProductService(path);
+            //    }
+            //    return instance;
+            //}
             public List<Product> GetAll()
             {
 
