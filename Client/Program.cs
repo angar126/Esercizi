@@ -26,7 +26,7 @@ namespace Client
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
-            serviceCollection.AddTransient<MyService>();
+            //serviceCollection.AddTransient<MyService>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
 
@@ -50,23 +50,23 @@ namespace Client
             os.makeOrder(order,user,emailToOrder,""+order.Id,TemplateEmail.Text(user,order));
 
         }
-        public class MyService
-        {
-            private readonly MySetting _configuration;
+        //public class MyService
+        //{
+        //    private readonly MySetting _configuration;
 
-            public MyService(IOptions<MySetting> emailSettings)
-            {
-                _configuration = emailSettings.Value;
-            }
+        //    public MyService(IOptions<MySetting> emailSettings)
+        //    {
+        //        _configuration = emailSettings.Value;
+        //    }
 
-            public void DoSomething()
-            {
-                Console.WriteLine();
+        //    public void DoSomething()
+        //    {
+        //        Console.WriteLine();
 
-                Console.WriteLine($"{_configuration.UserRepo}");
+        //        Console.WriteLine($"{_configuration.UserRepo}");
 
-            }
-        }
+        //    }
+        //}
         /*static void Main(string[] args)
         {
             var FromAddress = new MailAddress("marquis.mueller@ethereal.email", "CORSONET 2023");
