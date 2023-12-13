@@ -10,6 +10,7 @@ namespace Services
     {
         public string ProductRepo { get; set; }
         public string UserRepo { get; set; }
+        public string OrderRepo { get; set; }
         public string OrderEmail { get; set; }
     }
 }

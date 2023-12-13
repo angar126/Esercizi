@@ -4,8 +4,11 @@ using System;
 using Services;
 using DataLayer;
 using Microsoft.Extensions.Options;
-using static Client.Program;
 using System.Collections.Generic;
+using SpotiView;
+using SpotiControl;
+using System.Linq;
+using DataLayer.Model;
 
 namespace Client
 {
@@ -28,29 +31,24 @@ namespace Client
 
 
             var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;
+            string pathUserRepo= setting.UserRepo; ;
+            string pathProductRepo = setting.ProductRepo;
+            string pathOrderRepo = setting.OrderRepo;
+            string emailToOrder = setting.OrderEmail;
 
+            Console.WriteLine("Inserisci nome utente(finto login): in questo momento Monique/Glover");
+            string Name = Console.ReadLine();
 
-            MyService service = serviceProvider.GetService<MyService>();
-            service.DoSomething();
+            UserService us = UserService.GetInstance(pathUserRepo);
+            User user = us.GetByName(Name);
 
-            if (setting != null)
-            {
-                string pathUserRepo = setting.UserRepo;
-                string pathProductRepo = setting.ProductRepo;
-                string emailToOrder = setting.OrderEmail;
+            ProductService productService = ProductService.GetInstance(pathProductRepo);
+            int idProd = MenuItems.CreateMenu(productService.GetAll().Select(item => item.Name).ToArray())+1;// +1 perchè ho riutilizzato il menu di spotify
 
-                Console.WriteLine(pathUserRepo + pathProductRepo + emailToOrder);
-            }
-            else
-            {
-                Console.WriteLine("MySetting is null. Check configuration.");
-            }
+            OrderService os = OrderService.GetInstance(pathOrderRepo);
+            Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
+            os.makeOrder(order,user,emailToOrder,""+order.Id,TemplateEmail.Text(user,order));
 
-            List<User> list = UserService.GetInstance(setting.UserRepo).GetAll();
-            foreach (var item in list)
-            {
-                Console.WriteLine(item.Name);
-            }
         }
         public class MyService
         {

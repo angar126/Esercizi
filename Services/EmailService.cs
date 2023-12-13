@@ -12,10 +12,8 @@ namespace Services
 {
     public class EmailService
     {
-        readonly IConfiguration _configuration;
-        public EmailService(IConfiguration configuration)
+        public EmailService()
         {
-            _configuration = configuration;
         }
 
         public void SendEmail(User user,string toAddress, string subject, string body)

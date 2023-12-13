@@ -36,6 +36,11 @@ namespace Services
             List<User> items = GetAll();
             return items.FirstOrDefault(s => s.Id == Id);
         }
+        public User GetByName(string Name)
+        {
+            List<User> items = GetAll();
+            return items.FirstOrDefault(s => s.Name == Name);
+        }
         public Product Update() { return null; }
         public Product Delete(int Id) { return null; }
     }

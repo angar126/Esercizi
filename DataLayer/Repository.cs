@@ -24,6 +24,10 @@ namespace DataLayer
         {
             // toDO
         }
+        public void Update(Rq items)
+        {
+            // toDO
+        }
 
     }
 

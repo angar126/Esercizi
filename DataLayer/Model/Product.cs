@@ -10,5 +10,14 @@ namespace DataLayer
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        //poi dto
+
+        public Product(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+        }
+        public Product() { }
     }
 }
