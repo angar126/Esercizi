@@ -40,13 +40,14 @@ namespace Client
             //serviceCollection.AddTransient<IRepository<Order, Order, Order>, Repository<Order, Order, Order>>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;
+            //var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;
 
-            string pathUserRepo= setting.UserRepo; ;
-            string pathProductRepo = setting.ProductRepo;
-            string pathOrderRepo = setting.OrderRepo;
-            string emailToOrder = setting.OrderEmail;
+            //string pathUserRepo= setting.UserRepo; ;
+            //string pathProductRepo = setting.ProductRepo;
+            //string pathOrderRepo = setting.OrderRepo;
+            //string emailToOrder = setting.OrderEmail;
 
+            //finta console
             Console.WriteLine("Inserisci nome utente(finto login): in questo momento Monique/Glover");
             string Name = Console.ReadLine();
             
@@ -58,7 +59,8 @@ namespace Client
 
             var orderService = serviceProvider.GetRequiredService<IOrderService>();
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
-            orderService.makeOrder(order,user,emailToOrder,""+order.Id,TemplateEmail.Text(user,order));
+            string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail
+            orderService.makeOrder(order,user, emailToOrder, ""+order.Id,TemplateEmail.Text(user,order));
         }
     }
 }
