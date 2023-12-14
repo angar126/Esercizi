@@ -59,7 +59,7 @@ namespace Client
 
             var orderService = serviceProvider.GetRequiredService<IOrderService>();
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
-            string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail
+            string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail;
             orderService.makeOrder(order,user, emailToOrder, ""+order.Id,TemplateEmail.Text(user,order));
         }
     }
