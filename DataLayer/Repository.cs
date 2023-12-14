@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace DataLayer
     {
         private readonly GenericDbContext<T, Rs> Db;
 
-        public Repository(IConfiguration prov)
+        public Repository(IConfiguration prov, ILogger<DbContext> logger)
         {
-            Db = new GenericDbContext<T, Rs>(prov);
+            Db = new GenericDbContext<T, Rs>(prov, logger);
         }
 
         public List<Rs> GetAll()

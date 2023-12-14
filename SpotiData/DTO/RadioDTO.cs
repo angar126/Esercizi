@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 namespace SpotiData
 {
     public class RadioDTO: Music, ICountable
-    {
-        
+    { 
         public string Name { get; set; }
-        public PlaylistDTO OnAirPlaylistDTO { get; set; }
-        
+        public int IdOnAirPlaylistDTO { get; set; }
+        public RadioDTO() { }
+        public RadioDTO(Radio radio) {
+            Id = radio.Id;
+            Rating = radio.Rating;
+            Name = radio.Name;
+            IdOnAirPlaylistDTO = radio.IdOnAirPlaylist;
+        }
     }
 }

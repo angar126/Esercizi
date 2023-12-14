@@ -25,10 +25,13 @@ namespace SpotiServ
             { "Spanish", "es-ES" },
 
         };
+
+        //prova senza login user
+        static TimeSpan timespan = TimeSpan.FromMinutes(5);
+        static UserListenerDTO user = new UserListenerDTO("User",timespan);
         static public void CreateMenu()
         {
             //fai il login
-            UserListenerDTO user= new UserListenerDTO();
             //andrebbe nella view
             View.printTopMenuLeng();
             CultureInfo culture = new CultureInfo(ShowLengMenu());

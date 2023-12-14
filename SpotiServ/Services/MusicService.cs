@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SpotiServ.Services
 {
-    class MusicService: IService<MusicDto,SongDTO>
+    public class MusicService: IService<MusicDto,SongDTO>
     {
         readonly MusicRepository<MusicDto, SongDTO, SongDTO> _MusicRepository;
 

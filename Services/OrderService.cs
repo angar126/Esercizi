@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Model;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace Services
             _Repository = configuration;
             _EmailService = new EmailService();
         }
+        public OrderService(IRepository<Order, Order, Order> configuration, IOptions<MySetting> email)
+        {
+            _Repository = configuration;
+            _EmailService = new EmailService(email);
+        }
         //public static OrderService GetInstance(IConfiguration configuration)
         //{
         //    if (instance is null)
@@ -33,6 +39,11 @@ namespace Services
         {
             _Repository.Update(order);
             _EmailService.SendEmail(user, Address, subject, body);
+        }
+        public void makeOrder2(Order order, User user, string subject, string body)
+        {
+            _Repository.Update(order);
+            _EmailService.SendEmail(user, subject, body);
         }
     }
 }

@@ -7,7 +7,7 @@ using SpotiData;
 
 namespace SpotiServ.Services
 {
-     class RadioService : IService<Radio, RadioDTO>
+    public class RadioService : IService<Radio, RadioDTO>
     {
 
         readonly MusicRepository<Radio, RadioDTO, RadioDTO> _MusicRepository;

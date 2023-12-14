@@ -7,7 +7,7 @@ using SpotiData;
 
 namespace SpotiServ.Services
 {
-    class ArtistService : IService<Artist, ArtistDTO>
+    public class ArtistService : IService<Artist, ArtistDTO>
     {
 
         readonly MusicRepository<Artist, ArtistDTO, ArtistDTO> _MusicRepository;
@@ -37,6 +37,7 @@ namespace SpotiServ.Services
             return items.FirstOrDefault(s => s.Id == Id);
         }
         public ArtistDTO Update() { return null; }
+        public ArtistDTO Update(ArtistDTO artist) { return null; }
         public ArtistDTO Delete(int Id) { return null; }
     }
 }

@@ -7,7 +7,7 @@ using SpotiData;
 
 namespace SpotiServ.Services
 {
-    class UserListenerService : IService<UserListener, UserListenerDTO>
+    public class UserListenerService : IService<UserListener, UserListenerDTO>
     {
 
         readonly MusicRepository<UserListener, UserListenerDTO, UserListenerDTO> _MusicRepository;

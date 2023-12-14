@@ -8,7 +8,7 @@ using SpotiData;
 
 namespace SpotiServ.Services
 {
-    class FilmService : IService<Film, FilmDTO>
+    public class FilmService : IService<Film, FilmDTO>
     {
 
         readonly FilmRepository<Film, FilmDTO, FilmDTO> _FilmRepository;

@@ -4,6 +4,7 @@ using System;
 using Services;
 using DataLayer;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using SpotiView;
 using SpotiControl;
@@ -27,6 +28,14 @@ namespace Client
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
+
+            serviceCollection.AddLogging(builder =>
+            {
+                builder.SetMinimumLevel(LogLevel.Debug);
+                builder.SetMinimumLevel(LogLevel.Information);
+            });
+           
+
             serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
             serviceCollection.AddTransient<IOrderService, OrderService>();
             serviceCollection.AddTransient<IProductService, ProductService>();
@@ -60,7 +69,7 @@ namespace Client
             var orderService = serviceProvider.GetRequiredService<IOrderService>();
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
             string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail;
-            orderService.makeOrder(order,user, emailToOrder, ""+order.Id,TemplateEmail.Text(user,order));
+            orderService.makeOrder(order, user, emailToOrder, "" + order.Id, TemplateEmail.Text(user, order));
         }
     }
 }

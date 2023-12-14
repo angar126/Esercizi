@@ -37,6 +37,7 @@ namespace SpotiServ.Services
             return items.FirstOrDefault(s => s.Id == Id);
         }
         public AlbumDTO Update() { return null; }
+        public AlbumDTO Update(AlbumDTO album) { return null; }
         public AlbumDTO Delete(int Id) { return null; }
     }
 

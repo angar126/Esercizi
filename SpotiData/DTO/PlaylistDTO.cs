@@ -9,12 +9,21 @@ namespace SpotiData
     public class PlaylistDTO: Music, ICountable
     {
         public string Name { get; set; }
-        public SongDTO[] SongsDTO { get; set; } = Array.Empty<SongDTO>();
+        public int[] IdSongsDTO { get; set; }
         public int PlaylistIdDTO { get; set; }
-        public void AddSong(SongDTO song)
+        public void AddSong(int IdSong)
         {
-            if (!SongsDTO.Contains(song))
-                SongsDTO = SongsDTO.Append(song).ToArray();
+            if (!IdSongsDTO.Contains(IdSong))
+                IdSongsDTO = IdSongsDTO.Append(IdSong).ToArray();
+        }
+        public PlaylistDTO() { }
+        public PlaylistDTO(Playlist playlist)
+        {
+            Id = playlist.Id;
+            Rating = playlist.Rating;
+            Name = playlist.Name;
+            IdSongsDTO = playlist.IdSongs.Split('|').Select(s => int.Parse(s)).ToArray();
+            PlaylistIdDTO= playlist.PlaylistId;
         }
     }
 }

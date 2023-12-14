@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpotiData;
+using SpotiServ.Services;
 
-namespace SpotiData
-{
-    public class MediaPlayer
+namespace SpotiServ
+{    public class MediaPlayer
     {
         //UserListener user;
         int _currentIndex;
@@ -44,8 +45,16 @@ namespace SpotiData
             if (play is SongDTO)
             {
                 SongDTO song = (SongDTO)play;
-                song.ArtistDTO.Rating++;
-                song.AlbumDTO.Rating++;
+                AlbumService albumService = AlbumService.GetInstance();
+                ArtistService artistService = ArtistService.GetInstance();
+
+                ArtistDTO a = artistService.Get(song.IdArtistDTO);
+                a.Rating++;
+                artistService.Update(a);
+
+                AlbumDTO al = albumService.Get(song.IdAlbumDTO);
+                al.Rating++;
+                albumService.Update(al);
             }
             if (play is FilmDTO)
             {

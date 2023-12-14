@@ -30,11 +30,12 @@ namespace SpotiServ
         List<SongDTO> _songsAdded = new List<SongDTO>();
 
         //SYSTEM//////////////////////////////////////////////
-
+        SongService _songService;
         MediaPlayer _mediaPlayer;
         public ControlMusic(UserListenerDTO user): base (user) { }
         public ControlMusic(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, UserListenerDTO User): base(User)
         {
+            _songService = SongService.GetInstance();
             _songDB = songDB;
             //_radioDB = RadioDB;
             //_playlistDB = PlaylistDB;
@@ -182,7 +183,7 @@ namespace SpotiServ
         {
             if (_currentPlaylist != null)
             {
-                _currentPlaylist.AddSong(_song);
+                _currentPlaylist.AddSong(_song.Id);
                 PlaylistService ps = PlaylistService.GetInstance();
                 ps.Update();
                 _songsAdded.Add(_song);
@@ -193,7 +194,7 @@ namespace SpotiServ
             ArtistService ars = ArtistService.GetInstance();
             ArtistDTO[] ar = ars.GetAll().ToArray();
             int choose = chooseObj(ar, artist => artist.Name, ConsoleColor.Magenta, ConsoleColor.White);
-            _songs = _songDB.Where(song => song.ArtistDTO.Name == ar[choose].Name).ToArray();
+            _songs = _songService.GetAllByArtist(ar[choose].Id).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
@@ -203,7 +204,7 @@ namespace SpotiServ
             AlbumService als = AlbumService.GetInstance();
             AlbumDTO[] al = als.GetAll().ToArray();
             int choose = chooseObj(al, album => album.Name, ConsoleColor.Red, ConsoleColor.White);
-            _songs = _songDB.Where(song => song.AlbumDTO.Name == al[choose].Name).ToArray();
+            _songs = _songService.GetAllByAlbum(al[choose].Id).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             ShowMenuOnlySong();
@@ -213,7 +214,7 @@ namespace SpotiServ
             PlaylistService ps = PlaylistService.GetInstance();
             PlaylistDTO[] pl = ps.GetAll().ToArray();
             int choose = chooseObj(pl, playlist => playlist.Name, ConsoleColor.Green, ConsoleColor.Black);
-            _songs = pl[choose].SongsDTO;
+            _songs = _songService.GetAllByPlaylist(pl[choose].Id).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = (SongDTO)playItem(_songs[_mediaPlayer.CurrentIndex]);
             _currentPlaylist = pl[choose];
@@ -224,7 +225,7 @@ namespace SpotiServ
             RadioService rs =RadioService.GetInstance();
             RadioDTO[] rd = rs.GetAll().ToArray();
             int choose = chooseObj(rd, radio => radio.Name, ConsoleColor.Yellow, ConsoleColor.Black);
-            _songs = rd[choose].OnAirPlaylistDTO.SongsDTO;
+            _songs = _songService.GetAllByPlaylist(rd[choose].IdOnAirPlaylistDTO).ToArray();
             _mediaPlayer = new MediaPlayer(_songs);
             _song = _songs[_mediaPlayer.CurrentIndex];
             ShowMenuOnlySong();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpotiServ.Services
 {
-    class DirectorService : IService<Director, DirectorDTO>
+    public class DirectorService : IService<Director, DirectorDTO>
     {
 
         readonly FilmRepository<Director, DirectorDTO, DirectorDTO> _FilmRepository;

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace DataLayer
     {
         //private readonly IMapper _mapper;
         public List<Rs> Data; // ServiceDTo
-        public GenericDbContext(IConfiguration configuration) : base(configuration)
+        public GenericDbContext(IConfiguration configuration, ILogger<DbContext> logger) : base(configuration, logger)
         {
 
             var dataFromDb = ReadFromCsv<T>(configuration.GetConnectionString("DefaultConnection") + typeof(T).Name.ToString() + ".csv");

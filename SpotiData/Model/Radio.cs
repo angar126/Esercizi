@@ -10,7 +10,7 @@ namespace SpotiData
     {
         
         public string Name { get; set; }
-        public int OnAirPlaylist { get; set; }
+        public int IdOnAirPlaylist { get; set; }
         public Radio() { }
        
     }

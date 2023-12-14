@@ -12,7 +12,7 @@ namespace SpotiData
         public GenericDbContext(string path) : base(path)
         {
 
-            var dataFromDb = ReadFromCsv<T>(path + typeof(T).Name.ToString() + ".csv");
+            var dataFromDb = ReadFromCsv<T>(path+"//" + typeof(T).Name.ToString() + ".csv");
 
             // Assuming Res has a constructor that accepts a T instance
             Data = dataFromDb.Select(item => Activator.CreateInstance(typeof(Rs), item)).Cast<Rs>().ToList();

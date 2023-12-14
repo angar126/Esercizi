@@ -36,6 +36,18 @@ namespace SpotiServ
             List<SongDTO> songs = GetAll();
             return songs.FirstOrDefault(s => s.Id == Id); 
         }
+        public List<SongDTO> GetAllByArtist(int IdArtist)
+        {
+            return GetAll().Where(s=>s.IdArtistDTO == IdArtist).ToList();
+        }
+        public List<SongDTO> GetAllByAlbum(int IdAlbum)
+        {
+            return GetAll().Where(s => s.IdAlbumDTO == IdAlbum).ToList();
+        }
+        public List<SongDTO> GetAllByPlaylist(int IdPlaylist)
+        {
+            return GetAll().Where(s => s.PlaylistId == IdPlaylist).ToList();
+        }
         public SongDTO Update() { return null; }
         public SongDTO Delete(int Id) { return null; }
     }
