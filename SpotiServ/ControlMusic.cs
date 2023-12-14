@@ -32,11 +32,13 @@ namespace SpotiServ
         //SYSTEM//////////////////////////////////////////////
         SongService _songService;
         MediaPlayer _mediaPlayer;
-        public ControlMusic(UserListenerDTO user): base (user) { }
+        public ControlMusic(UserListenerDTO user): base (user) {
+            _songService = SongService.GetInstance();
+        }
         public ControlMusic(SongDTO[] songDB, RadioDTO[] RadioDB, PlaylistDTO[] PlaylistDB, ArtistDTO[] ArtistDB, AlbumDTO[] AlbumDB, UserListenerDTO User): base(User)
         {
             _songService = SongService.GetInstance();
-            _songDB = songDB;
+            //_songDB = songDB;
             //_radioDB = RadioDB;
             //_playlistDB = PlaylistDB;
             //_artistDB = ArtistDB;

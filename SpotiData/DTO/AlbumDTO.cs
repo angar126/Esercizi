@@ -19,7 +19,11 @@ namespace SpotiData
             Id= album.Id;
             Rating = album.Rating;
             Name = album.Name;
-            IdSongs = album.IdSongs.Split('|').Select(s => int.Parse(s)).ToArray();
+            IdSongs = album.IdSongs.Split('|').Select(s =>
+            {
+                int.TryParse(s, out int result);
+                return result;
+            }).ToArray();
             IdArtist = album.IdArtist;
         }
         public AlbumDTO() { }

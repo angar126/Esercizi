@@ -22,8 +22,12 @@ namespace SpotiData
             Id = playlist.Id;
             Rating = playlist.Rating;
             Name = playlist.Name;
-            IdSongsDTO = playlist.IdSongs.Split('|').Select(s => int.Parse(s)).ToArray();
-            PlaylistIdDTO= playlist.PlaylistId;
+            IdSongsDTO = playlist.IdSongs.Split('|').Select(s =>
+            {
+                int.TryParse(s, out int result);
+                return result;
+            }).ToArray();
+            PlaylistIdDTO = playlist.PlaylistId;
         }
     }
 }

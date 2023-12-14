@@ -20,8 +20,12 @@ namespace SpotiData
         { 
             Id= userListener.Id;
             Name= userListener.Name;
-            IdPlaylists= userListener.IdPlaylists.Split('|').Select(s => int.Parse(s)).ToArray(); ;
-            IsGold= userListener.IsGold;
+            IdPlaylists= userListener.IdPlaylists.Split('|').Select(s =>
+            {
+                int.TryParse(s, out int result);
+                return result;
+            }).ToArray();
+            IsGold = userListener.IsGold;
             TimeSpan = userListener.TimeSpan;
             Rating = userListener.Rating;
 
