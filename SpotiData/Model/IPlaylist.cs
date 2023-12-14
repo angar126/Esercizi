@@ -9,6 +9,6 @@ namespace SpotiData
     public interface IPlaylist : ICountable
     {
         string Name { get; set; }
-        string Songs { get; set; }
+        SongDTO[] Songs { get; set; }
     }
 }

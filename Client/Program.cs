@@ -32,9 +32,12 @@ namespace Client
             serviceCollection.AddTransient<IProductService, ProductService>();
             serviceCollection.AddTransient<IUserService, UserService>();
             serviceCollection.AddTransient<IEmailService, EmailService>();
-            serviceCollection.AddTransient<IRepository<User, User, User>, Repository<User, User, User>>();
-            serviceCollection.AddTransient<IRepository<Product, Product, Product>, Repository<Product, Product, Product>>();
-            serviceCollection.AddTransient<IRepository<Order, Order, Order>, Repository<Order, Order, Order>>();
+            serviceCollection.AddServiceLayerServices<User, User, User>(configuration);
+            serviceCollection.AddServiceLayerServices<Product, Product, Product>(configuration);
+            serviceCollection.AddServiceLayerServices<Order, Order, Order>(configuration);
+            //serviceCollection.AddTransient<IRepository<User, User, User>, Repository<User, User, User>>();
+            //serviceCollection.AddTransient<IRepository<Product, Product, Product>, Repository<Product, Product, Product>>();
+            //serviceCollection.AddTransient<IRepository<Order, Order, Order>, Repository<Order, Order, Order>>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;

@@ -10,7 +10,17 @@ namespace SpotiData
     public class ArtistDTO: Music, ICountable
     {
         public string Name { get; set; }
-        public AlbumDTO[] AlbumsDTO { get; set; } = Array.Empty<AlbumDTO>();
+        public int[] IdAlbumsDTO { get; set; }
+
+        public ArtistDTO() { }
+        public ArtistDTO(Artist artist)
+        {
+            Id = artist.Id;
+            Rating = artist.Rating;
+            Name = artist.Name;
+            IdAlbumsDTO = artist.IdAlbums.Split('|').Select(s => int.Parse(s)).ToArray();
+
+        }
 
     }
 }

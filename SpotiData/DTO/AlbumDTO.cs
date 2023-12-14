@@ -11,7 +11,17 @@ namespace SpotiData
     {
         public string Name { get; set; }
         
-        public SongDTO[] SongsDTO { get; set; } = Array.Empty<SongDTO>();
-        public ArtistDTO ArtistDTO { get; set; }
+        public int[] IdSongs { get; set; }
+        public int IdArtist { get; set; }
+
+        public AlbumDTO(Album album)
+        {
+            Id= album.Id;
+            Rating = album.Rating;
+            Name = album.Name;
+            IdSongs = album.IdSongs.Split('|').Select(s => int.Parse(s)).ToArray();
+            IdArtist = album.IdArtist;
+        }
+        public AlbumDTO() { }
     }
 }

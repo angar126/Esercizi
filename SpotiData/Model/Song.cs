@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpotiData
 {
-    public class Song : Music, IPlayable
+    public class Song : Music
     {
         public string Title { get; set; }
         public string Genre { get; set; }

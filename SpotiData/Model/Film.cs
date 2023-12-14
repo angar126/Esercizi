@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpotiData
 {
-    public class Film : IPlayable
+    public class Film 
     {
         public int Id { get; set; }
         public double TimeMillis { get; set; }
