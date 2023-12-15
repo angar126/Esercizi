@@ -1,10 +1,10 @@
 ﻿using SpotiData;
 using System;
 using System.Linq;
-using SpotiView;
-using SpotiControl;
+using SpotiServ;
 
-namespace SpotiServ
+
+namespace SpotiPres
 {
     abstract public class ControlPlayer
     {

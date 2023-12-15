@@ -4,12 +4,15 @@ using System;
 using Services;
 using DataLayer;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using SpotiView;
 using SpotiControl;
 using System.Linq;
 using DataLayer.Model;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Microsoft.Extensions.Hosting;
+
 
 namespace Client
 {
@@ -20,8 +23,8 @@ namespace Client
 
             
             var configuration = new ConfigurationBuilder()
-                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                  .AddEnvironmentVariables()
+                  .AddJsonFile("appsettings.json")
+
                   .Build();
 
 
@@ -29,12 +32,13 @@ namespace Client
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<IConfiguration>(configuration);
 
-            serviceCollection.AddLogging(builder =>
-            {
-                builder.SetMinimumLevel(LogLevel.Debug);
-                builder.SetMinimumLevel(LogLevel.Information);
-            });
-           
+            //serviceCollection.AddLogging(builder =>
+            //{
+            //    builder.AddConfiguration(configuration.GetSection("Logging"));
+            //    builder.AddConsole();
+            //    builder.AddDebug();
+            //});
+
 
             serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
             serviceCollection.AddTransient<IOrderService, OrderService>();
@@ -44,17 +48,26 @@ namespace Client
             serviceCollection.AddServiceLayerServices<User, User, User>(configuration);
             serviceCollection.AddServiceLayerServices<Product, Product, Product>(configuration);
             serviceCollection.AddServiceLayerServices<Order, Order, Order>(configuration);
-            //serviceCollection.AddTransient<IRepository<User, User, User>, Repository<User, User, User>>();
-            //serviceCollection.AddTransient<IRepository<Product, Product, Product>, Repository<Product, Product, Product>>();
-            //serviceCollection.AddTransient<IRepository<Order, Order, Order>, Repository<Order, Order, Order>>();
+
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            //var setting = serviceProvider.GetService<IOptions<MySetting>>()?.Value;
+            //serilog
+            try
+            {
+                Log.Logger = new LoggerConfiguration()
+                    .ReadFrom
+                    .Configuration(configuration)
+                    //.MinimumLevel.Debug()
+                    //.WriteTo.Console()
+                    .CreateLogger();
+                var host = CreatehosteBuilder(args, configuration).Build();
+                Log.Logger.Information(" App has started.");
+                var myservice = host.Services.GetService<DbContext>();
 
-            //string pathUserRepo= setting.UserRepo; ;
-            //string pathProductRepo = setting.ProductRepo;
-            //string pathOrderRepo = setting.OrderRepo;
-            //string emailToOrder = setting.OrderEmail;
+
+                Log.Logger.Information(" App has finished.");
+            
+
 
             //finta console
             Console.WriteLine("Inserisci nome utente(finto login): in questo momento Monique/Glover");
@@ -70,6 +83,21 @@ namespace Client
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
             string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail;
             orderService.makeOrder(order, user, emailToOrder, "" + order.Id, TemplateEmail.Text(user, order));
+            }
+            catch (System.Exception)
+            {
+                Log.Logger.Error(" App has Crashed!.");
+
+            }
+        }
+        public static IHostBuilder CreatehosteBuilder(string[] args, IConfiguration configuration)
+        {
+            return Host.CreateDefaultBuilder(args).ConfigureServices(services =>
+            {
+                //services.AddTransient<DbContext>();
+                //services.AddScoped<DbContext>();
+
+            }).UseSerilog();
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using SpotiView;
-using System;
+﻿using System;
 
 using SpotiData;
 
-namespace SpotiServ
+namespace SpotiPres
 {
     //dovrei dividere parte view e switch case
     static class MenuMediaSource

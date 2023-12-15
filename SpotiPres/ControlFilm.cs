@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using SpotiData;
+using SpotiServ;
 using SpotiServ.Services;
-using SpotiView;
 
-namespace SpotiServ
+namespace SpotiPres
 {
     public class ControlFilm : ControlPlayer
     {

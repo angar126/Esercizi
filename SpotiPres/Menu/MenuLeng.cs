@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using SpotiControl;
 using SpotiData;
 using SpotiUtil;
-using SpotiView;
 
-namespace SpotiServ
+
+namespace SpotiPres
 {
-    internal class MenuLeng
+    public class MenuLeng
     {
         static Dictionary<string, string> _lenguages = new Dictionary<string, string>()
             {

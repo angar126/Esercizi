@@ -12,7 +12,7 @@ namespace DataLayer
     public abstract class DbContext
     {
         string _path; // Solitamente la configurazione per accedere al DataSrc
-        protected ILogger _logger;
+        protected ILogger<DbContext> _logger;
         protected DbContext(IConfiguration configuration, ILogger<DbContext> logger)
         {
             _path = configuration.GetConnectionString("DefaultConnection");
@@ -26,6 +26,7 @@ namespace DataLayer
         {
             try
             {
+                _logger.LogInformation($" ==> DB Context in use");
                 List<string> lines = File.ReadAllLines(path).ToList();
                 return CreateObject<T>(lines);
             }

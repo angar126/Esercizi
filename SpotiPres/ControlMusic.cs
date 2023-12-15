@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SpotiData;
-using SpotiServ.Services;
+using SpotiServ;
 using SpotiUtil;
-using SpotiView;
+using SpotiServ.Services;
 
 
 
-namespace SpotiServ
+namespace SpotiPres
 {
     public class ControlMusic : ControlPlayer
     {

@@ -1,14 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+	  <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SpotiData\SpotiData.csproj" />
     <ProjectReference Include="..\SpotiUtil\SpotiUtil.csproj" />
-    <ProjectReference Include="..\SpotyView\SpotyView.csproj" />
   </ItemGroup>
 
 </Project>
