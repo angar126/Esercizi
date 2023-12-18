@@ -62,9 +62,10 @@ namespace Client
                     .CreateLogger();
                 var host = CreatehosteBuilder(args, configuration).Build();
                 Log.Logger.Information(" App has started.");
-                var myservice = host.Services.GetService<DbContext>();
-
-
+                var userService = host.Services.GetService<IUserService>();
+                var productService = host.Services.GetService<IProductService>();
+                var orderService = host.Services.GetService<IOrderService>();
+                var emailToOrder = host.Services.GetService <IOptions<MySetting>>()?.Value.OrderEmail;
                 Log.Logger.Information(" App has finished.");
             
 
@@ -73,15 +74,15 @@ namespace Client
             Console.WriteLine("Inserisci nome utente(finto login): in questo momento Monique/Glover");
             string Name = Console.ReadLine();
             
-            var userService = serviceProvider.GetRequiredService<IUserService>();
+            //var userService = serviceProvider.GetRequiredService<IUserService>();
             User user = userService.GetByName(Name);
 
-            var productService = serviceProvider.GetRequiredService<IProductService>();
+            //var productService = serviceProvider.GetRequiredService<IProductService>();
             int idProd = MenuItems.CreateMenu(productService.GetAll().Select(item => item.Name).ToArray())+1;// +1 perchè ho riutilizzato il menu di spotify
 
-            var orderService = serviceProvider.GetRequiredService<IOrderService>();
+            //var orderService = serviceProvider.GetRequiredService<IOrderService>();
             Order order = new Order() { Id=1,IdUser=user.Id,IdProduct = productService.Get(idProd).Id};
-            string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail;
+            //string emailToOrder = serviceProvider.GetService<IOptions<MySetting>>()?.Value.OrderEmail;
             orderService.makeOrder(order, user, emailToOrder, "" + order.Id, TemplateEmail.Text(user, order));
             }
             catch (System.Exception)
