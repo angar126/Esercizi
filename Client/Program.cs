@@ -23,8 +23,8 @@ namespace Client
 
             
             var configuration = new ConfigurationBuilder()
-                  .AddJsonFile("appsettings.json")
-
+                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                  .AddEnvironmentVariables()
                   .Build();
 
 
@@ -40,14 +40,14 @@ namespace Client
             //});
 
 
-            serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
-            serviceCollection.AddTransient<IOrderService, OrderService>();
-            serviceCollection.AddTransient<IProductService, ProductService>();
-            serviceCollection.AddTransient<IUserService, UserService>();
-            serviceCollection.AddTransient<IEmailService, EmailService>();
-            serviceCollection.AddServiceLayerServices<User, User, User>(configuration);
-            serviceCollection.AddServiceLayerServices<Product, Product, Product>(configuration);
-            serviceCollection.AddServiceLayerServices<Order, Order, Order>(configuration);
+            //serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
+            //serviceCollection.AddTransient<IOrderService, OrderService>();
+            //serviceCollection.AddTransient<IProductService, ProductService>();
+            //serviceCollection.AddTransient<IUserService, UserService>();
+            //serviceCollection.AddTransient<IEmailService, EmailService>();
+            //serviceCollection.AddServiceLayerServices<User, User, User>(configuration);
+            //serviceCollection.AddServiceLayerServices<Product, Product, Product>(configuration);
+            //serviceCollection.AddServiceLayerServices<Order, Order, Order>(configuration);
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -92,10 +92,16 @@ namespace Client
         }
         public static IHostBuilder CreatehosteBuilder(string[] args, IConfiguration configuration)
         {
-            return Host.CreateDefaultBuilder(args).ConfigureServices(services =>
+            return Host.CreateDefaultBuilder(args).ConfigureServices(serviceCollection =>
             {
-                //services.AddTransient<DbContext>();
-                //services.AddScoped<DbContext>();
+                serviceCollection.Configure<MySetting>(configuration.GetSection("MyServiceSettings"));
+                serviceCollection.AddTransient<IOrderService, OrderService>();
+                serviceCollection.AddTransient<IProductService, ProductService>();
+                serviceCollection.AddTransient<IUserService, UserService>();
+                serviceCollection.AddTransient<IEmailService, EmailService>();
+                serviceCollection.AddServiceLayerServices<User, User, User>(configuration);
+                serviceCollection.AddServiceLayerServices<Product, Product, Product>(configuration);
+                serviceCollection.AddServiceLayerServices<Order, Order, Order>(configuration);
 
             }).UseSerilog();
         }
