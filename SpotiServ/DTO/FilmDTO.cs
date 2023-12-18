@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotiData
+using SpotiData;
+
+namespace SpotiServ
 {
     public class FilmDTO : IPlayable
     {

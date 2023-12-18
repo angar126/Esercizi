@@ -1,6 +1,6 @@
 ﻿using System;
 
-using SpotiData;
+using SpotiServ;
 
 namespace SpotiPres
 {

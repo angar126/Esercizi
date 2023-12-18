@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SpotiData;
 
-namespace SpotiData
+namespace SpotiServ
 {
     public class ArtistDTO: Music, ICountable
     {

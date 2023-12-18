@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace SpotiData
-{
-    public class DirectorDTO:ICountable
-    {
-        public string Name { get; set; }
-        public int Rating { get; set; }
-        public int Id { get; set; }
+using SpotiData;
 
+namespace SpotiServ
+{
+    public abstract class UserDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

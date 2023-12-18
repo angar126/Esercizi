@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SpotiData;
 
-namespace SpotiData
+namespace SpotiServ
 {
-    public abstract class UserDTO
+    public class DirectorDTO:ICountable
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public int Rating { get; set; }
+        public int Id { get; set; }
+
     }
 }
