@@ -16,6 +16,28 @@ namespace Delegate
             Matrioska matrioska = Run;
             matrioska(resSomma);
 
+            //Secondo esercizio
+
+            int X = 40;
+            int A = 40;
+            int B = 1;
+
+            
+
+            Func<int,int,int> somma = (x, y) => {  return x + y; };
+
+            Predicate<int> isMaggiore = (x) =>
+            {
+                return x > X;
+            };
+
+            Action action = () =>
+            {
+                bool res = isMaggiore(somma(A, B));
+                if (res) Console.WriteLine("Risultato positivo!");
+            };
+
+            action();
         }
         static int Somma(int a, int b)
         {
