@@ -10,6 +10,7 @@ namespace Delegate
         {
             //creazione delegate somma 
             SommaFunc resSomma = Somma;
+            //prova
             int result = resSomma (1, 2);
             // matrioska
             Matrioska matrioska = Run;
