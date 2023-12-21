@@ -56,14 +56,12 @@ namespace EventCovidConteggioEU
             {
                 if (value != 0)
                 {
-
                     COVIDStateEventArgs e = new COVIDStateEventArgs(value);
                     COVIDChanged(this, e);
                     if (e.Cancel)
                     {
                         return;
                     }
-
                     count = value;
                 }
             }
