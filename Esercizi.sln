@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RealEstate.API", "RealEstat
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "..\RealEstateAPI\docker-compose.dcproj", "{99F3709C-8F59-4591-8493-04AF03F36B20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventCovidConteggioEU", "EventCovidConteggioEU\EventCovidConteggioEU.csproj", "{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,10 @@ Global
 		{99F3709C-8F59-4591-8493-04AF03F36B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99F3709C-8F59-4591-8493-04AF03F36B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99F3709C-8F59-4591-8493-04AF03F36B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,6 +202,7 @@ Global
 		{4B2D3ABB-637F-4C4E-B961-C6A19C91AFDF} = {B63ECACB-725B-4C64-B324-217FCD6A88D8}
 		{F2FE9542-785D-4F2C-A762-54E849C76751} = {7191F9F3-BAF0-4D36-B102-B2C489C1261E}
 		{99F3709C-8F59-4591-8493-04AF03F36B20} = {7191F9F3-BAF0-4D36-B102-B2C489C1261E}
+		{CF22BAAD-1CB8-4C70-B777-B2D671F0C83F} = {B63ECACB-725B-4C64-B324-217FCD6A88D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {165893EC-6E48-491D-A8AA-ED3466B6C9B6}
