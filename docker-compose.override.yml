@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  spotiwebapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DefaultConnectionstring=Server=sqlserver;Database=Spotify; User id = sa ; password = Password.123;Trusted_Connection=False"
+    ports:
+      - "80"
