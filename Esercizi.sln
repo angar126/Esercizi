@@ -73,6 +73,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotiAPI", "..\SpotiWithDB\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Logging", "..\Common.Logging\Common.Logging.csproj", "{5F2464F8-3319-4B65-A63B-9081555EC59B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaConsoleAPI", "..\ProvaConsoleAPI\ProvaConsoleAPI.csproj", "{05A86A10-BC57-4141-A346-4FFF022C64CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,10 @@ Global
 		{5F2464F8-3319-4B65-A63B-9081555EC59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F2464F8-3319-4B65-A63B-9081555EC59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F2464F8-3319-4B65-A63B-9081555EC59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A86A10-BC57-4141-A346-4FFF022C64CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A86A10-BC57-4141-A346-4FFF022C64CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A86A10-BC57-4141-A346-4FFF022C64CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A86A10-BC57-4141-A346-4FFF022C64CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -219,6 +225,7 @@ Global
 		{6C248795-702A-4340-A52A-CA57DDDA4219} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
 		{D01F14B8-0D48-4948-9056-FE57BD5B08E9} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
 		{5F2464F8-3319-4B65-A63B-9081555EC59B} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
+		{05A86A10-BC57-4141-A346-4FFF022C64CE} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {165893EC-6E48-491D-A8AA-ED3466B6C9B6}
