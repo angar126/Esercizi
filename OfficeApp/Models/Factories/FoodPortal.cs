@@ -9,7 +9,7 @@ using static OfficeApp.Models.FoodProvider;
 
 namespace OfficeApp.Models.Factories
 {
-    public class FoodPortal : IPortal, IDisposable
+    public class FoodPortal : IPortal
     {
         List<FoodProvider> _foodProviders;
         private static FoodPortal _instance;
@@ -59,19 +59,22 @@ namespace OfficeApp.Models.Factories
            // OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
         }
 
-        public void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
+        public async void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
+            await Dispose();
+            //await _currentProvider.ProcessOrdersAsync();
             Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
             SendOrder(e.Order);
-            Dispose();
+            
         }
 
-        public void Dispose()
+        public async Task<bool> Dispose()
         {
             if (_currentProvider != null)
             {
                 _currentProvider.OrderReady -= OrderIsFinish;
                 _currentProvider = null;
             }
+            return true;
         }
     }
 }

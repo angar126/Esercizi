@@ -27,27 +27,38 @@ namespace OfficeApp.Models
         static List<Food> fornelli = new List<Food>();
 
         static protected Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
-
+        static bool _control = true;
         //private Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
         public override async Task EnqueueOrder(Order<Food> order)
         {
             orderQueue.Enqueue(order);
             Console.WriteLine($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
-            //ProcessOrdersAsync();
-            if(fornelli.Count == 0 ) await ProcessOrdersAsync();
+            //if(fornelli.Count == 0 ) await ProcessOrdersAsync();
+            Next();
         }
-        public  async Task ProcessOrdersAsync()
-        { 
+        public async Task Next()
+        {
+            //while (orderQueue.Count > 0)
+            //{
+                if (_control)
+                {
+                    await ProcessOrdersAsync();
+                }
+            //}
+        }
+        public async Task ProcessOrdersAsync()
+        {
             while (orderQueue.Count > 0)
             {
-                //while (fornelli.Count >= NumberOfStoves)
+                //if (fornelli.Count <= NumberOfStoves)
                 //{
-                //    await Task.Delay(TimeSpan.FromSeconds(1));
-                //}
                 Order<Food> currentOrder = orderQueue.Dequeue();
-                await CookOrderAsync(currentOrder);
+                    await CookOrderAsync(currentOrder);
             }
-        }
+        //}
+
+        //_control = true;
+    }
         private async Task CookOrderAsync(Order<Food> order)
         {
             Console.BackgroundColor = ConsoleColor.Red;
@@ -59,8 +70,7 @@ namespace OfficeApp.Models
             {
                 while (fornelli.Count >= NumberOfStoves)
                 {
-                    //Random rd = new Random();
-                    //await Task.Delay(TimeSpan.FromSeconds(rd.Next(5)));
+                    _control = false;
                     await Task.Delay(TimeSpan.FromSeconds(1));
                 }
                 cookingTasks.Add(CookFoodAsync(food));
@@ -68,19 +78,26 @@ namespace OfficeApp.Models
             //await Task.WhenAny(cookingTasks);
 
             await Task.WhenAll(cookingTasks);
-
-            Console.WriteLine($"Order completed: {order.Id}");
-            Console.WriteLine($"N fornelli: {fornelli.Count}");
-
-            OnOrderReady(new OrderEventArgs<Food>(order));
+            // OnOrderReady(new OrderEventArgs<Food>(order));
+            await CookOrderFinishAsync(order);
             
+
         }
-        protected virtual void OnOrderReady(OrderEventArgs<Food> e)
+        private async Task CookOrderFinishAsync(Order<Food> order)
         {
-            OrderReady?.Invoke(this,e);
+            await OnOrderReady(new OrderEventArgs<Food>(order));
+            Console.WriteLine($"Order completed: {order.Id}");
+            Console.WriteLine($"N fornelli occupati: {fornelli.Count}");
+            Console.WriteLine($"N coda: {orderQueue.Count}");
+            _control = true;
+        }
+        protected virtual async Task<bool> OnOrderReady(OrderEventArgs<Food> e)
+        {
+            OrderReady(this, e);
+            return true;
         }
 
-        private async Task CookFoodAsync(Food food)
+        private async Task<bool> CookFoodAsync(Food food)
         {
             Console.WriteLine($"Cooking {food.Name}...");
 
@@ -91,6 +108,7 @@ namespace OfficeApp.Models
             Console.WriteLine($"{food.Name} is ready!");
 
             fornelli.Remove(food);
+            return true;
         }
         
     }
