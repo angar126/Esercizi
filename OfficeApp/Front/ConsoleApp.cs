@@ -27,12 +27,13 @@ namespace OfficeApp.Front
                 switch (scelta)
                 {
                     case 1:
-                        _officeManager.ProcessTranslate();
+                        TranslationProvider tp = _officeManager.ProcessTranslate();
+                        Order<Translation> tordine = GetOrder<Translation>(tp);
                         break;
 
                     case 2:
                         FoodProvider fp = _officeManager.ProcessFood();
-                        Order<Food> ordine = GetOrder<Food>(fp);
+                        Order<Food> fordine = GetOrder<Food>(fp);
                         break;
                     case 3: input = false; break;
                     default:

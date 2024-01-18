@@ -12,9 +12,11 @@ namespace OfficeApp.Models
     {
         event EventHandler<OrderEventArgs<Food>> OrderReady;
     }
-    public abstract class FoodProvider : Provider<Food>, IFoodProvider
+    public abstract class FoodProvider : Provider<Food>
     {
-        public event EventHandler<OrderEventArgs<Food>> OrderReady;
+        public delegate void OnOrderRecivedEventHandler(object sender, OrderEventArgs<Food> e);
+
+        public event OnOrderRecivedEventHandler OrderReady;
         public abstract TimeSpan OpenTime { get; }
         public abstract TimeSpan CloseTime { get; }
         public override List<Food> ListOfItems { get; set; }
@@ -45,8 +47,9 @@ namespace OfficeApp.Models
         }
         private async Task CookOrderAsync(Order<Food> order)
         {
+            Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine($"Cooking order: {order.Id}");
-
+            Console.ResetColor();
             List<Task> cookingTasks = new List<Task>();
 
             foreach (var food in order.List)
@@ -67,7 +70,7 @@ namespace OfficeApp.Models
         }
         protected virtual void OnOrderReady(OrderEventArgs<Food> e)
         {
-            OrderReady?.Invoke(this, e);
+            OrderReady.Invoke(this,e);
         }
 
         private async Task CookFoodAsync(Food food)

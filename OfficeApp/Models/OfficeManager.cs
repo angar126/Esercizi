@@ -22,10 +22,11 @@ namespace OfficeApp.Models
             var foodProvider = foodOffice.GetProvider();
             return foodProvider;
         }
-        public void ProcessTranslate()
+        public TranslationProvider ProcessTranslate()
         {
-            //var translationOrderFactory = _orderFactory.CreateTranslateOffice();
-            //var translationOrder = translationOrderFactory.CreateTranslationOrder();
+            var translationOffice = _orderFactory.CreateTranslateOffice();
+            var translationProvider = translationOffice.GetProvider();
+            return translationProvider;
         }
     }
 }

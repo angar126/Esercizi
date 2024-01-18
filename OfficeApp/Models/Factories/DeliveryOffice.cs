@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OfficeApp.Models.FoodProvider;
 
 namespace OfficeApp.Models.Factories
 {
@@ -14,20 +15,21 @@ namespace OfficeApp.Models.Factories
         public FoodProvider GetProvider()
         {
             FoodPortal portal = FoodPortal.GetInstance();
+            portal.OrderOnWay += HandleOrderCooming;
             return portal.GetProvider();
         }
-        public async Task SendOrder(Order<Food> order, Provider<Food> provider)
+        public void SendOrder(Order<Food> order)
         {
-            FoodPortal portal = FoodPortal.GetInstance();
-            await portal.SendOrder(order, provider);
+          //Task.Delay(TimeSpan.FromSeconds(10));
+          Console.WriteLine($"Order {order.Id} is in the office");
         }
         
-        // Metodo chiamato quando un ordine è pronto
-        private void HandleOrderReady(object sender, OrderEventArgs<Food> e)
+        private void HandleOrderCooming(object sender, OrderEventArgs<Food> e)
         {
-            // Gestisci l'evento OrderReady qui
-            Console.WriteLine($"DeliveryOffice handling OrderReady event for order {e.Order.Id}");
-            // Puoi implementare la logica per la consegna dell'ordine qui
+            Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
+            //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
+            
+            SendOrder(e.Order);
         }
     }
 }

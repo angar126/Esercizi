@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using OfficeApp.Models.Events;
 using OfficeApp.Models.Interfaces;
+using static OfficeApp.Models.FoodProvider;
 
 namespace OfficeApp.Models.Factories
 {
-    public class FoodPortal : IPortal, IFoodProvider
+    public class FoodPortal : IPortal//, IFoodProvider
     {
-        List<FoodProvider>? _foodProviders;
+        List<FoodProvider> _foodProviders;
         private static FoodPortal _instance;
-
+        //
+        //private OnOrderRecivedEventHandler _orderIsFinishHandler;
+        private FoodProvider _currentProvider;
         private FoodPortal()
         {
             _foodProviders = new List<FoodProvider>()
@@ -42,19 +45,21 @@ namespace OfficeApp.Models.Factories
                 .Where(provider => provider.OpenTime <= timeOfDay && provider.CloseTime >= timeOfDay)
                 .OrderBy(_ => random.Next())
                 .FirstOrDefault();
+            provider.OrderReady += OrderIsFinish;
+            _currentProvider = provider;
+            //_currentProvider.OrderReady += OrderIsFinish;
             return provider;
         }
-        public event EventHandler<OrderEventArgs<Food>>? OrderReady;
+        public event EventHandler<OrderEventArgs<Food>> OrderOnWay;
 
-        protected virtual void OnOrderReady(OrderEventArgs<Food> e)
+        internal void SendOrder(Order<Food> order)
         {
-            OrderReady?.Invoke(this, e);
+            OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
         }
 
-        internal async Task SendOrder(Order<Food> order, Provider<Food> provider)
-        {
-            provider.EnqueueOrder(order);
-            await provider.ProcessOrdersAsync();
+        public void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
+            Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
+            SendOrder(e.Order);
         }
     }
 }
