@@ -9,13 +9,12 @@ using static OfficeApp.Models.FoodProvider;
 
 namespace OfficeApp.Models.Factories
 {
-    public class FoodPortal : IPortal//, IFoodProvider
+    public class FoodPortal : IPortal, IDisposable
     {
         List<FoodProvider> _foodProviders;
         private static FoodPortal _instance;
-        //
-        //private OnOrderRecivedEventHandler _orderIsFinishHandler;
-        private FoodProvider _currentProvider;
+        
+        private FoodProvider? _currentProvider;
         private FoodPortal()
         {
             _foodProviders = new List<FoodProvider>()
@@ -45,21 +44,34 @@ namespace OfficeApp.Models.Factories
                 .Where(provider => provider.OpenTime <= timeOfDay && provider.CloseTime >= timeOfDay)
                 .OrderBy(_ => random.Next())
                 .FirstOrDefault();
-            provider.OrderReady += OrderIsFinish;
+            //provider.OrderReady += OrderIsFinish;
             _currentProvider = provider;
-            //_currentProvider.OrderReady += OrderIsFinish;
+            if (_currentProvider != null)
+            {
+                _currentProvider.OrderReady += OrderIsFinish;
+            }
             return provider;
         }
         public event EventHandler<OrderEventArgs<Food>> OrderOnWay;
 
         public void SendOrder(Order<Food> order)
         {
-            OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
+           // OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
         }
 
         public void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
             Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
             SendOrder(e.Order);
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (_currentProvider != null)
+            {
+                _currentProvider.OrderReady -= OrderIsFinish;
+                _currentProvider = null;
+            }
         }
     }
 }

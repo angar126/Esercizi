@@ -13,9 +13,9 @@ namespace OfficeApp
         public string Name { get; set; }
         public abstract List<T> ListOfItems { get; set; }
 
-        protected Queue<Order<T>> orderQueue = new Queue<Order<T>>();
+        //static protected Queue<Order<T>> orderQueue = new Queue<Order<T>>();
         public abstract Task EnqueueOrder(Order<T> order);
-        public abstract Task ProcessOrdersAsync();
+        //public abstract Task ProcessOrdersAsync();
 
     }
     public abstract class ServiceType

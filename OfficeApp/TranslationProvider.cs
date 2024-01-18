@@ -16,7 +16,7 @@ namespace OfficeApp
         public event OnOrderRecivedEventHandler OrderReady;
         public override List<Translation> ListOfItems { get; set; }
 
-        //private Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
+        private Queue<Order<Translation>> orderQueue = new Queue<Order<Translation>>();
         public override async Task EnqueueOrder(Order<Translation> order)
         {
             orderQueue.Enqueue(order);
@@ -24,7 +24,7 @@ namespace OfficeApp
             //ProcessOrdersAsync();
 
         }
-        public override async Task ProcessOrdersAsync()
+        public  async Task ProcessOrdersAsync()
         {
             while (orderQueue.Count > 0)
             {

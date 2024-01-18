@@ -26,6 +26,8 @@ namespace OfficeApp.Models
 
         static List<Food> fornelli = new List<Food>();
 
+        static protected Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
+
         //private Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
         public override async Task EnqueueOrder(Order<Food> order)
         {
@@ -34,13 +36,13 @@ namespace OfficeApp.Models
             //ProcessOrdersAsync();
             if(fornelli.Count == 0 ) await ProcessOrdersAsync();
         }
-        public override async Task ProcessOrdersAsync()
+        public  async Task ProcessOrdersAsync()
         { 
             while (orderQueue.Count > 0)
             {
                 while (fornelli.Count >= NumberOfStoves)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(100));
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                 }
                 Order<Food> currentOrder = orderQueue.Dequeue();
                 await CookOrderAsync(currentOrder);
@@ -57,11 +59,13 @@ namespace OfficeApp.Models
             {
                 while (fornelli.Count >= NumberOfStoves)
                 {
-                    Random rd = new Random();
-                    await Task.Delay(TimeSpan.FromSeconds(rd.Next(5)));
+                    //Random rd = new Random();
+                    //await Task.Delay(TimeSpan.FromSeconds(rd.Next(5)));
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                 }
                 cookingTasks.Add(CookFoodAsync(food));
             }
+            //await Task.WhenAny(cookingTasks);
 
             await Task.WhenAll(cookingTasks);
 
@@ -73,7 +77,7 @@ namespace OfficeApp.Models
         }
         protected virtual void OnOrderReady(OrderEventArgs<Food> e)
         {
-            OrderReady.Invoke(this,e);
+            OrderReady?.Invoke(this,e);
         }
 
         private async Task CookFoodAsync(Food food)

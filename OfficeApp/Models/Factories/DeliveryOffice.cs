@@ -11,11 +11,13 @@ namespace OfficeApp.Models.Factories
 {
     public class DeliveryOffice : IOffice
     {
+        FoodPortal _portal;
         public DeliveryOffice() { }
         public FoodProvider GetProvider()
         {
             FoodPortal portal = FoodPortal.GetInstance();
             portal.OrderOnWay += HandleOrderCooming;
+            _portal = portal;
             return portal.GetProvider();
         }
         public void SendOrder(Order<Food> order)
@@ -28,8 +30,16 @@ namespace OfficeApp.Models.Factories
         {
             Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
             //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
-
             SendOrder(e.Order);
+            //Dispose();
         }
+        public void Dispose()
+        {
+            if (_portal != null)
+            {
+                _portal.OrderOnWay -= HandleOrderCooming;
+            }
+        }
+
     }
 }
