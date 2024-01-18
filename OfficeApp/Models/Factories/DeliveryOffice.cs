@@ -20,7 +20,7 @@ namespace OfficeApp.Models.Factories
         }
         public void SendOrder(Order<Food> order)
         {
-          //Task.Delay(TimeSpan.FromSeconds(10));
+          //await Task.Delay(TimeSpan.FromSeconds(10));
           Console.WriteLine($"Order {order.Id} is in the office");
         }
         
@@ -28,7 +28,7 @@ namespace OfficeApp.Models.Factories
         {
             Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
             //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
-            
+
             SendOrder(e.Order);
         }
     }

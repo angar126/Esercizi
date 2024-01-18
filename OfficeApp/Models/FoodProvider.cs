@@ -3,6 +3,7 @@ using OfficeApp.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,9 +22,9 @@ namespace OfficeApp.Models
         public abstract TimeSpan CloseTime { get; }
         public override List<Food> ListOfItems { get; set; }
 
-        private const int NumberOfStoves = 4;
+        static private int NumberOfStoves = 4;
 
-        List<Food> fornelli = new List<Food>();
+        static List<Food> fornelli = new List<Food>();
 
         //private Queue<Order<Food>> orderQueue = new Queue<Order<Food>>();
         public override async Task EnqueueOrder(Order<Food> order)
@@ -65,8 +66,10 @@ namespace OfficeApp.Models
             await Task.WhenAll(cookingTasks);
 
             Console.WriteLine($"Order completed: {order.Id}");
+            Console.WriteLine($"N fornelli: {fornelli.Count}");
 
             OnOrderReady(new OrderEventArgs<Food>(order));
+            
         }
         protected virtual void OnOrderReady(OrderEventArgs<Food> e)
         {

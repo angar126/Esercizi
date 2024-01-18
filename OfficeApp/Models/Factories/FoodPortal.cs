@@ -52,7 +52,7 @@ namespace OfficeApp.Models.Factories
         }
         public event EventHandler<OrderEventArgs<Food>> OrderOnWay;
 
-        internal void SendOrder(Order<Food> order)
+        public void SendOrder(Order<Food> order)
         {
             OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
         }

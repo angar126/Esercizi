@@ -28,7 +28,7 @@ namespace OfficeApp.Front
                 {
                     case 1:
                         TranslationProvider tp = _officeManager.ProcessTranslate();
-                        Order<Translation> tordine = GetOrder<Translation>(tp);
+                        Order<Translation> tordine = GetOrder<Translation>(tp); 
                         break;
 
                     case 2:
@@ -52,7 +52,6 @@ namespace OfficeApp.Front
             {
                 Console.WriteLine("Seleziona un elemento (premi o per confermare l'ordine):");
 
-                // Visualizza la lista degli items
                 for (int i = 0; i < selectedProvider.ListOfItems.Count; i++)
                 {
                     Console.WriteLine($"{i + 1}. {selectedProvider.ListOfItems[i].Name}".PadRight(20) + $"{selectedProvider.ListOfItems[i].Price} $");
@@ -64,18 +63,18 @@ namespace OfficeApp.Front
                 }
 
 
-                // Ottieni l'input dell'utente
+                
                 char scelta = Console.ReadKey().KeyChar;
 
                 switch (scelta)
                 {
                     case var c when char.IsDigit(c):
-                        // Converti il carattere in un numero e verifica che sia nell'intervallo valido
+                        
                         int selectedItemIndex = int.Parse(scelta.ToString()) - 1;
 
                         if (selectedItemIndex >= 0 && selectedItemIndex < selectedProvider.ListOfItems.Count)
                         {
-                            // Aggiungi l'elemento selezionato all'ordine
+                            
                             T selectedItem = selectedProvider.ListOfItems[selectedItemIndex];
                             orderItems.List.Add(selectedItem);
                             Console.WriteLine($"Elemento '{selectedItem.Name}' aggiunto all'ordine.");
