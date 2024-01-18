@@ -48,7 +48,8 @@ namespace OfficeApp.Models.Factories
             _currentProvider = provider;
             if (_currentProvider != null)
             {
-                _currentProvider.OrderReady += OrderIsFinish;
+                provider.OrderReady -= OrderIsFinish;
+                provider.OrderReady += OrderIsFinish;
             }
             return provider;
         }
@@ -60,10 +61,10 @@ namespace OfficeApp.Models.Factories
         }
 
         public async void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
-            await Dispose();
-            //await _currentProvider.ProcessOrdersAsync();
+            //Dispose();
+            //_currentProvider.Next();
             Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
-            SendOrder(e.Order);
+            //SendOrder(e.Order);
             
         }
 

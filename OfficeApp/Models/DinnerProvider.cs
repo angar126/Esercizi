@@ -15,7 +15,7 @@ namespace OfficeApp.Models
         {
             ListOfItems = new List<Food>{
              new Food("Arrosto", TimeSpan.FromSeconds(10)){ Price = 1},
-             new Food("Spaghetti", TimeSpan.FromSeconds(8)){ Price = 1},
+             new Food("Spaghetti", TimeSpan.FromSeconds(10)){ Price = 1},
              new Food("Torta", TimeSpan.FromSeconds(2)){ Price = 1},
             };
         }
