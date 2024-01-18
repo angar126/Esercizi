@@ -40,10 +40,10 @@ namespace OfficeApp.Models
         { 
             while (orderQueue.Count > 0)
             {
-                while (fornelli.Count >= NumberOfStoves)
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(1));
-                }
+                //while (fornelli.Count >= NumberOfStoves)
+                //{
+                //    await Task.Delay(TimeSpan.FromSeconds(1));
+                //}
                 Order<Food> currentOrder = orderQueue.Dequeue();
                 await CookOrderAsync(currentOrder);
             }
