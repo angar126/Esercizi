@@ -48,7 +48,7 @@ namespace OfficeApp.Front
             {
                 Console.WriteLine($"{i + 1}. {options[i]}");
             }
-
+            Console.WriteLine("--------------------------------------------------------");
             int userChoice;
             do
             {
@@ -60,6 +60,7 @@ namespace OfficeApp.Front
                     Console.ResetColor();
                 }
                 Console.ResetColor();
+                
                 Log.Show();
             } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 

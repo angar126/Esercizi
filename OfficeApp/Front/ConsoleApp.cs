@@ -19,9 +19,12 @@ namespace OfficeApp.Front
             {
                 Console.Clear();
                 _officeManager = new OfficeManager(new OfficeManagerOrderFactory());
+                Console.WriteLine("Menu Principale:");
+                Console.WriteLine("--------------------------------------------------------");
                 string[] servicesString = { "Traduttore", "FoodDelivery", "Exit" };
 
                 int scelta = Menu.CreateMenu(servicesString);
+                
                 Log.Show();
                 switch (scelta)
                 {
@@ -56,7 +59,9 @@ namespace OfficeApp.Front
             {
                 Console.Clear();
                 Console.WriteLine($"Ordine numero: {orderItems.Id}");
+                Console.WriteLine("--------------------------------------------------------");
                 Console.WriteLine("Seleziona un elemento (premi o per confermare l'ordine):");
+                Console.WriteLine("--------------------------------------------------------");
 
                 for (int i = 0; i < selectedProvider.ListOfItems.Count; i++)
                 {
@@ -67,6 +72,7 @@ namespace OfficeApp.Front
                 {
                     VisualizzaOrdine<T>(orderItems.List);
                 }
+                Console.WriteLine("--------------------------------------------------------");
                 Log.Show();
 
                 char scelta = Console.ReadKey().KeyChar;
@@ -104,6 +110,7 @@ namespace OfficeApp.Front
         }
         private void VisualizzaOrdine<T>(List<T> orderItems) where T : ServiceType
         {
+            Console.WriteLine("--------------------------------------------------------");
             Console.WriteLine("Ordine corrente:");
 
             Dictionary<T, int> keyValuePairs = new Dictionary<T, int>();
@@ -115,6 +122,7 @@ namespace OfficeApp.Front
                     keyValuePairs.Add(item, 1);
             }
             var values = keyValuePairs.OrderByDescending(x => x.Key.Price * x.Value);
+
             foreach (var item in values)
             {
                 Console.WriteLine($"{item.Key.Name} x{item.Value}".PadRight(20) + $"{item.Key.Price * item.Value} $");
