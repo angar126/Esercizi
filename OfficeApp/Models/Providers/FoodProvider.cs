@@ -1,19 +1,8 @@
 ﻿using OfficeApp.Models.Events;
-using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OfficeApp.Models
+
+namespace OfficeApp.Models.Providers
 {
-    public interface IFoodProvider
-    {
-        event EventHandler<OrderEventArgs<Food>> OrderReady;
-    }
     public abstract class FoodProvider : Provider<Food>
     {
         public delegate void OnOrderRecivedEventHandler(object sender, OrderEventArgs<Food> e);
@@ -32,15 +21,15 @@ namespace OfficeApp.Models
         public override async Task EnqueueOrder(Order<Food> order)
         {
             orderQueue.Enqueue(order);
-            Console.WriteLine($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
+            Log.Add($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
             await Next();
         }
         public async Task Next()
         {
-                if (_control)
-                {
-                    await ProcessOrdersAsync();
-                }
+            if (_control)
+            {
+                await ProcessOrdersAsync();
+            }
         }
         public async Task ProcessOrdersAsync()
         {
@@ -49,12 +38,10 @@ namespace OfficeApp.Models
                 Order<Food> currentOrder = orderQueue.Dequeue();
                 await CookOrderAsync(currentOrder);
             }
-    }
+        }
         private async Task CookOrderAsync(Order<Food> order)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Cooking order: {order.Id}");
-            Console.ResetColor();
+            Log.Add($"Cooking order: {order.Id}");
             List<Task> cookingTasks = new List<Task>();
 
             foreach (var food in order.List)
@@ -69,15 +56,15 @@ namespace OfficeApp.Models
 
             await Task.WhenAll(cookingTasks);
             await CookOrderFinishAsync(order);
-            
+
 
         }
         private async Task CookOrderFinishAsync(Order<Food> order)
         {
             await OnOrderReady(new OrderEventArgs<Food>(order));
-            Console.WriteLine($"Order completed: {order.Id}");
-            Console.WriteLine($"N fornelli occupati: {fornelli.Count}");
-            Console.WriteLine($"N coda: {orderQueue.Count}");
+            Log.Add($"Order completed: {order.Id}");
+            Log.Add($"N fornelli occupati: {fornelli.Count}");
+            Log.Add($"N coda: {orderQueue.Count}");
             _control = true;
         }
         protected async Task OnOrderReady(OrderEventArgs<Food> e)
@@ -87,18 +74,18 @@ namespace OfficeApp.Models
 
         private async Task<bool> CookFoodAsync(Food food, Order<Food> order)
         {
-            Console.WriteLine($"Cooking {food.Name} {order.Id}...");
+            Log.Add($"Cooking {food.Name} {order.Id}...");
 
             fornelli.Add(food);
 
             await Task.Delay(food.ProcessingTime);
 
-            Console.WriteLine($"{food.Name} {order.Id} is ready!");
+            Log.Add($"{food.Name} {order.Id} is ready!");
 
             fornelli.Remove(food);
             return true;
         }
-        
+
     }
 
 }

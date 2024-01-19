@@ -1,55 +1,61 @@
 ﻿using OfficeApp.Models;
 using OfficeApp.Models.Factories;
-using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Front
 {
     public class ConsoleApp
     {
         OfficeManager _officeManager;
-        IOffice? Office { get; set; }
 
-        public void GetService()
+        public ConsoleApp()
+        {
+           
+        }
+        public async void GetService()
         {
             bool input = true;
             while (input)
             {
+                Console.Clear();
                 _officeManager = new OfficeManager(new OfficeManagerOrderFactory());
                 string[] servicesString = { "Traduttore", "FoodDelivery", "Exit" };
-                int scelta = Menu.CreateMenu(servicesString);
 
+                int scelta = Menu.CreateMenu(servicesString);
+                Log.Show();
                 switch (scelta)
                 {
                     case 1:
+                        Console.Clear();
                         TranslationProvider tp = _officeManager.ProcessTranslate();
-                        Order<Translation> tordine = GetOrder<Translation>(tp); 
+                        Order<Translation> tordine = GetOrder<Translation>(tp);
+                        Log.Show();
                         break;
 
                     case 2:
+                        Console.Clear();
                         FoodProvider fp = _officeManager.ProcessFood();
                         Order<Food> fordine = GetOrder<Food>(fp);
+                        Log.Show();
                         break;
                     case 3: input = false; break;
                     default:
                         Console.WriteLine("Scelta non valida. Riprova.");
                         break;
                 }
+
             }
         }
         
         public Order<T> GetOrder<T>(Provider<T> selectedProvider) where T : ServiceType
         {
             Order<T> orderItems = new Order<T>();
-            Console.WriteLine($"Ordine numero: {orderItems.Id}");
+            
 
             while (true)
             {
+                Console.Clear();
+                Console.WriteLine($"Ordine numero: {orderItems.Id}");
                 Console.WriteLine("Seleziona un elemento (premi o per confermare l'ordine):");
 
                 for (int i = 0; i < selectedProvider.ListOfItems.Count; i++)
@@ -61,9 +67,8 @@ namespace OfficeApp.Front
                 {
                     VisualizzaOrdine<T>(orderItems.List);
                 }
+                Log.Show();
 
-
-                
                 char scelta = Console.ReadKey().KeyChar;
 
                 switch (scelta)

@@ -1,11 +1,10 @@
-﻿using OfficeApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfficeApp
+namespace OfficeApp.Models.Providers
 {
     public abstract class Provider<T>
         where T : ServiceType
@@ -17,11 +16,5 @@ namespace OfficeApp
         public abstract Task EnqueueOrder(Order<T> order);
         //public abstract Task ProcessOrdersAsync();
 
-    }
-    public abstract class ServiceType
-    {
-        public int Id { get; set; }
-        public decimal Price { get; set; }
-        public string Name { get; set; }
     }
 }

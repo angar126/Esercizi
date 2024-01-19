@@ -1,21 +1,12 @@
 ﻿using OfficeApp.Models.Events;
-using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Models.Factories
 {
-    public class TranslationOffice : IOffice
+    public class TranslationOffice
     {
         private static TranslationOffice _instance;
         private TranslationOffice() { }
-        //public IPortal CreateFoodOrder()
-        //{
-        //    return new TranslationPortal();
-        //}
         public static TranslationOffice GetInstance()
         {
             if (_instance is null)
@@ -34,14 +25,12 @@ namespace OfficeApp.Models.Factories
         public void SendOrder(Order<Translation> order)
         {
             //Task.Delay(TimeSpan.FromSeconds(10));
-            Console.WriteLine($"Order {order.Id} is in the office's mail");
+            Log.Add($"Order {order.Id} is in the office's mail");
         }
 
         private void HandleOrderCooming(object sender, OrderEventArgs<Translation> e)
         {
-            Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
-            //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
-
+            Log.Add($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
             SendOrder(e.Order);
         }
     }

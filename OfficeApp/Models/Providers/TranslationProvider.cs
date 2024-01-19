@@ -1,12 +1,11 @@
 ﻿using OfficeApp.Models.Events;
-using OfficeApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfficeApp
+namespace OfficeApp.Models.Providers
 {
     public class TranslationProvider : Provider<Translation>
     {
@@ -25,7 +24,7 @@ namespace OfficeApp
         public override async Task EnqueueOrder(Order<Translation> order)
         {
             orderQueue.Enqueue(order);
-            Console.WriteLine($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
+            Log.Add($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
             await Next();
         }
         public async Task Next()
@@ -45,9 +44,7 @@ namespace OfficeApp
         }
         private async Task TranslationOrderAsync(Order<Translation> order)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Translation order: {order.Id}");
-            Console.ResetColor();
+            Log.Add($"Translation order: {order.Id}");
             List<Task> traslationTasks = new List<Task>();
 
             foreach (var txt in order.List)
@@ -66,8 +63,8 @@ namespace OfficeApp
         private async Task CookOrderFinishAsync(Order<Translation> order)
         {
             await OnOrderReady(new OrderEventArgs<Translation>(order));
-            Console.WriteLine($"Order completed: {order.Id}");
-            Console.WriteLine($"N coda: {orderQueue.Count}");
+            Log.Add($"Order completed: {order.Id}");
+            Log.Add($"N coda: {orderQueue.Count}");
             _control = true;
         }
         protected async Task OnOrderReady(OrderEventArgs<Translation> e)
@@ -78,11 +75,11 @@ namespace OfficeApp
         private async Task<bool> TraslateAsync(Translation txt, Order<Translation> order)
         {
             Slot.Add(txt);
-            Console.WriteLine($"Translation {txt.Name} {order.Id}...");
+            Log.Add($"Translation {txt.Name} {order.Id}...");
 
             await Task.Delay(txt.ProcessingTime);
 
-            Console.WriteLine($"{txt.Name} {order.Id} is ready!");
+            Log.Add($"{txt.Name} {order.Id} is ready!");
             Slot.Remove(txt);
             return true;
         }

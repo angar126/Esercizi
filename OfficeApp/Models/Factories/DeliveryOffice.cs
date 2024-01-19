@@ -1,15 +1,9 @@
 ﻿using OfficeApp.Models.Events;
-using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static OfficeApp.Models.FoodProvider;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Models.Factories
 {
-    public class DeliveryOffice : IOffice
+    public class DeliveryOffice
     {
         static DeliveryOffice _instance;
         FoodPortal _portal;
@@ -30,15 +24,15 @@ namespace OfficeApp.Models.Factories
             }
             return _instance;
         }
-        public async void SendOrder(Order<Food> order)
+        public void SendOrder(Order<Food> order)
         {
-          await Task.Delay(TimeSpan.FromSeconds(10));
-          Console.WriteLine($"Order {order.Id} is in the office");
+            Task.Delay(TimeSpan.FromSeconds(10));
+            Log.Add($"Order {order.Id} is in the office");
         }
         
         private void HandleOrderCooming(object sender, OrderEventArgs<Food> e)
         {
-            Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
+            Log.Add($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
             SendOrder(e.Order);
         }
         public void Dispose()

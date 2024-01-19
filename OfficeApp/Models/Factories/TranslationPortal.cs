@@ -1,11 +1,5 @@
-﻿using OfficeApp.Front;
-using OfficeApp.Models.Events;
-using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OfficeApp.Models.Events;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Models.Factories
 {
@@ -41,13 +35,15 @@ namespace OfficeApp.Models.Factories
 
         internal void SendOrder(Order<Translation> order)
         {
-            Console.WriteLine($"Sending order {order.Id}...");
+            Log.Add($"Sending order {order.Id}...");
+            
+            //Console.WriteLine($"Sending order {order.Id}...");
             OrderOnWay(this, new OrderEventArgs<Translation>(order));
         }
 
         public void OrderIsFinish(object sender, OrderEventArgs<Translation> e)
         {
-            Console.WriteLine($"TranslationPortal handling OrderReady event for order {e.Order.Id}");
+            Log.Add($"TranslationPortal handling OrderReady event for order {e.Order.Id}");
             SendOrder(e.Order);
         }
     }

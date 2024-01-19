@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfficeApp.Models
+namespace OfficeApp.Models.Providers
 {
     public class DinnerProvider : FoodProvider
     {

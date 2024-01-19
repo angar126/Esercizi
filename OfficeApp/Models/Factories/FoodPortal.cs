@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using OfficeApp.Models.Events;
-using OfficeApp.Models.Interfaces;
-using static OfficeApp.Models.FoodProvider;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Models.Factories
 {
-    public class FoodPortal : IPortal
+    public class FoodPortal 
     {
         List<FoodProvider> _foodProviders;
         private static FoodPortal _instance;
@@ -57,7 +52,7 @@ namespace OfficeApp.Models.Factories
 
         public async Task SendOrder(Order<Food> order)
         {
-            Console.WriteLine($"Sending order {order.Id}...");
+            Log.Add($"Sending order {order.Id}...");
             OrderOnWay(this, new OrderEventArgs<Food>(order));
         }
 
@@ -65,7 +60,7 @@ namespace OfficeApp.Models.Factories
 
         public void OrderIsFinish(object sender, OrderEventArgs<Food> e) 
         {
-            Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
+            Log.Add($"FoodPortal handling OrderReady event for order {e.Order.Id}");
             SendOrder(e.Order);
         }
 

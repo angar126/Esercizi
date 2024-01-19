@@ -1,14 +1,8 @@
-﻿using OfficeApp.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeApp.Models.Factories;
+﻿using OfficeApp.Models.Providers;
 
-namespace OfficeApp.Models
+namespace OfficeApp.Models.Factories
 {
-    public class OfficeManager : IOrderManager
+    public class OfficeManager
     {
         private AbstractFactoryServices _orderFactory;
 

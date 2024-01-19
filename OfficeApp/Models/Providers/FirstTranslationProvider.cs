@@ -1,11 +1,10 @@
-﻿using OfficeApp.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OfficeApp
+namespace OfficeApp.Models.Providers
 {
     public class FirstTranslationProvider : TranslationProvider
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OfficeApp.Models;
+using OfficeApp.Models.Providers;
 
 namespace OfficeApp.Front
 {
@@ -58,7 +60,7 @@ namespace OfficeApp.Front
                     Console.ResetColor();
                 }
                 Console.ResetColor();
-
+                Log.Show();
             } while (validInput = !int.TryParse(Console.ReadKey().KeyChar.ToString(), out userChoice) || userChoice < 0 || userChoice > options.Length);
 
             Console.WriteLine();
