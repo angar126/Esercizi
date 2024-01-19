@@ -26,15 +26,19 @@ namespace OfficeApp
         public static void Show()
         {
             Console.SetCursorPosition(0, Console.WindowHeight / 2);
-            foreach (var line in _logLines)
+            for (int i = 0; i <= MaxRowsToShow+5; i++)
             {
-                Console.WriteLine("                                                                                          ");
+                Console.Write(new string(' ', Console.WindowWidth));
             }
+            Console.SetCursorPosition(0, 0);
             Console.SetCursorPosition(0, Console.WindowHeight / 2);
             foreach (var line in _logLines)
             {
                 Console.WriteLine(line);
             }
+            Console.SetCursorPosition(0, Console.WindowHeight / 2);
         }
+
+
     }
 }
