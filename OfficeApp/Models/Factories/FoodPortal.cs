@@ -55,17 +55,18 @@ namespace OfficeApp.Models.Factories
         }
         public event EventHandler<OrderEventArgs<Food>> OrderOnWay;
 
-        public void SendOrder(Order<Food> order)
+        public async Task SendOrder(Order<Food> order)
         {
-           // OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
+            Console.WriteLine($"Sending order {order.Id}...");
+            OrderOnWay(this, new OrderEventArgs<Food>(order));
         }
 
-        public async void OrderIsFinish(object sender, OrderEventArgs<Food> e) {
-            //Dispose();
-            //_currentProvider.Next();
+
+
+        public void OrderIsFinish(object sender, OrderEventArgs<Food> e) 
+        {
             Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
-            //SendOrder(e.Order);
-            
+            SendOrder(e.Order);
         }
 
         public async Task<bool> Dispose()
@@ -77,5 +78,6 @@ namespace OfficeApp.Models.Factories
             }
             return true;
         }
+
     }
 }

@@ -11,27 +11,35 @@ namespace OfficeApp.Models.Factories
 {
     public class DeliveryOffice : IOffice
     {
+        static DeliveryOffice _instance;
         FoodPortal _portal;
-        public DeliveryOffice() { }
+        private DeliveryOffice() {  }
         public FoodProvider GetProvider()
         {
-            FoodPortal portal = FoodPortal.GetInstance();
-            portal.OrderOnWay += HandleOrderCooming;
-            _portal = portal;
-            return portal.GetProvider();
+            _portal = FoodPortal.GetInstance();
+            _portal.OrderOnWay -= HandleOrderCooming;
+            _portal.OrderOnWay += HandleOrderCooming;
+            //_portal = portal;
+            return _portal.GetProvider();
         }
-        public void SendOrder(Order<Food> order)
+        public static DeliveryOffice GetInstance()
         {
-          //await Task.Delay(TimeSpan.FromSeconds(10));
+            if (_instance is null)
+            {
+                _instance = new DeliveryOffice();
+            }
+            return _instance;
+        }
+        public async void SendOrder(Order<Food> order)
+        {
+          await Task.Delay(TimeSpan.FromSeconds(10));
           Console.WriteLine($"Order {order.Id} is in the office");
         }
         
         private void HandleOrderCooming(object sender, OrderEventArgs<Food> e)
         {
             Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
-            //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
             SendOrder(e.Order);
-            //Dispose();
         }
         public void Dispose()
         {

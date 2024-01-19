@@ -10,9 +10,10 @@ namespace OfficeApp.Models.Factories
     public class OfficeManagerOrderFactory : AbstractFactoryServices
     {
         //public IOffice Office { get; set; }
+        
         public override DeliveryOffice CreateFoodOffice()
         {
-            return new DeliveryOffice();
+            return DeliveryOffice.GetInstance();
         }
 
         public override TranslationOffice CreateTranslateOffice()
