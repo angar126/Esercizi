@@ -26,7 +26,7 @@ namespace OfficeApp
         public static void Show()
         {
             Console.SetCursorPosition(0, Console.WindowHeight / 2);
-            for (int i = 0; i <= MaxRowsToShow+5; i++)
+            for (int i = 0; i <= MaxRowsToShow + 5; i++)
             {
                 Console.Write(new string(' ', Console.WindowWidth));
             }
@@ -42,3 +42,5 @@ namespace OfficeApp
 
     }
 }
+
+
