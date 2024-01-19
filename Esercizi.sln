@@ -77,8 +77,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ZOfficeServices", "ZOfficeS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OfficeApp", "OfficeApp\OfficeApp.csproj", "{2E2ECB0E-F32A-404D-B2FC-DC91734604DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "async", "async\async.csproj", "{9769C2FD-B361-4B43-8153-263A88BAECC1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,10 +195,6 @@ Global
 		{2E2ECB0E-F32A-404D-B2FC-DC91734604DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E2ECB0E-F32A-404D-B2FC-DC91734604DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E2ECB0E-F32A-404D-B2FC-DC91734604DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9769C2FD-B361-4B43-8153-263A88BAECC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9769C2FD-B361-4B43-8153-263A88BAECC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9769C2FD-B361-4B43-8153-263A88BAECC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9769C2FD-B361-4B43-8153-263A88BAECC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -234,7 +228,6 @@ Global
 		{5F2464F8-3319-4B65-A63B-9081555EC59B} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
 		{05A86A10-BC57-4141-A346-4FFF022C64CE} = {9EBEB7E1-418D-4256-8FF0-35EA557F4A14}
 		{2E2ECB0E-F32A-404D-B2FC-DC91734604DF} = {48D3F907-1F7B-451B-BBB5-3F37B0EA1ECF}
-		{9769C2FD-B361-4B43-8153-263A88BAECC1} = {48D3F907-1F7B-451B-BBB5-3F37B0EA1ECF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {165893EC-6E48-491D-A8AA-ED3466B6C9B6}
