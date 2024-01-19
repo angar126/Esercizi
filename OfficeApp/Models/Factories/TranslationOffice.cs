@@ -27,21 +27,22 @@ namespace OfficeApp.Models.Factories
         public TranslationProvider GetProvider()
         {
             TranslationPortal portal = TranslationPortal.GetInstance();
-            //portal.OrderOnWay += HandleOrderCooming;
+            portal.OrderOnWay -= HandleOrderCooming;
+            portal.OrderOnWay += HandleOrderCooming;
             return portal.GetProvider();
         }
-        //public void SendOrder(Order<Food> order)
-        //{
-        //    //Task.Delay(TimeSpan.FromSeconds(10));
-        //    Console.WriteLine($"Order {order.Id} is in the office");
-        //}
+        public void SendOrder(Order<Translation> order)
+        {
+            //Task.Delay(TimeSpan.FromSeconds(10));
+            Console.WriteLine($"Order {order.Id} is in the office's mail");
+        }
 
-        //private void HandleOrderCooming(object sender, OrderEventArgs<Food> e)
-        //{
-        //    Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
-        //    //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
+        private void HandleOrderCooming(object sender, OrderEventArgs<Translation> e)
+        {
+            Console.WriteLine($"DeliveryOffice handling OrderCooming event for order {e.Order.Id}");
+            //e.FoodPortal.OrderOnWay -= HandleOrderCooming;
 
-        //    SendOrder(e.Order);
-        //}
+            SendOrder(e.Order);
+        }
     }
 }

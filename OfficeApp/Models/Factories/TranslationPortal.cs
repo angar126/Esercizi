@@ -19,8 +19,6 @@ namespace OfficeApp.Models.Factories
             _translationProviders = new List<TranslationProvider>()
             {
                 new FirstTranslationProvider(),
-
-
             };
         }
         public static TranslationPortal GetInstance()
@@ -35,20 +33,23 @@ namespace OfficeApp.Models.Factories
         {
             
             var provider = _translationProviders.First();
-            //provider.OrderReady += OrderIsFinish;
+            provider.OrderReady -= OrderIsFinish;
+            provider.OrderReady += OrderIsFinish;
             return provider;
         }
-        //public event EventHandler<OrderEventArgs<Food>> OrderOnWay;
+        public event EventHandler<OrderEventArgs<Translation>> OrderOnWay;
 
-        //internal void SendOrder(Order<Food> order)
-        //{
-        //    OrderOnWay.Invoke(this, new OrderEventArgs<Food>(order));
-        //}
+        internal void SendOrder(Order<Translation> order)
+        {
+            Console.WriteLine($"Sending order {order.Id}...");
+            OrderOnWay(this, new OrderEventArgs<Translation>(order));
+        }
 
-        //public void OrderIsFinish(object sender, OrderEventArgs<Food> e)
-        //{
-        //    Console.WriteLine($"FoodPortal handling OrderReady event for order {e.Order.Id}");
-        //    SendOrder(e.Order);
-        //}
+        public void OrderIsFinish(object sender, OrderEventArgs<Translation> e)
+        {
+            Console.WriteLine($"TranslationPortal handling OrderReady event for order {e.Order.Id}");
+            SendOrder(e.Order);
+        }
     }
+
 }

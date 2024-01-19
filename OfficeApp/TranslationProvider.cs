@@ -16,54 +16,76 @@ namespace OfficeApp
         public event OnOrderRecivedEventHandler OrderReady;
         public override List<Translation> ListOfItems { get; set; }
 
-        private Queue<Order<Translation>> orderQueue = new Queue<Order<Translation>>();
+        static private int NumberOftranslators = 1;
+
+        static List<Translation> Slot = new List<Translation>();
+
+        static protected Queue<Order<Translation>> orderQueue = new Queue<Order<Translation>>();
+        static bool _control = true;
         public override async Task EnqueueOrder(Order<Translation> order)
         {
             orderQueue.Enqueue(order);
             Console.WriteLine($"New order added to the queue. Total orders in the queue: {orderQueue.Count}");
-            //ProcessOrdersAsync();
-
+            await Next();
         }
-        public  async Task ProcessOrdersAsync()
+        public async Task Next()
+        {
+            if (_control)
+            {
+                await ProcessOrdersAsync();
+            }
+        }
+        public async Task ProcessOrdersAsync()
         {
             while (orderQueue.Count > 0)
             {
                 Order<Translation> currentOrder = orderQueue.Dequeue();
-                await TranslateOrderAsync(currentOrder);
+                await TranslationOrderAsync(currentOrder);
             }
         }
-        private async Task TranslateOrderAsync(Order<Translation> order)
+        private async Task TranslationOrderAsync(Order<Translation> order)
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine($"Translation order: {order.Id}");
             Console.ResetColor();
-            List<Task> cookingTasks = new List<Task>();
+            List<Task> traslationTasks = new List<Task>();
 
-            foreach (var food in order.List)
+            foreach (var txt in order.List)
             {
-
-                cookingTasks.Add(TranslateAsync(food));
+                while (Slot.Count >= NumberOftranslators)
+                {
+                    _control = false;
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+                traslationTasks.Add(TraslateAsync(txt, order));
             }
 
-            await Task.WhenAll(cookingTasks);
-
+            await Task.WhenAll(traslationTasks);
+            await CookOrderFinishAsync(order);
+        }
+        private async Task CookOrderFinishAsync(Order<Translation> order)
+        {
+            await OnOrderReady(new OrderEventArgs<Translation>(order));
             Console.WriteLine($"Order completed: {order.Id}");
-
-            OnOrderReady(new OrderEventArgs<Translation>(order));
+            Console.WriteLine($"N coda: {orderQueue.Count}");
+            _control = true;
         }
-        protected virtual void OnOrderReady(OrderEventArgs<Translation> e)
+        protected async Task OnOrderReady(OrderEventArgs<Translation> e)
         {
-            OrderReady.Invoke(this, e);
+            OrderReady(this, e);
         }
 
-        private async Task TranslateAsync(Translation translation)
+        private async Task<bool> TraslateAsync(Translation txt, Order<Translation> order)
         {
-            Console.WriteLine($"{translation.Name} Translation on the job...");
+            Slot.Add(txt);
+            Console.WriteLine($"Translation {txt.Name} {order.Id}...");
 
-            await Task.Delay(translation.ProcessingTime);
+            await Task.Delay(txt.ProcessingTime);
 
-            Console.WriteLine($"{translation.Name} Translation is ready!");
-
+            Console.WriteLine($"{txt.Name} {order.Id} is ready!");
+            Slot.Remove(txt);
+            return true;
         }
+
     }
 }
